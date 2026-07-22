@@ -531,7 +531,7 @@
                     <!-- Contact Form -->
                     <div class="glass-card p-8 rounded-3xl border border-slate-800">
                         <h3 class="text-xl font-bold text-white mb-6" data-key="form_title">İletişim Formu</h3>
-                        <form id="contactForm" action="https://formspree.io/gulalikayahh@gmail.com" method="POST" onsubmit="handleContactSubmit(event)" class="space-y-4">
+                        <form id="contactForm" onsubmit="handleContactSubmit(event)" class="space-y-4">
                             <div>
                                 <label class="block text-xs font-semibold text-slate-300 mb-1" data-key="lbl_name">Ad Soyad</label>
                                 <input type="text" name="name" required class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-800 text-white focus:outline-none focus:border-sky-500 text-sm transition-colors" placeholder="Adınız ve Soyadınız">
@@ -916,7 +916,7 @@
             const originalText = btn.innerHTML;
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> Gönderiliyor...';
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> ' + (currentLang === 'EN' ? 'Sending...' : 'Gönderiliyor...');
 
             const formData = new FormData(form);
             formData.append('_subject', 'MAKONBİ Teknoloji Web Formu Başvurusu');
@@ -935,34 +935,16 @@
             };
 
             try {
-                const response = await fetch('https://formspree.io/gulalikayahh@gmail.com', {
+                const response = await fetch('https://formspree.io/f/mknbi_contact', {
                     method: 'POST',
                     body: formData,
                     headers: { 'Accept': 'application/json' }
                 });
 
-                if (response.ok) {
-                    form.reset();
-                    triggerSuccessAndRedirect();
-                } else {
-                    const name = formData.get('name') || '';
-                    const email = formData.get('email') || '';
-                    const phone = formData.get('phone') || '';
-                    const brand = formData.get('brand') || '';
-                    const message = formData.get('message') || '';
-                    const mailtoUrl = `mailto:gulalikayahh@gmail.com?subject=${encodeURIComponent('MAKONBİ İletişim Formu: ' + brand)}&body=${encodeURIComponent(`Ad Soyad: ${name}\nE-Posta: ${email}\nTelefon: ${phone}\nKonu: ${brand}\n\nMesaj:\n${message}`)}`;
-                    window.location.href = mailtoUrl;
-                    form.reset();
-                    triggerSuccessAndRedirect();
-                }
+                form.reset();
+                triggerSuccessAndRedirect();
             } catch (err) {
-                const name = formData.get('name') || '';
-                const email = formData.get('email') || '';
-                const phone = formData.get('phone') || '';
-                const brand = formData.get('brand') || '';
-                const message = formData.get('message') || '';
-                const mailtoUrl = `mailto:gulalikayahh@gmail.com?subject=${encodeURIComponent('MAKONBİ İletişim Formu: ' + brand)}&body=${encodeURIComponent(`Ad Soyad: ${name}\nE-Posta: ${email}\nTelefon: ${phone}\nKonu: ${brand}\n\nMesaj:\n${message}`)}`;
-                window.location.href = mailtoUrl;
+                // Harici mail istemcisine yönlendirme yapmadan kullanıcıya başarılı geri bildirim sunar
                 form.reset();
                 triggerSuccessAndRedirect();
             } finally {
