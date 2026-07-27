@@ -144,12 +144,11 @@
             <div class="flex items-center space-x-3">
                 <!-- Expanded Multi-Language Switcher -->
                 <div class="bg-slate-900/90 border border-slate-700/60 p-1 rounded-xl flex items-center shadow-inner overflow-x-auto max-w-[200px] sm:max-w-none no-scrollbar">
-                    <button id="lang-tr" onclick="setLanguage('TR')" class="lang-btn active px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">TR</button>
-                    <button id="lang-en" onclick="setLanguage('EN')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">EN</button>
-                    <button id="lang-de" onclick="setLanguage('DE')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">DE</button>
-                    <button id="lang-ru" onclick="setLanguage('RU')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">RU</button>
-                    <button id="lang-zh" onclick="setLanguage('ZH')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">ZH</button>
-                    <button id="lang-ar" onclick="setLanguage('AR')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">AR</button>
+                    <button id="lang-tr" onclick="setLanguage('TR')" class="lang-btn active px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">TR</button>
+                    <button id="lang-en" onclick="setLanguage('EN')" class="lang-btn px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">EN</button>
+                    <button id="lang-ru" onclick="setLanguage('RU')" class="lang-btn px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">RU</button>
+                    <button id="lang-zh" onclick="setLanguage('ZH')" class="lang-btn px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">ZH</button>
+                    <button id="lang-ar" onclick="setLanguage('AR')" class="lang-btn px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">AR</button>
                 </div>
 
                 <!-- Mobile Hamburger Button -->
@@ -1667,7 +1666,7 @@
             }
 
             // Update language switcher active states
-            const langKeys = ['TR', 'EN', 'DE', 'RU', 'ZH', 'AR'];
+            const langKeys = ['TR', 'EN', 'RU', 'ZH', 'AR'];
             langKeys.forEach(l => {
                 const btn = document.getElementById(`lang-${l.toLowerCase()}`);
                 if (btn) {
