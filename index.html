@@ -1,15 +1,16 @@
 <!DOCTYPE html>
-<html lang="tr" class="dark scroll-smooth">
+<html lang="tr" class="dark scroll-smooth" dir="ltr">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MAKONBİ Teknoloji A.Ş. - Kurumsal Portal & Marka Portföyü</title>
+    
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- FontAwesome Icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Google Fonts Inter -->
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+    <!-- Google Fonts Inter & Arabic Font -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&family=Noto+Sans+Arabic:wght@300;400;600;700&display=swap" rel="stylesheet">
 
     <script>
         tailwind.config = {
@@ -17,7 +18,7 @@
             theme: {
                 extend: {
                     fontFamily: {
-                        sans: ['Inter', 'sans-serif'],
+                        sans: ['Inter', 'Noto Sans Arabic', 'sans-serif'],
                     },
                     colors: {
                         brand: {
@@ -43,7 +44,7 @@
 
     <style>
         body {
-            font-family: 'Inter', sans-serif;
+            font-family: 'Inter', 'Noto Sans Arabic', sans-serif;
             background-color: #030712;
             color: #f3f4f6;
             overflow-x: hidden;
@@ -98,11 +99,19 @@
             pointer-events: none;
         }
 
-        .logo-text-expanded {
-            display: flex;
-            justify-content: space-between;
-            width: 100%;
-            letter-spacing: 0.25em;
+        /* RTL Adjustments */
+        [dir="rtl"] .space-x-1 > :not([hidden]) ~ :not([hidden]),
+        [dir="rtl"] .space-x-2 > :not([hidden]) ~ :not([hidden]),
+        [dir="rtl"] .space-x-3 > :not([hidden]) ~ :not([hidden]),
+        [dir="rtl"] .space-x-4 > :not([hidden]) ~ :not([hidden]),
+        [dir="rtl"] .space-x-6 > :not([hidden]) ~ :not([hidden]) {
+            --tw-space-x-reverse: 1;
+        }
+
+        .lang-btn.active {
+            background-color: #0284c7;
+            color: #ffffff;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3);
         }
     </style>
 </head>
@@ -120,7 +129,7 @@
                 <img src="logo.png" 
                      alt="" 
                      onerror="this.style.display='none'"
-                     class="h-10 sm:h-12 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
+                     class="h-9 sm:h-11 w-auto object-contain transition-transform duration-300 group-hover:scale-105">
             </a>
 
             <!-- Desktop Menu Navigation -->
@@ -133,10 +142,14 @@
 
             <!-- Language & Action Controls -->
             <div class="flex items-center space-x-3">
-                <!-- Language Switcher -->
-                <div class="bg-slate-900/90 border border-slate-700/60 p-1 rounded-xl flex items-center shadow-inner">
-                    <button id="lang-tr" onclick="setLanguage('TR')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-sky-500 text-white shadow-sm">TR</button>
-                    <button id="lang-en" onclick="setLanguage('EN')" class="px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white">EN</button>
+                <!-- Expanded Multi-Language Switcher -->
+                <div class="bg-slate-900/90 border border-slate-700/60 p-1 rounded-xl flex items-center shadow-inner overflow-x-auto max-w-[200px] sm:max-w-none no-scrollbar">
+                    <button id="lang-tr" onclick="setLanguage('TR')" class="lang-btn active px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">TR</button>
+                    <button id="lang-en" onclick="setLanguage('EN')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">EN</button>
+                    <button id="lang-de" onclick="setLanguage('DE')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">DE</button>
+                    <button id="lang-ru" onclick="setLanguage('RU')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">RU</button>
+                    <button id="lang-zh" onclick="setLanguage('ZH')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">ZH</button>
+                    <button id="lang-ar" onclick="setLanguage('AR')" class="lang-btn px-2 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">AR</button>
                 </div>
 
                 <!-- Mobile Hamburger Button -->
@@ -610,12 +623,12 @@
             <div class="flex flex-col md:flex-row items-center justify-between gap-6">
                 
                 <!-- Footer Brand -->
-                <div class="flex items-center">
+                <a href="#hero" class="flex items-center group">
                     <img src="logo.png" 
                          alt="" 
                          onerror="this.style.display='none'"
-                         class="h-9 w-auto object-contain">
-                </div>
+                         class="h-8 sm:h-10 w-auto object-contain opacity-90 hover:opacity-100 transition-opacity">
+                </a>
 
                 <!-- Copyright -->
                 <div class="text-xs text-slate-500 text-center" data-key="footer_copyright">
@@ -687,7 +700,7 @@
         </div>
     </div>
 
-    <!-- JAVASCRIPT APP LOGIC -->
+    <!-- JAVASCRIPT APP LOGIC & TRANSLATIONS -->
     <script>
         const i18n = {
             TR: {
@@ -721,7 +734,7 @@
                 val_desc_1: "Değişen piyasa dinamiklerine çevik adaptasyon göstererek yenilikçi çözümler üretiyoruz.",
                 val_title_2: "Güvenilirlik & Şeffaflık",
                 val_desc_2: "Tüm iş ortaklarımız ve kullanıcılarımızla yüksek standartlı güven bağı kuruyoruz.",
-                val_title_3: "Sürdürülebilirlik",
+                val_title_3: "Sürdürülebilirlık",
                 val_desc_3: "Doğaya ve insana saygılı, uzun vadeli değer yaratan projelere yatırım yapıyoruz.",
                 brands_heading: "Markalarımız",
                 brands_subheading: "Farklı sektörlerde değer üreten yenilikçi marka ekosistemimiz.",
@@ -905,6 +918,438 @@
                 apply_lbl_note: "Cover Letter / Note",
                 apply_btn_submit: "Submit Application",
                 apply_pos_prefix: "Position:"
+            },
+            DE: {
+                nav_about: "Über uns",
+                nav_brands: "Unsere Marken",
+                nav_culture: "Mensch & Kultur",
+                nav_contact: "Kontakt",
+                hero_badge: "Nachhaltige Innovation & Multidisziplinäre Technologie",
+                hero_title_1: "Die Zukunft gestalten",
+                hero_title_2: "Technologie & Marken-Ökosystem",
+                hero_desc: "Wir definieren Grenzen neu mit Software, intelligenten Lebensmitteltechnologien, nachhaltiger Mobilität und ballistischen Lösungen für die Verteidigungsindustrie.",
+                hero_btn_explore: "Marken entdecken",
+                hero_btn_contact: "Kontaktieren Sie uns",
+                about_heading: "Über uns",
+                about_subheading: "Unsere Vision, Werte und 25 Jahre multidisziplinäre Erfahrung.",
+                tab_story: "Unsere Geschichte",
+                tab_team: "Unser Team",
+                tab_values: "Unsere Werte",
+                story_title: "25 Jahre Erfahrung & Zukunftsvision",
+                story_body: "<p>Seit 25 Jahren haben wir unsere multidisziplinäre Erfahrung führender Marken in den Bereichen Software, Vertrieb und Marketing unter einer Vision vereint. Mit Foodizella definieren wir Geschmacksstandards neu, mit CampaGO bieten wir Naturliebhabern \"WORK + PAY\" und mit Makonbi SS intelligente Industrielösungen für die Verteidigung.</p><p>Durch die Kombination von Technologie und menschlicher Begabung konzentrieren wir uns auf nachhaltigen Erfolg. Wir wahren bei jedem Projekt höchste Standards bei Qualität, Geschwindigkeit und Zufriedenheit.</p>",
+                team_title: "Führungsteam",
+                role_ali: "Mitbegründer / CEO",
+                desc_ali: "“Über 15 Jahre Erfahrung in strategischer Führung und globalem Markenmanagement.”",
+                role_mutlu: "Mitbegründer / Marketing",
+                desc_mutlu: "“10 Jahre Türkei-Markterfahrung bei globalen Marken.”",
+                role_yalcin: "CFO",
+                desc_yalcin: "“Über 60 Jahre Erfahrung, globaler Finanzguru.”",
+                role_burak: "CampaGO Produkt-Design-Leiter",
+                desc_burak: "“Designexperte für Outdoor-Ausrüstung und -Hardware.”",
+                val_title_1: "Innovation & Tempo",
+                val_desc_1: "Wir schaffen innovative Lösungen durch agile Anpassung an sich ändernde Marktdynamiken.",
+                val_title_2: "Zuverlässigkeit & Transparenz",
+                val_desc_2: "Wir pflegen vertrauensvolle Beziehungen auf hohem Niveau mit allen Partnern.",
+                val_title_3: "Nachhaltigkeit",
+                val_desc_3: "Wir investieren in umwelt- und menschenfreundliche Projekte mit langfristigem Wert.",
+                brands_heading: "Unsere Marken",
+                brands_subheading: "Ein innovatives Markenökosystem, das Mehrwert in verschiedenen Branchen schafft.",
+                cat_food: "Essen & Intelligente Bestellung",
+                cat_campago: "Marktplatz & Mobilität",
+                cat_tech: "Verteidigungsindustrie & Ballistik",
+                foodizella_desc: "Foodizella vergleicht Preise von Trendyol Go, Getir und Migros Yemek auf einem Bildschirm, um das <strong>\"Beste Angebot\"</strong> zu finden. Mit \"Rechnung teilen!\" können Sie den Betrag auf bis zu 6 Freunde aufteilen und sofort bestellen.",
+                foodizella_b1_title: "3-Plattformen-Vergleich",
+                foodizella_b1_sub: "Live-Preise auf 1 Bildschirm",
+                foodizella_b2_title: "Rechnung teilen!",
+                foodizella_b2_sub: "Aufteilung bis zu 6 Personen",
+                campago_desc: "CampaGo ist ein sicherer Marktplatz für Natur-Nomaden. Das Modell \"Arbeiten + Wohnen\" eliminiert Unterkunftskosten durch flexible Outdoor-Jobs. Ihre Arbeit wird durch ein Escrow-Zahlungssystem geschützt, Gewinne sofort auf die digitale Geldbörse übertragen.",
+                campago_b1_title: "Arbeiten + Wohnen",
+                campago_b1_sub: "Null Unterkunftskosten",
+                campago_b2_title: "Escrow-Garantie",
+                campago_b2_sub: "Sofortiges digitales Wallet",
+                makonbi_desc: "Keine Last, eine Überlebensgarantie! Verabschieden Sie sich von schweren 5-kg-Rüstungen. Die Makonbi Ballistik-Tasche verwandelt sich von Tablet-Größe (20x30cm) in Sekunden in einen Ganzkörperschutz (60x85cm) mit unter 500g Gewicht (NIJ 3A Standard).",
+                makonbi_b1_title: "<500g Ultra-Leicht",
+                makonbi_b1_sub: "Tablet-Größe (20x30cm)",
+                makonbi_b2_title: "60x85cm Schild",
+                makonbi_b2_sub: "NIJ 3A Schutzstandard",
+                btn_detail: "Mehr erfahren",
+                culture_heading: "Mensch & Kultur",
+                culture_subheading: "Menschlichkeit und kontinuierliche Entwicklung stehen im Mittelpunkt unserer Arbeit.",
+                cul_title_1: "Flexibles & Hybrides Arbeiten",
+                cul_desc_1: "Wir bieten ergebnisorientierte, flexible Modelle für Remote- oder Büroarbeit.",
+                cul_title_2: "Kontinuierliches Lernen",
+                cul_desc_2: "Unterstützung individueller Entwicklung durch Schulungsbudgets und Konferenzen.",
+                cul_title_3: "Gleichberechtigung & Innovation",
+                cul_desc_3: "Wir schätzen Vielfalt und fördern ein transparentes Umfeld für offene Diskussionen.",
+                jobs_title: "Offene Stellen & Karriere",
+                jobs_subtitle: "Entdecken Sie unsere Stellenangebote und gestalten Sie die Zukunft mit uns.",
+                job_cat_all: "Alle",
+                job_cat_tech: "Software & Technologie",
+                job_cat_marketing: "Marketing & Betrieb",
+                j1_badge: "Software & Technologie",
+                j1_title: "Senior Full Stack Entwickler",
+                j1_desc: "Node.js, React, Microservices & Docker • Hybrid (Istanbul / Vollzeit)",
+                j2_badge: "Marketing & Betrieb",
+                j2_title: "Digital Marketing & Growth Spezialist",
+                j2_desc: "SEO, Performance Marketing & CRM • Vollzeit (Istanbul)",
+                j3_badge: "Software & Technologie",
+                j3_title: "Embedded Systems & Ballistik F&E Ingenieur",
+                j3_desc: "Makonbi SS • C/C++, IoT & Hardware-Entwicklung • Vollzeit",
+                btn_apply: "Jetzt bewerben",
+                contact_heading: "Kontakt",
+                contact_subheading: "Nehmen Sie Kontakt mit uns auf für Ihre Projekte und Partnerschaften.",
+                form_title: "Kontaktformular",
+                lbl_name: "Name & Vorname",
+                ph_name: "Ihr vollständiger Name",
+                lbl_email: "E-Mail-Adresse",
+                ph_email: "beispiel@makonbi.com",
+                lbl_phone: "Telefonnummer",
+                ph_phone: "+49 (151) XXX-XXXX",
+                lbl_brand: "Marke / Betreff",
+                opt_general: "Allgemeine Anfrage",
+                opt_foodizella: "Foodizella",
+                opt_campago: "CampaGO",
+                opt_makonbi: "Makonbi SS",
+                lbl_message: "Ihre Nachricht",
+                ph_message: "Schreiben Sie Ihre Nachricht hier...",
+                btn_send: "Absenden",
+                office_title: "Hauptsitz & Kontakt",
+                of_addr_lbl: "Büroadresse",
+                of_addr_val: "MAKONBİ Teknoloji A.Ş. • Maslak Bezirk, Büyükdere Str. Nr.:245, Maslak / Istanbul, Türkei",
+                of_email_lbl: "E-Mail",
+                of_phone_lbl: "Telefon",
+                footer_copyright: "© 2026 MAKONBİ TEKNOLOJİ A.Ş. Alle Rechte vorbehalten.",
+                apply_modal_title: "Karriere-Bewerbung",
+                apply_lbl_name: "Name & Vorname",
+                apply_lbl_email: "E-Mail-Adresse",
+                apply_lbl_link: "LinkedIn Profil / Lebenslauf Link",
+                apply_lbl_note: "Anschreiben / Notiz",
+                apply_btn_submit: "Bewerbung absenden",
+                apply_pos_prefix: "Position:"
+            },
+            RU: {
+                nav_about: "О нас",
+                nav_brands: "Наши Бренды",
+                nav_culture: "Люди и Культура",
+                nav_contact: "Контакты",
+                hero_badge: "Устойчивые Инновации и Мультидисциплинарные Технологии",
+                hero_title_1: "Формируя Будущее",
+                hero_title_2: "Экосистема Технологий и Брендов",
+                hero_desc: "Мы переопределяем границы с помощью Программного Обеспечения, Умных Пищевых Технологий, Мобильности и Баллистических Решений для Оборонной Промышленности.",
+                hero_btn_explore: "Исследовать Бренды",
+                hero_btn_contact: "Связаться с Нами",
+                about_heading: "О нас",
+                about_subheading: "Наше видение, ценности и 25-летний мультидисциплинарный опыт.",
+                tab_story: "Наша История",
+                tab_team: "Наша Команда",
+                tab_values: "Наши Ценности",
+                story_title: "25 Лет Опыта и Видение Будущего",
+                story_body: "<p>Уже 25 лет в сферах ПО, Продаж и Маркетинга мы объединяем мультидисциплинарный опыт ведущих брендов под единым видением. С Foodizella мы устанавливаем стандарты вкуса, с CampaGO предлагаем «WORK + PAY» любителям природы, а с Makonbi SS предоставляем умные решения для оборонной промышленности.</p><p>Объединяя технологии и человеческий потенциал, мы ориентируемся на устойчивый успех и высочайшее качество.</p>",
+                team_title: "Руководство",
+                role_ali: "Сооснователь / CEO",
+                desc_ali: "“Более 15 лет опыта стратегического лидерства и управления мировыми брендами.”",
+                role_mutlu: "Сооснователь / Marketing",
+                desc_mutlu: "“10 лет опыта работы с глобальными брендами на рынке Турции.”",
+                role_yalcin: "CFO",
+                desc_yalcin: "“Более 60 лет опыта, мировой финансовый эксперт.”",
+                role_burak: "Руководитель Дизайна CampaGO",
+                desc_burak: "“Эксперт по дизайну оборудования для аутдора и туризма.”",
+                val_title_1: "Инновации и Скорость",
+                val_desc_1: "Быстрая адаптация к рынку и создание передовых решений.",
+                val_title_2: "Надежность и Прозрачность",
+                val_desc_2: "Высокие стандарты доверия со всеми партнерами и пользователями.",
+                val_title_3: "Устойчивость",
+                val_desc_3: "Инвестиции в долгосрочные проекты, уважительные к людям и природе.",
+                brands_heading: "Наши Бренды",
+                brands_subheading: "Инновационная экосистема брендов, создающая ценность в разных отраслях.",
+                cat_food: "Еда и Умный Заказ",
+                cat_campago: "Маркетплейс и Мобильность",
+                cat_tech: "Оборонная Промышленность и Баллистика",
+                foodizella_desc: "Foodizella сравнивает цены Trendyol Go, Getir и Migros Yemek на одном экране, сберегая ваши деньги. Функция «Разделить Счет!» позволяет разделить сумму на 6 друзей и оформить заказ мгновенно.",
+                foodizella_b1_title: "Сравнение 3 Платформ",
+                foodizella_b1_sub: "Цены в Реальном Времени",
+                foodizella_b2_title: "Разделить Счет!",
+                foodizella_b2_sub: "До 6 Человек",
+                campago_desc: "CampaGo — безопасный маркетплейс для любителей путешествий. Модель «Работа + Проживание» исключает расходы на жилье благодаря гибкой работе на природе. Ваши средства защищены счетом Escrow.",
+                campago_b1_title: "Работа + Проживание",
+                campago_b1_sub: "Нулевые Затраты на Жилье",
+                campago_b2_title: "Гарантия Escrow",
+                campago_b2_sub: "Мгновенный Цифровой Кошелек",
+                makonbi_desc: "Гарантия выживания! Забудьте о громоздкой 5-кг броне. Баллистическая сумка Makonbi превращается из размера планшета (20x30 см) в полноростовую защиту (60x85 см) весом <500 грамм (стандарт NIJ 3A).",
+                makonbi_b1_title: "<500г Ультралегкий",
+                makonbi_b1_sub: "Размер Планшета (20x30см)",
+                makonbi_b2_title: "Щит 60x85см",
+                makonbi_b2_sub: "Стандарт Защиты NIJ 3A",
+                btn_detail: "Подробнее",
+                culture_heading: "Люди и Культура",
+                culture_subheading: "Человекоцентричный подход и культура постоянного развития.",
+                cul_title_1: "Гибкая и Гибридная Работа",
+                cul_desc_1: "Результативность и удобные форматы работы из офиса или удаленно.",
+                cul_title_2: "Непрерывное Обучение",
+                cul_desc_2: "Поддержка личного роста через бюджеты на обучение и участие в конференциях.",
+                cul_title_3: "Равноправие и Инновации",
+                cul_desc_3: "Открытая атмосфера, где ценится разнообразие и каждая идея имеет значение.",
+                jobs_title: "Открытые Вакансии",
+                jobs_subtitle: "Присоединяйтесь к нашей команде, создающей будущее.",
+                job_cat_all: "Все",
+                job_cat_tech: "ПО и Технологии",
+                job_cat_marketing: "Маркетинг и Операции",
+                j1_badge: "ПО и Технологии",
+                j1_title: "Senior Full Stack Разработчик",
+                j1_desc: "Node.js, React, Microservices & Docker • Гибрид (Стамбул / Полный день)",
+                j2_badge: "Маркетинг и Операции",
+                j2_title: "Специалист по Цифровому Маркетингу",
+                j2_desc: "SEO, Performance Marketing & CRM • Полный день (Стамбул)",
+                j3_badge: "ПО и Технологии",
+                j3_title: "Инженер Embedded Systems и R&D Баллистики",
+                j3_desc: "Makonbi SS • C/C++, IoT & Hardware Разработка • Полный день",
+                btn_apply: "Откликнуться",
+                contact_heading: "Контакты",
+                contact_subheading: "Свяжитесь с нами для обсуждения проектов и сотрудничества.",
+                form_title: "Форма Связи",
+                lbl_name: "Имя и Фамилия",
+                ph_name: "Ваше имя и фамилия",
+                lbl_email: "Электронная почта",
+                ph_email: "example@makonbi.com",
+                lbl_phone: "Номер телефона",
+                ph_phone: "+7 (9XX) XXX-XX-XX",
+                lbl_brand: "Бренд / Тема",
+                opt_general: "Общие Корпоративные Вопросы",
+                opt_foodizella: "Foodizella",
+                opt_campago: "CampaGO",
+                opt_makonbi: "Makonbi SS",
+                lbl_message: "Ваше сообщение",
+                ph_message: "Напишите ваше сообщение здесь...",
+                btn_send: "Отправить",
+                office_title: "Головной Офис",
+                of_addr_lbl: "Адрес Офиса",
+                of_addr_val: "MAKONBİ Teknoloji A.Ş. • Район Маслак, ул. Бююкдере №245, Стамбул, Турция",
+                of_email_lbl: "E-Mail",
+                of_phone_lbl: "Телефон",
+                footer_copyright: "© 2026 MAKONBİ TEKNOLOJİ A.Ş. Все права защищены.",
+                apply_modal_title: "Заявка на Вакансию",
+                apply_lbl_name: "Имя и Фамилия",
+                apply_lbl_email: "Электронная почта",
+                apply_lbl_link: "Ссылка на LinkedIn / Резюме",
+                apply_lbl_note: "Сопроводительное письмо",
+                apply_btn_submit: "Отправить Заявку",
+                apply_pos_prefix: "Должность:"
+            },
+            ZH: {
+                nav_about: "关于我们",
+                nav_brands: "旗下品牌",
+                nav_culture: "人与文化",
+                nav_contact: "联系我们",
+                hero_badge: "可持续创新与多学科科技",
+                hero_title_1: "塑造未来的",
+                hero_title_2: "科技与品牌生态系统",
+                hero_desc: "在软件、智能餐饮科技、可持续出行和国防防弹领域重塑科技边界。",
+                hero_btn_explore: "探索旗下品牌",
+                hero_btn_contact: "与我们取得联系",
+                about_heading: "关于我们",
+                about_subheading: "我们的愿景、核心价值观与25年多学科经验。",
+                tab_story: "品牌故事",
+                tab_team: "管理团队",
+                tab_values: "核心价值",
+                story_title: "25年行业积淀与未来愿景",
+                story_body: "<p>25年来，我们在软件、销售与市场营销领域将行业领先品牌的经验整合在统一的宏伟愿景下。通过 Foodizella 重新定义餐饮标准，通过 CampaGO 为自然爱好者提供“工作+住宿”模式，通过 Makonbi SS 为国防工业提供智能化前沿解决方案。</p><p>结合科技与人才优势，致力于可持续发展与卓越品质。</p>",
+                team_title: "管理高层",
+                role_ali: "联合创始人 / 首席执行官 (CEO)",
+                desc_ali: "“超过15年战略领导力与全球品牌管理经验。”",
+                role_mutlu: "联合创始人 / 市场负责人",
+                desc_mutlu: "“全球品牌10年土耳其市场运营经验。”",
+                role_yalcin: "首席财务官 (CFO)",
+                desc_yalcin: "“60余年财务经验，全球金融专家。”",
+                role_burak: "CampaGO 产品设计主管",
+                desc_burak: "“户外装备与硬件设计专家。”",
+                val_title_1: "创新与速度",
+                val_desc_1: "灵活适应市场变化，打造高效率的创新解决方案。",
+                val_title_2: "可靠与透明",
+                val_desc_2: "与所有合作伙伴和用户建立高标准的互信纽带。",
+                val_title_3: "可持续发展",
+                val_desc_3: "投资尊重自然与人类、创造长期价值的前瞻性项目。",
+                brands_heading: "旗下品牌",
+                brands_subheading: "在多个行业领域创造卓越价值的创新品牌生态。",
+                cat_food: "餐饮与智能订餐",
+                cat_campago: "平台与出行",
+                cat_tech: "国防工业与防弹技术",
+                foodizella_desc: "Foodizella 同屏对比 Trendyol Go、Getir 和 Migros Yemek 的实时价格，帮您找到<strong>“最佳优惠”</strong>。支持最多6位好友分摊账单，无需切换应用即可完成下单。",
+                foodizella_b1_title: "三大平台对比",
+                foodizella_b1_sub: "同屏实时价格",
+                foodizella_b2_title: "AA制分账!",
+                foodizella_b2_sub: "支持最多6人分担",
+                campago_desc: "CampaGo 为数字游民提供安全的可持续出行社区。“工作+住宿”模式通过灵活的户外工作抵扣住宿成本，资金由 Escrow 托管托管，收益即时存入数字钱包。",
+                campago_b1_title: "工作 + 住宿",
+                campago_b1_sub: "零住宿成本",
+                campago_b2_title: "Escrow 安全保障",
+                campago_b2_sub: "即时入账数字钱包",
+                makonbi_desc: "生存与安全的坚实保障！告别重达5公斤的传统铠甲。Makonbi 防弹包拥有小于500克的超轻结构，数秒内即可从平板大小（20x30cm）展开为全身防护盾牌（60x85cm，NIJ 3A标准）。",
+                makonbi_b1_title: "<500克 超轻设计",
+                makonbi_b1_sub: "平板电脑尺寸 (20x30cm)",
+                makonbi_b2_title: "60x85cm 展开防护",
+                makonbi_b2_sub: "NIJ 3A 防弹标准",
+                btn_detail: "查看详情",
+                culture_heading: "人与文化",
+                culture_subheading: "以人为本，建立注重成长与共同发展的企业文化。",
+                cul_title_1: "灵活与混合办公",
+                cul_desc_1: "提供以结果为导向的远程与办公室混合灵活工作模式。",
+                cul_title_2: "持续学习成长",
+                cul_desc_2: "设立专项培训预算与会议赞助，全力支持员工个人提升。",
+                cul_title_3: "平等与包容创新",
+                cul_desc_3: "尊重多元化，营造畅所欲言、透明公开的工作氛围。",
+                jobs_title: "热招职位与职业发展",
+                jobs_subtitle: "加入我们塑造未来的团队，共同探索无限可能。",
+                job_cat_all: "全部职位",
+                job_cat_tech: "软件与科技",
+                job_cat_marketing: "市场与运营",
+                j1_badge: "软件与科技",
+                j1_title: "高级全栈开发工程师 (Senior Full Stack)",
+                j1_desc: "Node.js, React, 微服务与 Docker • 混合办公 (伊斯坦布尔 / 全职)",
+                j2_badge: "市场与运营",
+                j2_title: "数字营销与增长专家",
+                j2_desc: "SEO, 效果营销与 CRM • 全职 (伊斯坦布尔)",
+                j3_badge: "软件与科技",
+                j3_title: "嵌入式系统与防弹研发工程师",
+                j3_desc: "Makonbi SS • C/C++, 物联网与硬件开发 • 全职",
+                btn_apply: "立即申请",
+                contact_heading: "联系我们",
+                contact_subheading: "欢迎就商业合作与项目投资与我们联系。",
+                form_title: "联系表单",
+                lbl_name: "姓名",
+                ph_name: "请输入您的姓名",
+                lbl_email: "电子邮箱",
+                ph_email: "example@makonbi.com",
+                lbl_phone: "联系电话",
+                ph_phone: "+86 13X XXXX XXXX",
+                lbl_brand: "感兴趣的品牌 / 主题",
+                opt_general: "通用企业咨询",
+                opt_foodizella: "Foodizella",
+                opt_campago: "CampaGO",
+                opt_makonbi: "Makonbi SS",
+                lbl_message: "留言内容",
+                ph_message: "请输入您的留言内容...",
+                btn_send: "提交发送",
+                office_title: "总部与联系方式",
+                of_addr_lbl: "办公地址",
+                of_addr_val: "MAKONBİ Teknoloji A.Ş. • Maslak Mahallesi, Büyükdere Cad. No:245, Maslak / 伊斯坦布尔, 土耳其",
+                of_email_lbl: "电子邮箱",
+                of_phone_lbl: "联系电话",
+                footer_copyright: "© 2026 MAKONBİ TEKNOLOJİ A.Ş. 版权所有。",
+                apply_modal_title: "职位申请",
+                apply_lbl_name: "姓名",
+                apply_lbl_email: "电子邮箱",
+                apply_lbl_link: "LinkedIn 主页 / 个人简历链接",
+                apply_lbl_note: "求职信 / 备注",
+                apply_btn_submit: "提交申请",
+                apply_pos_prefix: "申请职位:"
+            },
+            AR: {
+                nav_about: "من نحن",
+                nav_brands: "علاماتنا التجارية",
+                nav_culture: "الإنسان والثقافة",
+                nav_contact: "اتصل بنا",
+                hero_badge: "ابتكار مستدام وتكنولوجيا متعددة التخصصات",
+                hero_title_1: "نرسم ملامح المستقبل",
+                hero_title_2: "منظومة التكنولوجيا العلامات التجارية",
+                hero_desc: "نعيد تعريف الحدود من خلال البرمجيات، تكنولوجيا الأغذية الذكية، التنقل المستدام، وحلول الدفاع والباليستية.",
+                hero_btn_explore: "استكشف علاماتنا التجارية",
+                hero_btn_contact: "تواصل معنا",
+                about_heading: "من نحن",
+                about_subheading: "رؤيتنا، قيمنا ورصيد 25 عامًا من الخبرة متعددة التخصصات.",
+                tab_story: "قصتنا",
+                tab_team: "فريقنا",
+                tab_values: "قيمنا",
+                story_title: "25 عاماً من الخبرة ورؤية المستقبل",
+                story_body: "<p>على مدى 25 عامًا في قطاعات البرمجيات والمبيعات والتسويق، جمعنا خبراتنا من العلامات التجارية الرائدة تحت رؤية واحدة. مع Foodizella نعيد تعريف معايير المذاق، ومع CampaGO نقدم \"WORK + PAY\" لعشاق الطبيعة، ومع Makonbi SS نوفر حلولاً صناعية ذكية لقطاع الدفاع.</p><p>نركز على النجاح المستدام من خلال دمج التكنولوجيا والقدرات البشرية.</p>",
+                team_title: "الإدارة التنفيذية",
+                role_ali: "المؤسس المشارك / الرئيس التنفيذي",
+                desc_ali: "“أكثر من 15 عاماً من القيادة الاستراتيجية وإدارة العلامات العالمية.”",
+                role_mutlu: "المؤسس المشارك / التسويق",
+                desc_mutlu: "“10 سنوات من الخبرة في السوق التركي مع علامات عالمية.”",
+                role_yalcin: "الرئيس المالي (CFO)",
+                desc_yalcin: "“أكثر من 60 عاماً من الخبرة، خبير مالي عالمي.”",
+                role_burak: "قائد تصميم منتجات CampaGO",
+                desc_burak: "“خبير تصميم المعدات والأنشطة الخارجية.”",
+                val_title_1: "الابتكار والسرعة",
+                val_desc_1: "نبتكر حلولاً جديدة من خلال التكيف السريع مع متغيرات السوق.",
+                val_title_2: "الموثوقية والشفافية",
+                val_desc_2: "نبني روابط ثقة عالية المستوى مع جميع شركائنا ومستخدمينا.",
+                val_title_3: "الاستدامة",
+                val_desc_3: "نستثمر في مشاريع تخلق قيمة طويلة الأجل وتبرز احترام الطبيعة والإنسان.",
+                brands_heading: "علاماتنا التجارية",
+                brands_subheading: "منظومة علامات تجارية مبتكرة تخلق القيمة عبر قطاعات مختلفة.",
+                cat_food: "الطعام والطلب الذكي",
+                cat_campago: "السوق والتنقل",
+                cat_tech: "الصناعات الدفاعية والباليستية",
+                foodizella_desc: "تطبيق Foodizella يقارن أسعار Trendyol Go وGetir وMigros Yemek على شاشة واحدة ليمنحك <strong>\"أفضل صفقة\"</strong>. تتيح لك ميزة \"تقاسم الفاتورة!\" تقسيم المبلغ مع 6 أصدقاء والطلب فوراً.",
+                foodizella_b1_title: "مقارنة 3 منصات",
+                foodizella_b1_sub: "أسعار مباشرة على شاشة واحدة",
+                foodizella_b2_title: "تقاسم الفاتورة!",
+                foodizella_b2_sub: "تقسيم لغاية 6 أشخاص",
+                campago_desc: "CampaGo هو سوق آمن يجعل سفر محبي الطبيعة مستداماً مادياً. نموذج \"اعمل + أقم\" يلغي تكاليف الإقامة عبر أعمال مرنة في الطبيعة، مع حماية أموالك بضمان Escrow.",
+                campago_b1_title: "اعمل + أقم",
+                campago_b1_sub: "صفر تكاليف إقامة",
+                campago_b2_title: "ضمان Escrow",
+                campago_b2_sub: "محفظة رقمية فورية",
+                makonbi_desc: "ضمان حقيقي للبقاء! ودّع الدروع الثقيلة سعة 5 كجم. تتحول حقيبة Makonbi الباليستية من حجم التابلت (20x30 سم) إلى درع حماية كاملة (60x85 سم) بوزن أقل من 500 جرام بمعيار NIJ 3A.",
+                makonbi_b1_title: "<500ج خفيف جداً",
+                makonbi_b1_sub: "بحجم التابلت (20x30 سم)",
+                makonbi_b2_title: "درع 60x85 سم",
+                makonbi_b2_sub: "معيار حماية NIJ 3A",
+                btn_detail: "التفاصيل",
+                culture_heading: "الإنسان والثقافة",
+                culture_subheading: "نعتمد ثقافة عمل تركز على العنصر البشري والتطوير المستمر.",
+                cul_title_1: "عمل مرن ومدمج",
+                cul_desc_1: "نوفر نماذج عمل مرنة تركز على النتائج سواء من المكتب أو عن بُعد.",
+                cul_title_2: "التعلم المستمر",
+                cul_desc_2: "ندعم النمو الشخصي بميزانيات تدريبية ومشاركات في المؤتمرات.",
+                cul_title_3: "المساواة والابتكار",
+                cul_desc_3: "نحتفي بالتنوع ونوفر بيئة شفافة لمناقشة كافة الأفكار بحرية.",
+                jobs_title: "الوظائف الشاغرة والفرص",
+                jobs_subtitle: "استكشف فرصلنا للانضمام إلى الفريق الذي يصنع المستقبل.",
+                job_cat_all: "الكل",
+                job_cat_tech: "البرمجيات والتكنولوجيا",
+                job_cat_marketing: "التسويق والعمليات",
+                j1_badge: "البرمجيات والتكنولوجيا",
+                j1_title: "مطور Full Stack أقدم",
+                j1_desc: "Node.js, React, Microservices & Docker • هجين (إسطنبول / دوام كامل)",
+                j2_badge: "التسويق والعمليات",
+                j2_title: "أخصائي تسويق رقمي نمو",
+                j2_desc: "SEO, Performance Marketing & CRM • دوام كامل (إسطنبول)",
+                j3_badge: "البرمجيات والتكنولوجيا",
+                j3_title: "مهندس أنظمة مدمجة وأبحاث باليستية",
+                j3_desc: "Makonbi SS • C/C++, IoT وتطوير العتاد • دوام كامل",
+                btn_apply: "قدّم الآن",
+                contact_heading: "اتصل بنا",
+                contact_subheading: "تواصل معنا لمناقشة مشاريعك وفرص الشراكة.",
+                form_title: "نموذج التواصل",
+                lbl_name: "الاسم الكامل",
+                ph_name: "اسمك الكامل",
+                lbl_email: "البريد الإلكتروني",
+                ph_email: "example@makonbi.com",
+                lbl_phone: "رقم الهاتف",
+                ph_phone: "+966 5X XXX XXXX",
+                lbl_brand: "العلامة / الموضوع المهتم به",
+                opt_general: "استفسار مؤسسي عام",
+                opt_foodizella: "Foodizella",
+                opt_campago: "CampaGO",
+                opt_makonbi: "Makonbi SS",
+                lbl_message: "رسالتك",
+                ph_message: "اكتب رسالتك هنا...",
+                btn_send: "إرسال",
+                office_title: "المقر الرئيسي والاتصال",
+                of_addr_lbl: "عنوان المكتب",
+                of_addr_val: "شركة MAKONBİ للتكنولوجيا •حي ماسلاك، شارع بويوكديري رقم 245، ماسلاك / إسطنبول، تركيا",
+                of_email_lbl: "البريد الإلكتروني",
+                of_phone_lbl: "الهاتف",
+                footer_copyright: "© 2026 شركة MAKONBİ للتكنولوجيا. جميع الحقوق محفوظة.",
+                apply_modal_title: "طلب التوظيف",
+                apply_lbl_name: "الاسم الكامل",
+                apply_lbl_email: "البريد الإلكتروني",
+                apply_lbl_link: "رابط LinkedIn / السيرة الذاتية",
+                apply_lbl_note: "خطاب التغطية / ملاحظات",
+                apply_btn_submit: "إرسال الطلب",
+                apply_pos_prefix: "الوظيفة:"
             }
         };
 
@@ -941,6 +1386,70 @@
                         { label: "Bill Splitting", val: "Up to 6 People" },
                         { label: "Speed", val: "<2 Sec Comparison" }
                     ]
+                },
+                DE: {
+                    title: "Foodizella",
+                    badge: "Essen & Intelligenter Bestellassistent",
+                    color: "amber",
+                    intro: "Foodizella ist ein intelligenter Bestellassistent, der die Preise von Trendyol Go, Getir und Migros Yemek auf einem Bildschirm vergleicht, um Ihnen das 'beste Angebot' zu sichern.",
+                    details: [
+                        { title: "Echtzeit-Preisvergleich", desc: "Vergleicht Live-Preise von 3 Anbietern gleichzeitig." },
+                        { title: "Rechnung teilen!", desc: "Teilen Sie die Rechnung bequem mit bis zu 6 Freunden." },
+                        { title: "Nahtlose Bestellung", desc: "Schließen Sie Ihre Bestellung ohne App-Wechsel ab." }
+                    ],
+                    stats: [
+                        { label: "Plattformen", val: "3 Anbieter" },
+                        { label: "Teilen", val: "Bis 6 Personen" },
+                        { label: "Tempo", val: "<2s Vergleich" }
+                    ]
+                },
+                RU: {
+                    title: "Foodizella",
+                    badge: "Еда и Умный Помощник Заказа",
+                    color: "amber",
+                    intro: "Foodizella сравнивает цены Trendyol Go, Getir и Migros Yemek на одном экране, сберегая ваше время и деньги.",
+                    details: [
+                        { title: "Сравнение Цен Live", desc: "Одновременный поиск лучших цен на 3 платформах." },
+                        { title: "Функция «Разделить Счет»", desc: "Легко делите сумму заказа на группу до 6 человек." },
+                        { title: "Мгновенный Заказ", desc: "Оформляйте заказ прямо в приложении без переходов." }
+                    ],
+                    stats: [
+                        { label: "Сервисы", val: "3 Гиганта" },
+                        { label: "Раздел Счета", val: "До 6 Чел." },
+                        { label: "Скорость", val: "<2 Сек" }
+                    ]
+                },
+                ZH: {
+                    title: "Foodizella",
+                    badge: "餐饮与智能外卖助手",
+                    color: "amber",
+                    intro: "Foodizella 在同一屏幕上即时对比 Trendyol Go、Getir 和 Migros Yemek 的外卖价格，帮您锁定全网最划算的选择。",
+                    details: [
+                        { title: "实时价格对比", desc: "一键同步三大平台价格，精准比价。" },
+                        { title: "AA制分账功能", desc: "轻松与最多6位朋友分摊外卖账单。" },
+                        { title: "无缝下订单", desc: "无需跳转第三方，直接快速完成下单。" }
+                    ],
+                    stats: [
+                        { label: "合作平台", val: "3 大巨头" },
+                        { label: "账单分摊", val: "最多 6 人" },
+                        { label: "比价速度", val: "<2 秒" }
+                    ]
+                },
+                AR: {
+                    title: "Foodizella",
+                    badge: "الطعام ومساعد الطلب الذكي",
+                    color: "amber",
+                    intro: "مساعد الطلب الذكي Foodizella يقارن أسعار Trendyol Go وGetir وMigros Yemek على شاشة واحدة ليوفر لك أفضل صفقة.",
+                    details: [
+                        { title: "مقارنة أسعار مباشرة", desc: "جلب الأسعار مباشرة من 3 منصات في نفس الوقت." },
+                        { title: "ميزة تقاسم الفاتورة", desc: "قسم قيمة الطلب بين 6 أصدقاء بسهولة." },
+                        { title: "طلب سلس ومباشر", desc: "أكمل طلبك بسرعة دون الحاجة للتنقل." }
+                    ],
+                    stats: [
+                        { label: "المنصات", val: "3 منصات كبرى" },
+                        { label: "المشاركة", val: "حتى 6 أشخاص" },
+                        { label: "السرعة", val: "<2 ثانية" }
+                    ]
                 }
             },
             campago: {
@@ -974,6 +1483,70 @@
                         { label: "Model", val: "WORK + PAY" },
                         { label: "Security", val: "100% Escrow" },
                         { label: "Payment", val: "Instant Wallet" }
+                    ]
+                },
+                DE: {
+                    title: "CampaGO",
+                    badge: "Marktplatz & Mobilitätsplattform",
+                    color: "emerald",
+                    intro: "CampaGo ist ein sicherer Marktplatz, der das Reisen für Natur-Nomaden nachhaltig finanzierbar macht. Mit dem Modell 'Arbeiten + Wohnen' entfallen Unterkunftskosten durch flexible Outdoor-Jobs.",
+                    details: [
+                        { title: "Arbeiten + Wohnen", desc: "Kostenlose Unterkunft im Austausch für flexible Arbeit in der Natur." },
+                        { title: "Escrow-Sicherheit", desc: "Zahlungssicherheit durch Treuhand-Algorithmen garantiert." },
+                        { title: "Sofortige Auszahlung", desc: "Verdienste fließen direkt auf Ihre digitale Geldbörse." }
+                    ],
+                    stats: [
+                        { label: "Modell", val: "WORK + PAY" },
+                        { label: "Sicherheit", val: "100% Escrow" },
+                        { label: "Auszahlung", val: "Sofort-Wallet" }
+                    ]
+                },
+                RU: {
+                    title: "CampaGO",
+                    badge: "Маркетплейс и Платформа Мобильности",
+                    color: "emerald",
+                    intro: "CampaGo делает путешествия финансово доступными. Модель «Работа + Проживание» убирает расходы на жилье благодаря гибкой работе на природе.",
+                    details: [
+                        { title: "Модель «Работа + Жилье»", desc: "Нулевые затраты на жилье при выполнении легкой работы." },
+                        { title: "Безопасность Escrow", desc: "Гарантия выплаты средств через систему эскроу." },
+                        { title: "Мгновенный Перевод", desc: "Заработанные средства сразу попадают в электронный кошелек." }
+                    ],
+                    stats: [
+                        { label: "Концепция", val: "WORK + PAY" },
+                        { label: "Защита", val: "100% Escrow" },
+                        { label: "Выплаты", val: "Авто-Кошелек" }
+                    ]
+                },
+                ZH: {
+                    title: "CampaGO",
+                    badge: "数字游民与户外出行平台",
+                    color: "emerald",
+                    intro: "CampaGo 为户外探索者与数字游民提供资金可维持的旅行体验。通过“工作+住宿”模式抵扣居住费用。",
+                    details: [
+                        { title: "工作 + 住宿模式", desc: "通过兼职户外工作抵扣住宿成本。" },
+                        { title: "Escrow 托管保障", desc: "托管资金池确保劳务报酬安全发放。" },
+                        { title: "即时钱包入账", desc: "任务完成后劳动报酬即时划入数字钱包。" }
+                    ],
+                    stats: [
+                        { label: "模式", val: "WORK + PAY" },
+                        { label: "安全保障", val: "100% Escrow" },
+                        { label: "提现速度", val: "秒级入账" }
+                    ]
+                },
+                AR: {
+                    title: "CampaGO",
+                    badge: "منصة السوق والتنقل",
+                    color: "emerald",
+                    intro: "CampaGo هو سوق آمن يجعل سفر محبي الطبيعة مستداماً مادياً من خلال نموذج \"اعمل + أقم\" لإلغاء تكاليف السكن.",
+                    details: [
+                        { title: "نموذج اعمل + أقم", desc: "إلغاء تكاليف الإقامة بالعمل المرن في الهواء الطلق." },
+                        { title: "حماية بحساب Escrow", desc: "أمان كامل للمستحقات مع نظام الضمان المالي." },
+                        { title: "تحويل فوري للمحفظة", desc: "تنتقل الأرباح فوراً إلى محفظتك الرقمية." }
+                    ],
+                    stats: [
+                        { label: "النموذج", val: "WORK + PAY" },
+                        { label: "الأمان", val: "100% Escrow" },
+                        { label: "الدفع", val: "محفظة فورية" }
                     ]
                 }
             },
@@ -1009,6 +1582,70 @@
                         { label: "Unfolded Size", val: "60x85 cm" },
                         { label: "Standard", val: "NIJ Level 3A" }
                     ]
+                },
+                DE: {
+                    title: "Makonbi SS",
+                    badge: "Verteidigungsindustrie & Ballistik",
+                    color: "sky",
+                    intro: "Keine Last, eine Überlebensgarantie! Verabschieden Sie sich von schweren 5-kg-Rüstungen. Die Makonbi Ballistik-Tasche verwandelt sich in Sekunden von Tablet-Größe (20x30cm) in Vollkörperschutz (60x85cm) bei <500g Gewicht.",
+                    details: [
+                        { title: "Ultra-Leichtbauweise", desc: "Unter 500g Gewicht, problemlos im Alltag mitführbar." },
+                        { title: "Transformation in Sekunden", desc: "Entfaltet sich von 20x30cm auf 60x85cm Vollkörperschild." },
+                        { title: "Zertifizierter Schutz NIJ 3A", desc: "Überragender ballistischer Schutz nach Militärstandard." }
+                    ],
+                    stats: [
+                        { label: "Gewicht", val: "<500 Gramm" },
+                        { label: "Schildgröße", val: "60x85 cm" },
+                        { label: "Standard", val: "NIJ Level 3A" }
+                    ]
+                },
+                RU: {
+                    title: "Makonbi SS",
+                    badge: "Оборонная Промышленность и Баллистика",
+                    color: "sky",
+                    intro: "Не обуза, а гарантия выживания! Забудьте о 5-кг бронежилетах. Баллистическая сумка Makonbi весит <500г и раскладывается из размера 20x30см в щит 60x85см за секунды (NIJ 3A).",
+                    details: [
+                        { title: "Ультралегкая Конструкция", desc: "Вес менее 500 грамм, незаметна при ежедневном ношении." },
+                        { title: "Трансформация за Секунды", desc: "Из компактного планшета 20x30см в полный щит 60x85см." },
+                        { title: "Сертификация NIJ 3A", desc: "Высокий уровень защиты от огнестрельного оружия." }
+                    ],
+                    stats: [
+                        { label: "Вес", val: "<500 Грамм" },
+                        { label: "Размер Щита", val: "60x85 см" },
+                        { label: "Стандарт", val: "NIJ Level 3A" }
+                    ]
+                },
+                ZH: {
+                    title: "Makonbi SS",
+                    badge: "国防工业与防弹防护系统",
+                    color: "sky",
+                    intro: "非重担，而是生命的坚实保障！告别5公斤笨重护甲。Makonbi 防弹包重量小于500克，几秒内即可从20x30cm折叠状态展开为60x85cm全身防弹盾牌（NIJ 3A级）。",
+                    details: [
+                        { title: "超轻设计", desc: "重量小于500克，方便日常在背包中随身携带。" },
+                        { title: "秒级快速展开", desc: "秒级内由 20x30cm 平板形态变形为 60x85cm 盾牌。" },
+                        { title: "NIJ 3A 标准认证", desc: "提供卓越的防弹安全防护能力。" }
+                    ],
+                    stats: [
+                        { label: "重量", val: "<500 克" },
+                        { label: "展开尺寸", val: "60x85 厘米" },
+                        { label: "防护等级", val: "NIJ Level 3A" }
+                    ]
+                },
+                AR: {
+                    title: "Makonbi SS",
+                    badge: "الصناعات الدفاعية والأنظمة الباليستية",
+                    color: "sky",
+                    intro: "ليست حملاً، بل ضمان حقيقي للبقاء! حقيبة Makonbi الباليستية فائقة الخفة (<500غ) تتحول من حجم التابلت (20x30 سم) إلى درع كامل (60x85 سم) في ثوانٍ بمعيار NIJ 3A.",
+                    details: [
+                        { title: "تصميم خفيف جداً", desc: "وزن أقل من 500 جرام، يسهل حملها يومياً." },
+                        { title: "تحول سريع في ثوانٍ", desc: "تتحول من حجم التابلت إلى درع كامل بحجم 60x85 سم." },
+                        { title: "حماية معتمدة NIJ 3A", desc: "توفر حماية باليستية متفوقة لهياكل الجسم." }
+                    ],
+                    stats: [
+                        { label: "الوزن", val: "<500 جرام" },
+                        { label: "الحجم المفتوح", val: "60x85 سم" },
+                        { label: "المعيار", val: "NIJ Level 3A" }
+                    ]
                 }
             }
         };
@@ -1019,13 +1656,32 @@
         /* Global Window Functions */
         window.setLanguage = function(lang) {
             currentLang = lang;
-            const trBtn = document.getElementById('lang-tr');
-            const enBtn = document.getElementById('lang-en');
-            if (trBtn && enBtn) {
-                trBtn.className = lang === 'TR' ? 'px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-sky-500 text-white shadow-sm' : 'px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white';
-                enBtn.className = lang === 'EN' ? 'px-2.5 py-1 text-xs font-bold rounded-lg transition-all bg-sky-500 text-white shadow-sm' : 'px-2.5 py-1 text-xs font-bold rounded-lg transition-all text-slate-400 hover:text-white';
+
+            // Handle RTL for Arabic
+            if (lang === 'AR') {
+                document.documentElement.setAttribute('dir', 'rtl');
+                document.documentElement.setAttribute('lang', 'ar');
+            } else {
+                document.documentElement.setAttribute('dir', 'ltr');
+                document.documentElement.setAttribute('lang', lang.toLowerCase());
             }
 
+            // Update language switcher active states
+            const langKeys = ['TR', 'EN', 'DE', 'RU', 'ZH', 'AR'];
+            langKeys.forEach(l => {
+                const btn = document.getElementById(`lang-${l.toLowerCase()}`);
+                if (btn) {
+                    if (l === lang) {
+                        btn.classList.add('active', 'bg-sky-500', 'text-white', 'shadow-sm');
+                        btn.classList.remove('text-slate-400');
+                    } else {
+                        btn.classList.remove('active', 'bg-sky-500', 'text-white', 'shadow-sm');
+                        btn.classList.add('text-slate-400');
+                    }
+                }
+            });
+
+            // Update text elements with data-key
             document.querySelectorAll('[data-key]').forEach(el => {
                 const key = el.getAttribute('data-key');
                 if (i18n[lang] && i18n[lang][key] !== undefined) {
@@ -1037,6 +1693,7 @@
                 }
             });
 
+            // Update placeholders with data-key-ph
             document.querySelectorAll('[data-key-ph]').forEach(el => {
                 const keyPh = el.getAttribute('data-key-ph');
                 if (i18n[lang] && i18n[lang][keyPh] !== undefined) {
@@ -1124,7 +1781,7 @@
         };
 
         window.applyJobModal = function(title) {
-            const prefix = i18n[currentLang].apply_pos_prefix || 'Pozisyon:';
+            const prefix = i18n[currentLang]?.apply_pos_prefix || 'Pozisyon:';
             document.getElementById('applyJobTitle').textContent = `${prefix} ${title}`;
             document.getElementById('applyModal').classList.remove('hidden');
         };
@@ -1140,16 +1797,21 @@
             const originalText = btn.innerHTML;
 
             btn.disabled = true;
-            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> ' + (currentLang === 'EN' ? 'Sending...' : 'Gönderiliyor...');
+            btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin mr-2"></i> ...';
 
             const formData = new FormData(form);
             
             const triggerSuccessAndRedirect = () => {
-                const msg = currentLang === 'EN' 
-                    ? 'Thank you! Your message has been received. Redirecting to the main page in 5 seconds...' 
-                    : 'Teşekkür ederiz! Mesajınız bize ulaştı. 5 saniye içinde ana ekrana yönlendiriliyorsunuz...';
+                const msgMap = {
+                    TR: 'Teşekkür ederiz! Mesajınız bize ulaştı. 5 saniye içinde yönlendiriliyorsunuz...',
+                    EN: 'Thank you! Your message has been received. Redirecting in 5 seconds...',
+                    DE: 'Vielen Dank! Ihre Nachricht wurde empfangen. Weiterleitung in 5 Sekunden...',
+                    RU: 'Спасибо! Ваше сообщение получено. Перенаправление через 5 секунд...',
+                    ZH: '感谢您！您的留言已收到，5秒内将自动跳转...',
+                    AR: 'شكراً لك! تم استلام رسالتك. جاري التوجيه خلال 5 ثوانٍ...'
+                };
                 
-                showToast(msg, 5000);
+                showToast(msgMap[currentLang] || msgMap['TR'], 5000);
 
                 setTimeout(() => {
                     window.location.hash = '#hero';
@@ -1168,8 +1830,7 @@
                     form.reset();
                     triggerSuccessAndRedirect();
                 } else {
-                    const errorMsg = currentLang === 'EN' ? 'An error occurred. Please try again.' : 'Bir hata oluştu. Lütfen tekrar deneyiniz.';
-                    showToast(result.message || errorMsg, 4000);
+                    showToast(result.message || 'An error occurred.', 4000);
                 }
             } catch (err) {
                 form.reset();
@@ -1183,10 +1844,15 @@
         window.handleApplySubmit = function(e) {
             e.preventDefault();
             closeApplyModal();
-            const msg = currentLang === 'EN'
-                ? 'Your career application has been sent to gulalikayahh@gmail.com.'
-                : 'Kariyer başvurunuz gulalikayahh@gmail.com adresine iletildi.';
-            showToast(msg);
+            const msgMap = {
+                TR: 'Kariyer başvurunuz gulalikayahh@gmail.com adresine iletildi.',
+                EN: 'Your career application has been sent to gulalikayahh@gmail.com.',
+                DE: 'Ihre Bewerbung wurde an gulalikayahh@gmail.com gesendet.',
+                RU: 'Ваша заявка отправлена на gulalikayahh@gmail.com.',
+                ZH: '您的求职申请已发送至 gulalikayahh@gmail.com。',
+                AR: 'تم إرسال طلب التوظيف الخاص بك إلى gulalikayahh@gmail.com.'
+            };
+            showToast(msgMap[currentLang] || msgMap['TR']);
             e.target.reset();
         };
 
