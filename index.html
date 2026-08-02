@@ -142,8 +142,8 @@
 
             <!-- Language & Action Controls -->
             <div class="flex items-center space-x-3">
-                <!-- Expanded Multi-Language Switcher -->
-                <div class="bg-slate-900/90 border border-slate-700/60 p-1 rounded-xl flex items-center shadow-inner overflow-x-auto max-w-[200px] sm:max-w-none no-scrollbar">
+                <!-- Multi-Language Switcher (TR, EN, RU, ZH, AR) -->
+                <div class="bg-slate-900/90 border border-slate-700/60 p-1 rounded-xl flex items-center shadow-inner overflow-x-auto max-w-[220px] sm:max-w-none no-scrollbar">
                     <button id="lang-tr" onclick="setLanguage('TR')" class="lang-btn active px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">TR</button>
                     <button id="lang-en" onclick="setLanguage('EN')" class="lang-btn px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">EN</button>
                     <button id="lang-ru" onclick="setLanguage('RU')" class="lang-btn px-2.5 py-1 text-[11px] font-bold rounded-lg transition-all text-slate-400 hover:text-white">RU</button>
@@ -185,7 +185,7 @@
                 </h1>
 
                 <p class="text-fluid-subtitle text-slate-300 max-w-2xl mx-auto leading-relaxed mb-10" data-key="hero_desc">
-                    Yazılım, Akıllı Yemek Teknolojileri, Sürdürülebilir Mobilite ve Savunma Sanayii balistik çözümlerimizle sınırları yeniden tanımlıyoruz.
+                    Yazılım, Akıllı Yemek Teknolojileri, Lüks Moda & Tasarım, Sürdürülebilir Mobilite ve Savunma Sanayii çözümlerimizle sınırları yeniden tanımlıyoruz.
                 </p>
 
                 <div class="flex flex-col sm:flex-row items-center justify-center gap-4">
@@ -228,7 +228,7 @@
                                 <span data-key="story_title">25 Yıllık Deneyim & Gelecek Vizyonu</span>
                             </h3>
                             <div class="text-slate-300 space-y-4 text-sm sm:text-base leading-relaxed" data-key="story_body" data-html="true">
-                                <p>25 yıldır Yazılım, Satış ve Pazarlama sektörlerinde, Lider markalardan aldığımız Multi disipliner Deneyimimizi tek bir vizyon çatısı altında topladık. Foodizella ile lezzet standartlarını yeniden "AV' lıyor!, CampaGO ile doğa tutkunlarına "WORK + PAY" sunuyor, Makonbi SS ile de Savunma Sanayii' ne endüstriyel akıllı çözümleri sağlıyoruz.</p>
+                                <p>25 yıldır Yazılım, Satış ve Pazarlama sektörlerinde, Lider markalardan aldığımız Multi disipliner Deneyimimizi tek bir vizyon çatısı altında topladık. Foodizella ile lezzet standartlarını yeniden "AV' lıyor!, CampaGO ile doğa tutkunlarına "WORK + PAY" sunuyor, LevantenX ile ultra lüks moda ruhunu yaşatıyor, Makonbi SS ile de Savunma Sanayii' ne endüstriyel akıllı çözümleri sağlıyoruz.</p>
                                 <p>Teknoloji ve insan yeteneğini bir araya getirerek sürdürülebilir başarıya odaklanıyoruz. Her projemizde kalite, hız ve kullanıcı memnuniyetini en üst düzeyde tutuyoruz.</p>
                             </div>
                         </div>
@@ -321,7 +321,7 @@
                     <p class="text-slate-400 max-w-xl mx-auto text-sm sm:text-base" data-key="brands_subheading">Farklı sektörlerde değer üreten yenilikçi marka ekosistemimiz.</p>
                 </div>
 
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-8">
                     
                     <!-- BRAND 1: FOODIZELLA -->
                     <div class="glass-card glass-card-hover rounded-3xl p-8 border border-slate-800 flex flex-col justify-between group relative overflow-hidden">
@@ -389,7 +389,50 @@
                         </button>
                     </div>
 
-                    <!-- BRAND 3: MAKONBİ SS -->
+                    <!-- BRAND 3: LEVANTENX -->
+                    <div class="glass-card glass-card-hover rounded-3xl p-8 border border-rose-500/20 flex flex-col justify-between group relative overflow-hidden">
+                        <div>
+                            <div class="flex items-center justify-between mb-4">
+                                <div class="w-14 h-14 rounded-2xl bg-gradient-to-tr from-rose-500 to-purple-600 flex items-center justify-center text-white text-2xl shadow-lg shadow-rose-500/20">
+                                    <i class="fa-solid fa-gem"></i>
+                                </div>
+                                <span class="px-3 py-1 text-xs font-bold rounded-full bg-rose-500/10 text-rose-400 border border-rose-500/20" data-key="cat_levantenx">Lüks Moda & Yaşam Tarzı</span>
+                            </div>
+
+                            <div class="mb-3">
+                                <h3 class="text-2xl font-black text-white">LevantenX</h3>
+                                <p class="text-[11px] font-semibold text-rose-400 mt-0.5" data-key="levantenx_dev_note">LevantenX Fashion Lab tarafından geliştirilmiştir</p>
+                            </div>
+
+                            <p class="text-slate-300 text-sm leading-relaxed mb-6" data-key="levantenx_desc" data-html="true">
+                                LEVANTEN, sadece bir moda markası değil; bir yaşam biçimi, bir coğrafyanın ruhu ve tarihin en zarif dönemlerine yazılmış bir aşk mektubudur. Doğu ile Batı'nın, geleneğin ile modernitenin harmanlandığı rafine "Levanten Ruhunu" günümüzün ultra lüks anlayışıyla yeniden yorumluyoruz.
+                            </p>
+
+                            <div class="grid grid-cols-2 gap-2 mb-6">
+                                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                                    <span class="block text-xs font-bold text-rose-400" data-key="levantenx_b1_title">Levanten Ruhu</span>
+                                    <span class="text-[10px] text-slate-400" data-key="levantenx_b1_sub">Doğu & Batı Sentezi</span>
+                                </div>
+                                <div class="bg-slate-900/80 p-2.5 rounded-xl border border-slate-800 text-center">
+                                    <span class="block text-xs font-bold text-rose-400" data-key="levantenx_b2_title">Ultra Lüks</span>
+                                    <span class="text-[10px] text-slate-400" data-key="levantenx_b2_sub">Fashion Lab Tasarımı</span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="space-y-2">
+                            <a href="https://levantenx.com" target="_blank" rel="noopener noreferrer" class="w-full py-2.5 rounded-xl bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white font-bold text-xs transition-all shadow-md flex items-center justify-center space-x-2">
+                                <i class="fa-solid fa-globe text-xs"></i>
+                                <span data-key="btn_visit_site">levantenx.com'a Git</span>
+                            </a>
+                            <button onclick="openBrandModal('levantenx')" class="w-full py-2.5 rounded-xl bg-rose-500/10 hover:bg-rose-500 text-rose-400 hover:text-white font-semibold text-xs transition-all border border-rose-500/30 flex items-center justify-center space-x-2">
+                                <span data-key="btn_detail">Detaylı İncele</span>
+                                <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- BRAND 4: MAKONBİ SS -->
                     <div class="glass-card glass-card-hover rounded-3xl p-8 border border-sky-500/20 flex flex-col justify-between group relative overflow-hidden">
                         <div>
                             <div class="flex items-center justify-between mb-6">
@@ -559,6 +602,7 @@
                                     <option value="Genel Kurumsal İletişim" data-key="opt_general">Genel Kurumsal İletişim</option>
                                     <option value="Foodizella" data-key="opt_foodizella">Foodizella</option>
                                     <option value="CampaGO" data-key="opt_campago">CampaGO</option>
+                                    <option value="LevantenX" data-key="opt_levantenx">LevantenX</option>
                                     <option value="Makonbi SS" data-key="opt_makonbi">Makonbi SS</option>
                                 </select>
                             </div>
@@ -654,12 +698,20 @@
             </button>
 
             <div id="brandModalBadge" class="inline-block px-3 py-1 text-xs font-bold rounded-full mb-3"></div>
-            <h3 id="brandModalTitle" class="text-2xl sm:text-3xl font-extrabold text-white mb-4"></h3>
+            <h3 id="brandModalTitle" class="text-2xl sm:text-3xl font-extrabold text-white mb-2"></h3>
+            <p id="brandModalSub" class="text-xs font-semibold text-rose-400 mb-4 hidden"></p>
             <p id="brandModalIntro" class="text-slate-300 text-sm leading-relaxed mb-6"></p>
 
-            <div id="brandModalContent" class="space-y-6"></div>
+            <div id="brandModalContent" class="space-y-4 mb-6"></div>
 
-            <div class="mt-8 pt-6 border-t border-slate-800 flex justify-between items-center">
+            <div id="brandModalLinkContainer" class="mb-6 hidden">
+                <a id="brandModalLink" href="#" target="_blank" rel="noopener noreferrer" class="w-full py-3 rounded-xl bg-gradient-to-r from-rose-500 to-purple-600 hover:from-rose-600 hover:to-purple-700 text-white font-bold text-sm shadow-lg flex items-center justify-center space-x-2">
+                    <i class="fa-solid fa-globe"></i>
+                    <span id="brandModalLinkText">Resmi Web Sitesini Ziyaret Et</span>
+                </a>
+            </div>
+
+            <div class="pt-4 border-t border-slate-800 flex justify-between items-center">
                 <div id="brandModalStats" class="grid grid-cols-3 gap-4 w-full"></div>
             </div>
         </div>
@@ -710,7 +762,7 @@
                 hero_badge: "Sürdürülebilir İnovasyon & Multidisipliner Teknoloji",
                 hero_title_1: "Geleceği Şekillendiren",
                 hero_title_2: "Teknoloji & Marka Ekosistemi",
-                hero_desc: "Yazılım, Akıllı Yemek Teknolojileri, Sürdürülebilir Mobilite ve Savunma Sanayii balistik çözümlerimizle sınırları yeniden tanımlıyoruz.",
+                hero_desc: "Yazılım, Akıllı Yemek Teknolojileri, Lüks Moda & Tasarım, Sürdürülebilir Mobilite ve Savunma Sanayii çözümlerimizle sınırları yeniden tanımlıyoruz.",
                 hero_btn_explore: "Markalarımızı Keşfedin",
                 hero_btn_contact: "Bizimle İletişime Geçin",
                 about_heading: "Hakkımızda",
@@ -719,7 +771,7 @@
                 tab_team: "Ekibimiz",
                 tab_values: "Değerlerimiz",
                 story_title: "25 Yıllık Deneyim & Gelecek Vizyonu",
-                story_body: "<p>25 yıldır Yazılım, Satış ve Pazarlama sektörlerinde, Lider markalardan aldığımız Multi disipliner Deneyimimizi tek bir vizyon çatısı altında topladık. Foodizella ile lezzet standartlarını yeniden \"AV' lıyor!, CampaGO ile doğa tutkunlarına \"WORK + PAY\" sunuyor, Makonbi SS ile de Savunma Sanayii' ne endüstriyel akıllı çözümleri sağlıyoruz.</p><p>Teknoloji ve insan yeteneğini bir araya getirerek sürdürülebilir başarıya odaklanıyoruz. Her projemizde kalite, hız ve kullanıcı memnuniyetini en üst düzeyde tutuyoruz.</p>",
+                story_body: "<p>25 yıldır Yazılım, Satış ve Pazarlama sektörlerinde, Lider markalardan aldığımız Multi disipliner Deneyimimizi tek bir vizyon çatısı altında topladık. Foodizella ile lezzet standartlarını yeniden \"AV' lıyor!, CampaGO ile doğa tutkunlarına \"WORK + PAY\" sunuyor, LevantenX ile ultra lüks moda ruhunu yaşatıyor, Makonbi SS ile de Savunma Sanayii' ne endüstriyel akıllı çözümleri sağlıyoruz.</p><p>Teknoloji ve insan yeteneğini bir araya getirerek sürdürülebilir başarıya odaklanıyoruz. Her projemizde kalite, hız ve kullanıcı memnuniyetini en üst düzeyde tutuyoruz.</p>",
                 team_title: "Yönetim Kadrosu",
                 role_ali: "Co-founder / CEO",
                 desc_ali: "“15 yılı aşkın stratejik liderlik ve küresel marka yönetimi tecrübesi.”",
@@ -733,12 +785,13 @@
                 val_desc_1: "Değişen piyasa dinamiklerine çevik adaptasyon göstererek yenilikçi çözümler üretiyoruz.",
                 val_title_2: "Güvenilirlik & Şeffaflık",
                 val_desc_2: "Tüm iş ortaklarımız ve kullanıcılarımızla yüksek standartlı güven bağı kuruyoruz.",
-                val_title_3: "Sürdürülebilirlık",
+                val_title_3: "Sürdürülebilirlik",
                 val_desc_3: "Doğaya ve insana saygılı, uzun vadeli değer yaratan projelere yatırım yapıyoruz.",
                 brands_heading: "Markalarımız",
                 brands_subheading: "Farklı sektörlerde değer üreten yenilikçi marka ekosistemimiz.",
                 cat_food: "Yemek & Akıllı Sipariş",
                 cat_campago: "Pazar Yeri & Mobilite",
+                cat_levantenx: "Lüks Moda & Yaşam Tarzı",
                 cat_tech: "Savunma Sanayii & Balistik",
                 foodizella_desc: "Foodizella; Trendyol Go, Getir ve Migros Yemek fiyatlarını tek ekranda kıyaslayarak size <strong>\"En İyi AV\"</strong>ı bulduran akıllı sipariş asistanıdır. \"Hesabı Paylaş!\" ile tutarı 6 arkadaşınızla bölebilir, başka bir uygulamaya geçmeden siparişinizi anında tamamlayabilirsiniz.",
                 foodizella_b1_title: "3 Platform Kıyas",
@@ -750,6 +803,13 @@
                 campago_b1_sub: "Sıfır Barınma Masrafı",
                 campago_b2_title: "Escrow Güvencesi",
                 campago_b2_sub: "Anında Dijital Cüzdan",
+                levantenx_dev_note: "LevantenX Fashion Lab tarafından geliştirilmiştir",
+                levantenx_desc: "LEVANTEN, sadece bir moda markası değil; bir yaşam biçimi, bir coğrafyanın ruhu ve tarihin en zarif dönemlerine yazılmış bir aşk mektubudur. Doğu ile Batı'nın, geleneğin ile modernitenin harmanlandığı rafine \"Levanten Ruhunu\" günümüzün ultra lüks anlayışıyla yeniden yorumluyoruz.",
+                levantenx_b1_title: "Levanten Ruhu",
+                levantenx_b1_sub: "Doğu & Batı Sentezi",
+                levantenx_b2_title: "Ultra Lüks",
+                levantenx_b2_sub: "Fashion Lab Tasarımı",
+                btn_visit_site: "levantenx.com'a Git",
                 makonbi_desc: "Yük değil, hayatta kalma garantisi! Geleneksel 5 kg'lık hantal zırhlara veda edin. Makonbi Balistik Çanta, &lt;500 gramlık ultra hafif yapısıyla tablet boyutundan (20x30cm), saniyeler içinde tam gövde korumasına (60x85cm) dönüşür. NIJ 3A standartlı bu asimetrik kalkanla güvendesiniz.",
                 makonbi_b1_title: "<500g Ultra Hafif",
                 makonbi_b1_sub: "Tablet Boyutu (20x30cm)",
@@ -792,6 +852,7 @@
                 opt_general: "Genel Kurumsal İletişim",
                 opt_foodizella: "Foodizella",
                 opt_campago: "CampaGO",
+                opt_levantenx: "LevantenX",
                 opt_makonbi: "Makonbi SS",
                 lbl_message: "Mesajınız",
                 ph_message: "Mesajınızı buraya yazınız...",
@@ -818,7 +879,7 @@
                 hero_badge: "Sustainable Innovation & Multidisciplinary Technology",
                 hero_title_1: "Shaping the Future",
                 hero_title_2: "Technology & Brand Ecosystem",
-                hero_desc: "Redefining boundaries with Software, Smart Food Technologies, Sustainable Mobility, and Defense Industry ballistic solutions.",
+                hero_desc: "Redefining boundaries with Software, Smart Food Tech, Luxury Fashion & Design, Sustainable Mobility, and Defense Industry solutions.",
                 hero_btn_explore: "Explore Our Brands",
                 hero_btn_contact: "Get in Touch",
                 about_heading: "About Us",
@@ -827,7 +888,7 @@
                 tab_team: "Our Team",
                 tab_values: "Our Values",
                 story_title: "25 Years of Experience & Future Vision",
-                story_body: "<p>For 25 years across Software, Sales, and Marketing sectors, we have gathered our multidisciplinary expertise from leading brands under a single vision. With Foodizella we redefine taste standards, with CampaGO we offer \"WORK + PAY\" to nature enthusiasts, and with Makonbi SS we deliver smart industrial solutions to the Defense Industry.</p><p>By combining technology and human capability, we focus on sustainable success. We maintain the highest standards of quality, speed, and user satisfaction in every project.</p>",
+                story_body: "<p>For 25 years across Software, Sales, and Marketing sectors, we have gathered our multidisciplinary expertise from leading brands under a single vision. With Foodizella we redefine taste standards, with CampaGO we offer \"WORK + PAY\" to nature enthusiasts, with LevantenX we elevate ultra-luxury fashion, and with Makonbi SS we deliver smart industrial solutions to the Defense Industry.</p><p>By combining technology and human capability, we focus on sustainable success.</p>",
                 team_title: "Executive Management",
                 role_ali: "Co-founder / CEO",
                 desc_ali: "“Over 15 years of strategic leadership and global brand management experience.”",
@@ -847,18 +908,26 @@
                 brands_subheading: "An innovative brand ecosystem delivering value across diverse industries.",
                 cat_food: "Food & Smart Ordering",
                 cat_campago: "Marketplace & Mobility",
+                cat_levantenx: "Luxury Fashion & Lifestyle",
                 cat_tech: "Defense & Ballistics",
-                foodizella_desc: "Foodizella is a smart ordering assistant that compares Trendyol Go, Getir, and Migros Yemek prices on a single screen to find you the <strong>\"Best Deal\"</strong>. With \"Split the Bill!\", you can divide the total among up to 6 friends and complete your order instantly without switching apps.",
+                foodizella_desc: "Foodizella is a smart ordering assistant that compares Trendyol Go, Getir, and Migros Yemek prices on a single screen to find you the <strong>\"Best Deal\"</strong>. With \"Split the Bill!\", you can divide the total among up to 6 friends and complete your order instantly.",
                 foodizella_b1_title: "3 Platform Comparison",
                 foodizella_b1_sub: "Live Prices on One Screen",
                 foodizella_b2_title: "Split the Bill!",
                 foodizella_b2_sub: "Split Among 6 People",
-                campago_desc: "CampaGo is a secure marketplace that makes travel financially sustainable for nature nomads. With the \"Work + Stay\" model, it eliminates accommodation costs and offers flexible outdoor jobs. Your effort is protected by an Escrow payment pool, and earnings are instantly transferred to your digital wallet.",
+                campago_desc: "CampaGo is a secure marketplace that makes travel financially sustainable for nature nomads. With the \"Work + Stay\" model, it eliminates accommodation costs and offers flexible outdoor jobs. Your effort is protected by an Escrow payment pool.",
                 campago_b1_title: "Work + Stay",
                 campago_b1_sub: "Zero Accommodation Cost",
                 campago_b2_title: "Escrow Guarantee",
                 campago_b2_sub: "Instant Digital Wallet",
-                makonbi_desc: "Not a burden, a guarantee of survival! Say goodbye to traditional 5 kg bulky armor. The Makonbi Ballistic Bag transforms from tablet size (20x30cm) to full body protection (60x85cm) in seconds with its ultra-lightweight structure (<500g). You are safe with this NIJ 3A standard asymmetric shield.",
+                levantenx_dev_note: "Developed by LevantenX Fashion Lab",
+                levantenx_desc: "LEVANTEN is not just a fashion brand; it is a lifestyle, the soul of a geography, and a love letter written to history's most elegant eras. We re-interpret the refined Levantine spirit where East meets West through contemporary ultra-luxury.",
+                levantenx_b1_title: "Levantine Spirit",
+                levantenx_b1_sub: "East & West Synthesis",
+                levantenx_b2_title: "Ultra Luxury",
+                levantenx_b2_sub: "Fashion Lab Creation",
+                btn_visit_site: "Visit levantenx.com",
+                makonbi_desc: "Not a burden, a guarantee of survival! Say goodbye to traditional 5 kg bulky armor. The Makonbi Ballistic Bag transforms from tablet size (20x30cm) to full body protection (60x85cm) in seconds with its ultra-lightweight structure (<500g).",
                 makonbi_b1_title: "<500g Ultra-Light",
                 makonbi_b1_sub: "Tablet Size (20x30cm)",
                 makonbi_b2_title: "60x85cm Shield",
@@ -900,6 +969,7 @@
                 opt_general: "General Corporate Inquiry",
                 opt_foodizella: "Foodizella",
                 opt_campago: "CampaGO",
+                opt_levantenx: "LevantenX",
                 opt_makonbi: "Makonbi SS",
                 lbl_message: "Your Message",
                 ph_message: "Type your message here...",
@@ -918,114 +988,6 @@
                 apply_btn_submit: "Submit Application",
                 apply_pos_prefix: "Position:"
             },
-            DE: {
-                nav_about: "Über uns",
-                nav_brands: "Unsere Marken",
-                nav_culture: "Mensch & Kultur",
-                nav_contact: "Kontakt",
-                hero_badge: "Nachhaltige Innovation & Multidisziplinäre Technologie",
-                hero_title_1: "Die Zukunft gestalten",
-                hero_title_2: "Technologie & Marken-Ökosystem",
-                hero_desc: "Wir definieren Grenzen neu mit Software, intelligenten Lebensmitteltechnologien, nachhaltiger Mobilität und ballistischen Lösungen für die Verteidigungsindustrie.",
-                hero_btn_explore: "Marken entdecken",
-                hero_btn_contact: "Kontaktieren Sie uns",
-                about_heading: "Über uns",
-                about_subheading: "Unsere Vision, Werte und 25 Jahre multidisziplinäre Erfahrung.",
-                tab_story: "Unsere Geschichte",
-                tab_team: "Unser Team",
-                tab_values: "Unsere Werte",
-                story_title: "25 Jahre Erfahrung & Zukunftsvision",
-                story_body: "<p>Seit 25 Jahren haben wir unsere multidisziplinäre Erfahrung führender Marken in den Bereichen Software, Vertrieb und Marketing unter einer Vision vereint. Mit Foodizella definieren wir Geschmacksstandards neu, mit CampaGO bieten wir Naturliebhabern \"WORK + PAY\" und mit Makonbi SS intelligente Industrielösungen für die Verteidigung.</p><p>Durch die Kombination von Technologie und menschlicher Begabung konzentrieren wir uns auf nachhaltigen Erfolg. Wir wahren bei jedem Projekt höchste Standards bei Qualität, Geschwindigkeit und Zufriedenheit.</p>",
-                team_title: "Führungsteam",
-                role_ali: "Mitbegründer / CEO",
-                desc_ali: "“Über 15 Jahre Erfahrung in strategischer Führung und globalem Markenmanagement.”",
-                role_mutlu: "Mitbegründer / Marketing",
-                desc_mutlu: "“10 Jahre Türkei-Markterfahrung bei globalen Marken.”",
-                role_yalcin: "CFO",
-                desc_yalcin: "“Über 60 Jahre Erfahrung, globaler Finanzguru.”",
-                role_burak: "CampaGO Produkt-Design-Leiter",
-                desc_burak: "“Designexperte für Outdoor-Ausrüstung und -Hardware.”",
-                val_title_1: "Innovation & Tempo",
-                val_desc_1: "Wir schaffen innovative Lösungen durch agile Anpassung an sich ändernde Marktdynamiken.",
-                val_title_2: "Zuverlässigkeit & Transparenz",
-                val_desc_2: "Wir pflegen vertrauensvolle Beziehungen auf hohem Niveau mit allen Partnern.",
-                val_title_3: "Nachhaltigkeit",
-                val_desc_3: "Wir investieren in umwelt- und menschenfreundliche Projekte mit langfristigem Wert.",
-                brands_heading: "Unsere Marken",
-                brands_subheading: "Ein innovatives Markenökosystem, das Mehrwert in verschiedenen Branchen schafft.",
-                cat_food: "Essen & Intelligente Bestellung",
-                cat_campago: "Marktplatz & Mobilität",
-                cat_tech: "Verteidigungsindustrie & Ballistik",
-                foodizella_desc: "Foodizella vergleicht Preise von Trendyol Go, Getir und Migros Yemek auf einem Bildschirm, um das <strong>\"Beste Angebot\"</strong> zu finden. Mit \"Rechnung teilen!\" können Sie den Betrag auf bis zu 6 Freunde aufteilen und sofort bestellen.",
-                foodizella_b1_title: "3-Plattformen-Vergleich",
-                foodizella_b1_sub: "Live-Preise auf 1 Bildschirm",
-                foodizella_b2_title: "Rechnung teilen!",
-                foodizella_b2_sub: "Aufteilung bis zu 6 Personen",
-                campago_desc: "CampaGo ist ein sicherer Marktplatz für Natur-Nomaden. Das Modell \"Arbeiten + Wohnen\" eliminiert Unterkunftskosten durch flexible Outdoor-Jobs. Ihre Arbeit wird durch ein Escrow-Zahlungssystem geschützt, Gewinne sofort auf die digitale Geldbörse übertragen.",
-                campago_b1_title: "Arbeiten + Wohnen",
-                campago_b1_sub: "Null Unterkunftskosten",
-                campago_b2_title: "Escrow-Garantie",
-                campago_b2_sub: "Sofortiges digitales Wallet",
-                makonbi_desc: "Keine Last, eine Überlebensgarantie! Verabschieden Sie sich von schweren 5-kg-Rüstungen. Die Makonbi Ballistik-Tasche verwandelt sich von Tablet-Größe (20x30cm) in Sekunden in einen Ganzkörperschutz (60x85cm) mit unter 500g Gewicht (NIJ 3A Standard).",
-                makonbi_b1_title: "<500g Ultra-Leicht",
-                makonbi_b1_sub: "Tablet-Größe (20x30cm)",
-                makonbi_b2_title: "60x85cm Schild",
-                makonbi_b2_sub: "NIJ 3A Schutzstandard",
-                btn_detail: "Mehr erfahren",
-                culture_heading: "Mensch & Kultur",
-                culture_subheading: "Menschlichkeit und kontinuierliche Entwicklung stehen im Mittelpunkt unserer Arbeit.",
-                cul_title_1: "Flexibles & Hybrides Arbeiten",
-                cul_desc_1: "Wir bieten ergebnisorientierte, flexible Modelle für Remote- oder Büroarbeit.",
-                cul_title_2: "Kontinuierliches Lernen",
-                cul_desc_2: "Unterstützung individueller Entwicklung durch Schulungsbudgets und Konferenzen.",
-                cul_title_3: "Gleichberechtigung & Innovation",
-                cul_desc_3: "Wir schätzen Vielfalt und fördern ein transparentes Umfeld für offene Diskussionen.",
-                jobs_title: "Offene Stellen & Karriere",
-                jobs_subtitle: "Entdecken Sie unsere Stellenangebote und gestalten Sie die Zukunft mit uns.",
-                job_cat_all: "Alle",
-                job_cat_tech: "Software & Technologie",
-                job_cat_marketing: "Marketing & Betrieb",
-                j1_badge: "Software & Technologie",
-                j1_title: "Senior Full Stack Entwickler",
-                j1_desc: "Node.js, React, Microservices & Docker • Hybrid (Istanbul / Vollzeit)",
-                j2_badge: "Marketing & Betrieb",
-                j2_title: "Digital Marketing & Growth Spezialist",
-                j2_desc: "SEO, Performance Marketing & CRM • Vollzeit (Istanbul)",
-                j3_badge: "Software & Technologie",
-                j3_title: "Embedded Systems & Ballistik F&E Ingenieur",
-                j3_desc: "Makonbi SS • C/C++, IoT & Hardware-Entwicklung • Vollzeit",
-                btn_apply: "Jetzt bewerben",
-                contact_heading: "Kontakt",
-                contact_subheading: "Nehmen Sie Kontakt mit uns auf für Ihre Projekte und Partnerschaften.",
-                form_title: "Kontaktformular",
-                lbl_name: "Name & Vorname",
-                ph_name: "Ihr vollständiger Name",
-                lbl_email: "E-Mail-Adresse",
-                ph_email: "beispiel@makonbi.com",
-                lbl_phone: "Telefonnummer",
-                ph_phone: "+49 (151) XXX-XXXX",
-                lbl_brand: "Marke / Betreff",
-                opt_general: "Allgemeine Anfrage",
-                opt_foodizella: "Foodizella",
-                opt_campago: "CampaGO",
-                opt_makonbi: "Makonbi SS",
-                lbl_message: "Ihre Nachricht",
-                ph_message: "Schreiben Sie Ihre Nachricht hier...",
-                btn_send: "Absenden",
-                office_title: "Hauptsitz & Kontakt",
-                of_addr_lbl: "Büroadresse",
-                of_addr_val: "MAKONBİ Teknoloji A.Ş. • Maslak Bezirk, Büyükdere Str. Nr.:245, Maslak / Istanbul, Türkei",
-                of_email_lbl: "E-Mail",
-                of_phone_lbl: "Telefon",
-                footer_copyright: "© 2026 MAKONBİ TEKNOLOJİ A.Ş. Alle Rechte vorbehalten.",
-                apply_modal_title: "Karriere-Bewerbung",
-                apply_lbl_name: "Name & Vorname",
-                apply_lbl_email: "E-Mail-Adresse",
-                apply_lbl_link: "LinkedIn Profil / Lebenslauf Link",
-                apply_lbl_note: "Anschreiben / Notiz",
-                apply_btn_submit: "Bewerbung absenden",
-                apply_pos_prefix: "Position:"
-            },
             RU: {
                 nav_about: "О нас",
                 nav_brands: "Наши Бренды",
@@ -1034,7 +996,7 @@
                 hero_badge: "Устойчивые Инновации и Мультидисциплинарные Технологии",
                 hero_title_1: "Формируя Будущее",
                 hero_title_2: "Экосистема Технологий и Брендов",
-                hero_desc: "Мы переопределяем границы с помощью Программного Обеспечения, Умных Пищевых Технологий, Мобильности и Баллистических Решений для Оборонной Промышленности.",
+                hero_desc: "Мы переопределяем границы с помощью Программного Обеспечения, Умных Пищевых Технологий, Роскошной Моды, Мобильности и Баллистических Решений.",
                 hero_btn_explore: "Исследовать Бренды",
                 hero_btn_contact: "Связаться с Нами",
                 about_heading: "О нас",
@@ -1043,7 +1005,7 @@
                 tab_team: "Наша Команда",
                 tab_values: "Наши Ценности",
                 story_title: "25 Лет Опыта и Видение Будущего",
-                story_body: "<p>Уже 25 лет в сферах ПО, Продаж и Маркетинга мы объединяем мультидисциплинарный опыт ведущих брендов под единым видением. С Foodizella мы устанавливаем стандарты вкуса, с CampaGO предлагаем «WORK + PAY» любителям природы, а с Makonbi SS предоставляем умные решения для оборонной промышленности.</p><p>Объединяя технологии и человеческий потенциал, мы ориентируемся на устойчивый успех и высочайшее качество.</p>",
+                story_body: "<p>Уже 25 лет в сферах ПО, Продаж и Маркетинга мы объединяем мультидисциплинарный опыт ведущих брендов под единым видением. С Foodizella мы устанавливаем стандарты вкуса, с CampaGO предлагаем «WORK + PAY» любителям природы, с LevantenX дарим эстетику ультра-роскошной моды, а с Makonbi SS предоставляем умные решения для оборонной промышленности.</p>",
                 team_title: "Руководство",
                 role_ali: "Сооснователь / CEO",
                 desc_ali: "“Более 15 лет опыта стратегического лидерства и управления мировыми брендами.”",
@@ -1063,18 +1025,26 @@
                 brands_subheading: "Инновационная экосистема брендов, создающая ценность в разных отраслях.",
                 cat_food: "Еда и Умный Заказ",
                 cat_campago: "Маркетплейс и Мобильность",
+                cat_levantenx: "Роскошная Мода и Стиль Жизни",
                 cat_tech: "Оборонная Промышленность и Баллистика",
-                foodizella_desc: "Foodizella сравнивает цены Trendyol Go, Getir и Migros Yemek на одном экране, сберегая ваши деньги. Функция «Разделить Счет!» позволяет разделить сумму на 6 друзей и оформить заказ мгновенно.",
+                foodizella_desc: "Foodizella сравнивает цены Trendyol Go, Getir и Migros Yemek на одном экране, сберегая ваши деньги. Функция «Разделить Счет!» позволяет разделить сумму на 6 друзей.",
                 foodizella_b1_title: "Сравнение 3 Платформ",
                 foodizella_b1_sub: "Цены в Реальном Времени",
                 foodizella_b2_title: "Разделить Счет!",
                 foodizella_b2_sub: "До 6 Человек",
-                campago_desc: "CampaGo — безопасный маркетплейс для любителей путешествий. Модель «Работа + Проживание» исключает расходы на жилье благодаря гибкой работе на природе. Ваши средства защищены счетом Escrow.",
+                campago_desc: "CampaGo — безопасный маркетплейс для любителей путешествий. Модель «Работа + Проживание» исключает расходы на жилье благодаря гибкой работе на природе.",
                 campago_b1_title: "Работа + Проживание",
                 campago_b1_sub: "Нулевые Затраты на Жилье",
                 campago_b2_title: "Гарантия Escrow",
                 campago_b2_sub: "Мгновенный Цифровой Кошелек",
-                makonbi_desc: "Гарантия выживания! Забудьте о громоздкой 5-кг броне. Баллистическая сумка Makonbi превращается из размера планшета (20x30 см) в полноростовую защиту (60x85 см) весом <500 грамм (стандарт NIJ 3A).",
+                levantenx_dev_note: "Разработано LevantenX Fashion Lab",
+                levantenx_desc: "LEVANTEN — это не просто модный бренд; это стиль жизни, душа региона и любовное письмо, написанное самым изысканным эпохам истории. Мы переосмысливаем утонченный «дух Леванта» через призму современного ультра-люкса.",
+                levantenx_b1_title: "Дух Леванта",
+                levantenx_b1_sub: "Синтез Востока и Запада",
+                levantenx_b2_title: "Ультра-Роскошь",
+                levantenx_b2_sub: "Дизайн Fashion Lab",
+                btn_visit_site: "Перейти на levantenx.com",
+                makonbi_desc: "Гарантия выживания! Забудьте о громоздкой 5-кг броне. Баллистическая сумка Makonbi превращается из размера планшета (20x30 см) в полноростовую защиту (60x85 см) весом <500 грамм.",
                 makonbi_b1_title: "<500г Ультралегкий",
                 makonbi_b1_sub: "Размер Планшета (20x30см)",
                 makonbi_b2_title: "Щит 60x85см",
@@ -1116,6 +1086,7 @@
                 opt_general: "Общие Корпоративные Вопросы",
                 opt_foodizella: "Foodizella",
                 opt_campago: "CampaGO",
+                opt_levantenx: "LevantenX",
                 opt_makonbi: "Makonbi SS",
                 lbl_message: "Ваше сообщение",
                 ph_message: "Напишите ваше сообщение здесь...",
@@ -1142,7 +1113,7 @@
                 hero_badge: "可持续创新与多学科科技",
                 hero_title_1: "塑造未来的",
                 hero_title_2: "科技与品牌生态系统",
-                hero_desc: "在软件、智能餐饮科技、可持续出行和国防防弹领域重塑科技边界。",
+                hero_desc: "在软件、智能餐饮科技、奢华时尚与设计、可持续出行和国防防弹领域重塑科技边界。",
                 hero_btn_explore: "探索旗下品牌",
                 hero_btn_contact: "与我们取得联系",
                 about_heading: "关于我们",
@@ -1151,7 +1122,7 @@
                 tab_team: "管理团队",
                 tab_values: "核心价值",
                 story_title: "25年行业积淀与未来愿景",
-                story_body: "<p>25年来，我们在软件、销售与市场营销领域将行业领先品牌的经验整合在统一的宏伟愿景下。通过 Foodizella 重新定义餐饮标准，通过 CampaGO 为自然爱好者提供“工作+住宿”模式，通过 Makonbi SS 为国防工业提供智能化前沿解决方案。</p><p>结合科技与人才优势，致力于可持续发展与卓越品质。</p>",
+                story_body: "<p>25年来，我们在软件、销售与市场营销领域将行业领先品牌的经验整合在统一的宏伟愿景下。通过 Foodizella 重新定义餐饮标准，通过 CampaGO 提供“工作+住宿”模式，通过 LevantenX 演绎超奢华时尚精神，通过 Makonbi SS 为国防工业提供智能化前沿解决方案。</p>",
                 team_title: "管理高层",
                 role_ali: "联合创始人 / 首席执行官 (CEO)",
                 desc_ali: "“超过15年战略领导力与全球品牌管理经验。”",
@@ -1171,18 +1142,26 @@
                 brands_subheading: "在多个行业领域创造卓越价值的创新品牌生态。",
                 cat_food: "餐饮与智能订餐",
                 cat_campago: "平台与出行",
+                cat_levantenx: "奢华时尚与生活方式",
                 cat_tech: "国防工业与防弹技术",
-                foodizella_desc: "Foodizella 同屏对比 Trendyol Go、Getir 和 Migros Yemek 的实时价格，帮您找到<strong>“最佳优惠”</strong>。支持最多6位好友分摊账单，无需切换应用即可完成下单。",
+                foodizella_desc: "Foodizella 同屏对比 Trendyol Go、Getir 和 Migros Yemek 的实时价格，帮您锁定全网最划算的选择。支持最多6位好友分摊账单。",
                 foodizella_b1_title: "三大平台对比",
                 foodizella_b1_sub: "同屏实时价格",
                 foodizella_b2_title: "AA制分账!",
                 foodizella_b2_sub: "支持最多6人分担",
-                campago_desc: "CampaGo 为数字游民提供安全的可持续出行社区。“工作+住宿”模式通过灵活的户外工作抵扣住宿成本，资金由 Escrow 托管托管，收益即时存入数字钱包。",
+                campago_desc: "CampaGo 为数字游民提供安全的可持续出行社区。“工作+住宿”模式通过灵活的户外工作抵扣住宿成本。",
                 campago_b1_title: "工作 + 住宿",
                 campago_b1_sub: "零住宿成本",
-                campago_b2_title: "Escrow 安全保障",
+                campago_b2_title: "Escrow 托管保障",
                 campago_b2_sub: "即时入账数字钱包",
-                makonbi_desc: "生存与安全的坚实保障！告别重达5公斤的传统铠甲。Makonbi 防弹包拥有小于500克的超轻结构，数秒内即可从平板大小（20x30cm）展开为全身防护盾牌（60x85cm，NIJ 3A标准）。",
+                levantenx_dev_note: "由 LevantenX Fashion Lab 研发设计",
+                levantenx_desc: "LEVANTEN 不仅仅是一个时尚品牌，它是一种生活方式，一片土地的灵魂。我们汲取东西方美学融合的精致“黎凡特精神”，以当代超奢华的视角重新演绎。",
+                levantenx_b1_title: "黎凡特精神",
+                levantenx_b1_sub: "东西方美学融合",
+                levantenx_b2_title: "顶级超奢",
+                levantenx_b2_sub: "Fashion Lab 研发",
+                btn_visit_site: "访问 levantenx.com",
+                makonbi_desc: "生存与安全的坚实保障！告别5公斤笨重护甲。Makonbi 防弹包重量小于500克，数秒内即可展开为60x85cm全身防弹盾牌（NIJ 3A级）。",
                 makonbi_b1_title: "<500克 超轻设计",
                 makonbi_b1_sub: "平板电脑尺寸 (20x30cm)",
                 makonbi_b2_title: "60x85cm 展开防护",
@@ -1224,6 +1203,7 @@
                 opt_general: "通用企业咨询",
                 opt_foodizella: "Foodizella",
                 opt_campago: "CampaGO",
+                opt_levantenx: "LevantenX",
                 opt_makonbi: "Makonbi SS",
                 lbl_message: "留言内容",
                 ph_message: "请输入您的留言内容...",
@@ -1249,8 +1229,8 @@
                 nav_contact: "اتصل بنا",
                 hero_badge: "ابتكار مستدام وتكنولوجيا متعددة التخصصات",
                 hero_title_1: "نرسم ملامح المستقبل",
-                hero_title_2: "منظومة التكنولوجيا العلامات التجارية",
-                hero_desc: "نعيد تعريف الحدود من خلال البرمجيات، تكنولوجيا الأغذية الذكية، التنقل المستدام، وحلول الدفاع والباليستية.",
+                hero_title_2: "منظومة التكنولوجيا والعلامات التجارية",
+                hero_desc: "نعيد تعريف الحدود من خلال البرمجيات، تكنولوجيا الأغذية الذكية، الأزياء الفاخرة، التنقل المستدام، وحلول الدفاع والباليستية.",
                 hero_btn_explore: "استكشف علاماتنا التجارية",
                 hero_btn_contact: "تواصل معنا",
                 about_heading: "من نحن",
@@ -1259,7 +1239,7 @@
                 tab_team: "فريقنا",
                 tab_values: "قيمنا",
                 story_title: "25 عاماً من الخبرة ورؤية المستقبل",
-                story_body: "<p>على مدى 25 عامًا في قطاعات البرمجيات والمبيعات والتسويق، جمعنا خبراتنا من العلامات التجارية الرائدة تحت رؤية واحدة. مع Foodizella نعيد تعريف معايير المذاق، ومع CampaGO نقدم \"WORK + PAY\" لعشاق الطبيعة، ومع Makonbi SS نوفر حلولاً صناعية ذكية لقطاع الدفاع.</p><p>نركز على النجاح المستدام من خلال دمج التكنولوجيا والقدرات البشرية.</p>",
+                story_body: "<p>على مدى 25 عامًا في قطاعات البرمجيات والمبيعات والتسويق، جمعنا خبراتنا تحت رؤية واحدة. مع Foodizella نعيد تعريف معايير المذاق، ومع CampaGO نقدم \"WORK + PAY\" لعشاق الطبيعة، ومع LevantenX نجسد روح الأزياء الفائقة الفخامة، ومع Makonbi SS نوفر حلولاً صناعية ذكية لقطاع الدفاع.</p>",
                 team_title: "الإدارة التنفيذية",
                 role_ali: "المؤسس المشارك / الرئيس التنفيذي",
                 desc_ali: "“أكثر من 15 عاماً من القيادة الاستراتيجية وإدارة العلامات العالمية.”",
@@ -1279,18 +1259,26 @@
                 brands_subheading: "منظومة علامات تجارية مبتكرة تخلق القيمة عبر قطاعات مختلفة.",
                 cat_food: "الطعام والطلب الذكي",
                 cat_campago: "السوق والتنقل",
+                cat_levantenx: "الأزياء الفاخرة وأسلوب الحياة",
                 cat_tech: "الصناعات الدفاعية والباليستية",
-                foodizella_desc: "تطبيق Foodizella يقارن أسعار Trendyol Go وGetir وMigros Yemek على شاشة واحدة ليمنحك <strong>\"أفضل صفقة\"</strong>. تتيح لك ميزة \"تقاسم الفاتورة!\" تقسيم المبلغ مع 6 أصدقاء والطلب فوراً.",
+                foodizella_desc: "تطبيق Foodizella يقارن أسعار Trendyol Go وGetir وMigros Yemek على شاشة واحدة ليمنحك <strong>\"أفضل صفقة\"</strong>. تتيح لك ميزة \"تقاسم الفاتورة!\" تقسيم المبلغ مع 6 أصدقاء.",
                 foodizella_b1_title: "مقارنة 3 منصات",
                 foodizella_b1_sub: "أسعار مباشرة على شاشة واحدة",
                 foodizella_b2_title: "تقاسم الفاتورة!",
                 foodizella_b2_sub: "تقسيم لغاية 6 أشخاص",
-                campago_desc: "CampaGo هو سوق آمن يجعل سفر محبي الطبيعة مستداماً مادياً. نموذج \"اعمل + أقم\" يلغي تكاليف الإقامة عبر أعمال مرنة في الطبيعة، مع حماية أموالك بضمان Escrow.",
+                campago_desc: "CampaGo هو سوق آمن يجعل سفر محبي الطبيعة مستداماً مادياً. نموذج \"اعمل + أقم\" يلغي تكاليف الإقامة عبر أعمال مرنة في الطبيعة.",
                 campago_b1_title: "اعمل + أقم",
                 campago_b1_sub: "صفر تكاليف إقامة",
                 campago_b2_title: "ضمان Escrow",
                 campago_b2_sub: "محفظة رقمية فورية",
-                makonbi_desc: "ضمان حقيقي للبقاء! ودّع الدروع الثقيلة سعة 5 كجم. تتحول حقيبة Makonbi الباليستية من حجم التابلت (20x30 سم) إلى درع حماية كاملة (60x85 سم) بوزن أقل من 500 جرام بمعيار NIJ 3A.",
+                levantenx_dev_note: "تم تطويرها بواسطة LevantenX Fashion Lab",
+                levantenx_desc: "ليفانتين ليست مجرد علامة تجارية للأزياء؛ بل هي أسلوب حياة وروح جغرافية. نعيد تقديم \"الروح المشرقية\" الراقية التي يمتزج فيها الشرق بالغرب برؤية فائقة الفخامة في عالمنا المعاصر.",
+                levantenx_b1_title: "الروح المشرقية",
+                levantenx_b1_sub: "مزيج الشرق والغرب",
+                levantenx_b2_title: "فخامة فائقة",
+                levantenx_b2_sub: "تطوير Fashion Lab",
+                btn_visit_site: "زيارة levantenx.com",
+                makonbi_desc: "ضمان حقيقي للبقاء! ودّع الدروع الثقيلة سعة 5 كجم. تتحول حقيبة Makonbi الباليستية من حجم التابلت (20x30 سم) إلى درع كامل (60x85 سم) بوزن أقل من 500 جرام.",
                 makonbi_b1_title: "<500ج خفيف جداً",
                 makonbi_b1_sub: "بحجم التابلت (20x30 سم)",
                 makonbi_b2_title: "درع 60x85 سم",
@@ -1332,6 +1320,7 @@
                 opt_general: "استفسار مؤسسي عام",
                 opt_foodizella: "Foodizella",
                 opt_campago: "CampaGO",
+                opt_levantenx: "LevantenX",
                 opt_makonbi: "Makonbi SS",
                 lbl_message: "رسالتك",
                 ph_message: "اكتب رسالتك هنا...",
@@ -1374,32 +1363,16 @@
                     title: "Foodizella",
                     badge: "Food & Smart Ordering Assistant",
                     color: "amber",
-                    intro: "Foodizella is a smart ordering assistant that compares Trendyol Go, Getir, and Migros Yemek prices on a single screen to find you the 'Best Deal'. With 'Split the Bill!', you can divide the total among up to 6 friends and complete your order instantly without switching apps.",
+                    intro: "Foodizella is a smart ordering assistant that compares Trendyol Go, Getir, and Migros Yemek prices on a single screen to find you the 'Best Deal'. With 'Split the Bill!', you can divide the total among up to 6 friends and complete your order instantly.",
                     details: [
-                        { title: "Live Price Comparison", desc: "Fetches prices simultaneously from Trendyol Go, Getir, and Migros Yemek to offer the best price." },
-                        { title: "Split the Bill! Feature", desc: "Easily split the order total among up to 6 friends." },
+                        { title: "Live Price Comparison", desc: "Fetches prices simultaneously from Trendyol Go, Getir, and Migros Yemek." },
+                        { title: "Split the Bill!", desc: "Easily split the order total among up to 6 friends." },
                         { title: "Seamless Ordering", desc: "Complete your order quickly with one click, without redirects." }
                     ],
                     stats: [
                         { label: "Platforms", val: "3 Major Services" },
                         { label: "Bill Splitting", val: "Up to 6 People" },
                         { label: "Speed", val: "<2 Sec Comparison" }
-                    ]
-                },
-                DE: {
-                    title: "Foodizella",
-                    badge: "Essen & Intelligenter Bestellassistent",
-                    color: "amber",
-                    intro: "Foodizella ist ein intelligenter Bestellassistent, der die Preise von Trendyol Go, Getir und Migros Yemek auf einem Bildschirm vergleicht, um Ihnen das 'beste Angebot' zu sichern.",
-                    details: [
-                        { title: "Echtzeit-Preisvergleich", desc: "Vergleicht Live-Preise von 3 Anbietern gleichzeitig." },
-                        { title: "Rechnung teilen!", desc: "Teilen Sie die Rechnung bequem mit bis zu 6 Freunden." },
-                        { title: "Nahtlose Bestellung", desc: "Schließen Sie Ihre Bestellung ohne App-Wechsel ab." }
-                    ],
-                    stats: [
-                        { label: "Plattformen", val: "3 Anbieter" },
-                        { label: "Teilen", val: "Bis 6 Personen" },
-                        { label: "Tempo", val: "<2s Vergleich" }
                     ]
                 },
                 RU: {
@@ -1409,7 +1382,7 @@
                     intro: "Foodizella сравнивает цены Trendyol Go, Getir и Migros Yemek на одном экране, сберегая ваше время и деньги.",
                     details: [
                         { title: "Сравнение Цен Live", desc: "Одновременный поиск лучших цен на 3 платформах." },
-                        { title: "Функция «Разделить Счет»", desc: "Легко делите сумму заказа на группу до 6 человек." },
+                        { title: "Разделить Счет", desc: "Делите сумму заказа на группу до 6 человек." },
                         { title: "Мгновенный Заказ", desc: "Оформляйте заказ прямо в приложении без переходов." }
                     ],
                     stats: [
@@ -1472,7 +1445,7 @@
                     title: "CampaGO",
                     badge: "Marketplace & Mobility Platform",
                     color: "emerald",
-                    intro: "CampaGo is a secure marketplace that makes travel financially sustainable for nature nomads. With the 'Work + Stay' model, it eliminates accommodation costs and offers flexible outdoor jobs. Your effort is protected by an Escrow payment pool, and earnings are instantly transferred to your digital wallet.",
+                    intro: "CampaGo is a secure marketplace that makes travel financially sustainable for nature nomads. With the 'Work + Stay' model, it eliminates accommodation costs and offers flexible outdoor jobs. Your effort is protected by an Escrow payment pool.",
                     details: [
                         { title: "Work + Stay Model", desc: "Eliminate accommodation costs by working flexible outdoor jobs." },
                         { title: "Escrow Payment Pool", desc: "Job and payment safety guaranteed with Escrow protection." },
@@ -1484,31 +1457,15 @@
                         { label: "Payment", val: "Instant Wallet" }
                     ]
                 },
-                DE: {
-                    title: "CampaGO",
-                    badge: "Marktplatz & Mobilitätsplattform",
-                    color: "emerald",
-                    intro: "CampaGo ist ein sicherer Marktplatz, der das Reisen für Natur-Nomaden nachhaltig finanzierbar macht. Mit dem Modell 'Arbeiten + Wohnen' entfallen Unterkunftskosten durch flexible Outdoor-Jobs.",
-                    details: [
-                        { title: "Arbeiten + Wohnen", desc: "Kostenlose Unterkunft im Austausch für flexible Arbeit in der Natur." },
-                        { title: "Escrow-Sicherheit", desc: "Zahlungssicherheit durch Treuhand-Algorithmen garantiert." },
-                        { title: "Sofortige Auszahlung", desc: "Verdienste fließen direkt auf Ihre digitale Geldbörse." }
-                    ],
-                    stats: [
-                        { label: "Modell", val: "WORK + PAY" },
-                        { label: "Sicherheit", val: "100% Escrow" },
-                        { label: "Auszahlung", val: "Sofort-Wallet" }
-                    ]
-                },
                 RU: {
                     title: "CampaGO",
                     badge: "Маркетплейс и Платформа Мобильности",
                     color: "emerald",
                     intro: "CampaGo делает путешествия финансово доступными. Модель «Работа + Проживание» убирает расходы на жилье благодаря гибкой работе на природе.",
                     details: [
-                        { title: "Модель «Работа + Жилье»", desc: "Нулевые затраты на жилье при выполнении легкой работы." },
+                        { title: "Модель «Работа + Жилье»", desc: "Нулевые затраты на жилье при выполнении работы." },
                         { title: "Безопасность Escrow", desc: "Гарантия выплаты средств через систему эскроу." },
-                        { title: "Мгновенный Перевод", desc: "Заработанные средства сразу попадают в электронный кошелек." }
+                        { title: "Мгновенный Перевод", desc: "Заработанные средства сразу попадают в кошелек." }
                     ],
                     stats: [
                         { label: "Концепция", val: "WORK + PAY" },
@@ -1549,6 +1506,98 @@
                     ]
                 }
             },
+            levantenx: {
+                TR: {
+                    title: "LevantenX",
+                    badge: "Lüks Moda & Yaşam Tarzı",
+                    sub: "LevantenX Fashion Lab tarafından geliştirilmiştir",
+                    color: "rose",
+                    url: "https://levantenx.com",
+                    intro: "LEVANTEN, sadece bir moda markası değil; bir yaşam biçimi, bir coğrafyanın ruhu ve tarihin en zarif dönemlerine yazılmış bir aşk mektubudur. Hikayemiz, Doğu ile Batı'nın, geleneğin ile modernitenin, ticaretin ile sanatın harmanlandığı o efsanevi liman kentlerinde, Levanten kültürünün kalbinde başlar. Biz, o çok kültürlü, rafine ve sofistike \"Levanten Ruhunu\" alıp, günümüzün ultra lüks anlayışıyla yeniden yorumluyoruz.",
+                    details: [
+                        { title: "Doğu & Batı Sentezi", desc: "Doğu'nun gizemi ile Batı'nın modern çizgisini buluşturan haute-couture moda anlayışı." },
+                        { title: "Ultra Lüks ve Rafine Tasarım", desc: "İnce işçilik, yüksek terzilik standartları ve en elit kumaş dokuları." },
+                        { title: "LevantenX Fashion Lab", desc: "Geleneksel dokuma estetiğini yenilikçi kumaş teknolojileri ve geleceğin tasarımlarıyla birleştiren Ar-Ge labı." }
+                    ],
+                    stats: [
+                        { label: "Segment", val: "Ultra Lüks" },
+                        { label: "Miras", val: "Levanten Ruhu" },
+                        { label: "Merkez", val: "Fashion Lab" }
+                    ]
+                },
+                EN: {
+                    title: "LevantenX",
+                    badge: "Luxury Fashion & Lifestyle",
+                    sub: "Developed by LevantenX Fashion Lab",
+                    color: "rose",
+                    url: "https://levantenx.com",
+                    intro: "LEVANTEN is not just a fashion brand; it is a lifestyle, the soul of a geography, and a love letter written to history's most elegant eras. Our story begins at the heart of Levantine culture in legendary port cities where East meets West, tradition meets modernity, and commerce meets art. We take that multicultural, refined, and sophisticated Levantine spirit and re-interpret it through contemporary ultra-luxury.",
+                    details: [
+                        { title: "East & West Synthesis", desc: "Haute-couture blending Eastern mystique with Western contemporary lines." },
+                        { title: "Ultra Luxury Philosophy", desc: "Sophisticated tailoring standards, master craftsmanship, and elite fabric textures." },
+                        { title: "LevantenX Fashion Lab", desc: "An R&D hub merging heritage weaving aesthetics with futuristic textile innovation." }
+                    ],
+                    stats: [
+                        { label: "Segment", val: "Ultra Luxury" },
+                        { label: "Heritage", val: "Levantine Spirit" },
+                        { label: "Hub", val: "Fashion Lab" }
+                    ]
+                },
+                RU: {
+                    title: "LevantenX",
+                    badge: "Роскошная Мода и Стиль Жизни",
+                    sub: "Разработано LevantenX Fashion Lab",
+                    color: "rose",
+                    url: "https://levantenx.com",
+                    intro: "LEVANTEN — это не просто модный бренд; это стиль жизни, душа региона и любовное письмо, написанное самым изысканным эпохам истории. Наша история начинается в самом сердце левантийской культуры, в легендарных портовых городах, где Восток встречается с Западом, традиция с современностью, а торговля с искусством. Мы берем этот мультикультурный, утонченный «дух Леванта» и переосмысливаем его через призму ультра-роскоши.",
+                    details: [
+                        { title: "Синтез Востока и Запада", desc: "Кутюрный дизайн, сочетающий восточную загадочность и западный модерн." },
+                        { title: "Философия Ультра-Роскоши", desc: "Высокое качество пошива, мастерство и эксклюзивные материалы." },
+                        { title: "LevantenX Fashion Lab", desc: "Центр R&D, объединяющий эстетику ремесла с инновациями текстиля." }
+                    ],
+                    stats: [
+                        { label: "Сегмент", val: "Ультра-Роскошь" },
+                        { label: "Наследие", val: "Дух Леванта" },
+                        { label: "Лаборатория", val: "Fashion Lab" }
+                    ]
+                },
+                ZH: {
+                    title: "LevantenX",
+                    badge: "奢华时尚与生活方式",
+                    sub: "由 LevantenX Fashion Lab 研发设计",
+                    color: "rose",
+                    url: "https://levantenx.com",
+                    intro: "LEVANTEN 不仅仅是一个时尚品牌，它是一种生活方式，一片土地的灵魂，也是写给历史中最优雅时代的倾心情书。我们的故事源于黎凡特文化的核心——在东西方交融、传统与现代碰撞、商业与艺术汇聚的传奇港口城市。我们汲取这种多元、精致而典雅的“黎凡特精神”，以当代超奢华的视角重新演绎。",
+                    details: [
+                        { title: "东西方美学融合", desc: "融合东方神秘韵味与西方现代线条的高级定制时尚。" },
+                        { title: "超奢华理念", desc: "精湛的高级定制工艺与顶级面料带来的极致优雅。" },
+                        { title: "LevantenX Fashion Lab", desc: "前沿时尚愿景与创新面料科技的研发中心。" }
+                    ],
+                    stats: [
+                        { label: "定位", val: "超级奢华" },
+                        { label: "文化传承", val: "黎凡特精神" },
+                        { label: "研发中心", val: "Fashion Lab" }
+                    ]
+                },
+                AR: {
+                    title: "LevantenX",
+                    badge: "الأزياء الفاخرة وأسلوب الحياة",
+                    sub: "تم تطويرها بواسطة LevantenX Fashion Lab",
+                    color: "rose",
+                    url: "https://levantenx.com",
+                    intro: "ليفانتين ليست مجرد علامة تجارية للأزياء؛ بل هي أسلوب حياة، وروح جغرافية، ورسالة حب مكتوبة لأكثر العصور أناقة في التاريخ. تبدأ قصتنا في قلب الثقافة المشرقية (الليفانت) في الموانئ الأسطورية حيث يمتزج الشرق بالغرب، والتقاليد بالحداثة، والتجارة بالفن. نأخذ تلك الروح المشرقية المتعددة الثقافات والراقية، ونعيد تقديمها برؤية فائقة الفخامة في عالمنا المعاصر.",
+                    details: [
+                        { title: "مزيج الشرق والغرب", desc: "تصاميم أزياء راقية تجمع بين سحر الشرق وخطوط الغرب الحديثة." },
+                        { title: "مفهوم الفخامة الفائقة", desc: "خياطة رفيعة، براعة يدوية عالية، وأقمشة فاخرة صُممت للنخبة." },
+                        { title: "LevantenX Fashion Lab", desc: "مركز أبحاث وتطوير يدمج جماليات النسيج التراثي بتقنيات المستقبل." }
+                    ],
+                    stats: [
+                        { label: "الفئة", val: "فخامة فائقة" },
+                        { label: "التراث", val: "الروح المشرقية" },
+                        { label: "المركز", val: "Fashion Lab" }
+                    ]
+                }
+            },
             makonbi: {
                 TR: {
                     title: "Makonbi SS",
@@ -1570,7 +1619,7 @@
                     title: "Makonbi SS",
                     badge: "Defense Industry & Ballistic Systems",
                     color: "sky",
-                    intro: "Not a burden, a guarantee of survival! Say goodbye to traditional 5 kg bulky armor. The Makonbi Ballistic Bag transforms from tablet size (20x30cm) to full body protection (60x85cm) in seconds with its ultra-lightweight structure (<500g). You are safe with this NIJ 3A standard asymmetric shield.",
+                    intro: "Not a burden, a guarantee of survival! Say goodbye to traditional 5 kg bulky armor. The Makonbi Ballistic Bag transforms from tablet size (20x30cm) to full body protection (60x85cm) in seconds with its ultra-lightweight structure (<500g).",
                     details: [
                         { title: "Ultra-Lightweight Design", desc: "Weighing under 500 grams, it adds no burden and carries in a daily bag." },
                         { title: "From Compact Size to Full Shield", desc: "Transforms from a 20x30 cm tablet size into 60x85 cm full body protection in seconds." },
@@ -1582,27 +1631,11 @@
                         { label: "Standard", val: "NIJ Level 3A" }
                     ]
                 },
-                DE: {
-                    title: "Makonbi SS",
-                    badge: "Verteidigungsindustrie & Ballistik",
-                    color: "sky",
-                    intro: "Keine Last, eine Überlebensgarantie! Verabschieden Sie sich von schweren 5-kg-Rüstungen. Die Makonbi Ballistik-Tasche verwandelt sich in Sekunden von Tablet-Größe (20x30cm) in Vollkörperschutz (60x85cm) bei <500g Gewicht.",
-                    details: [
-                        { title: "Ultra-Leichtbauweise", desc: "Unter 500g Gewicht, problemlos im Alltag mitführbar." },
-                        { title: "Transformation in Sekunden", desc: "Entfaltet sich von 20x30cm auf 60x85cm Vollkörperschild." },
-                        { title: "Zertifizierter Schutz NIJ 3A", desc: "Überragender ballistischer Schutz nach Militärstandard." }
-                    ],
-                    stats: [
-                        { label: "Gewicht", val: "<500 Gramm" },
-                        { label: "Schildgröße", val: "60x85 cm" },
-                        { label: "Standard", val: "NIJ Level 3A" }
-                    ]
-                },
                 RU: {
                     title: "Makonbi SS",
                     badge: "Оборонная Промышленность и Баллистика",
                     color: "sky",
-                    intro: "Не обуза, а гарантия выживания! Забудьте о 5-кг бронежилетах. Баллистическая сумка Makonbi весит <500г и раскладывается из размера 20x30см в щит 60x85см за секунды (NIJ 3A).",
+                    intro: "Не обуза, а гарантия выживания! Забудьте о 5-кг бронежилетах. Баллистическая сумка Makonbi весит <500г и раскладывается из размера 20x30см в щит 60x85см за секунды.",
                     details: [
                         { title: "Ультралегкая Конструкция", desc: "Вес менее 500 грамм, незаметна при ежедневном ношении." },
                         { title: "Трансформация за Секунды", desc: "Из компактного планшета 20x30см в полный щит 60x85см." },
@@ -1618,7 +1651,7 @@
                     title: "Makonbi SS",
                     badge: "国防工业与防弹防护系统",
                     color: "sky",
-                    intro: "非重担，而是生命的坚实保障！告别5公斤笨重护甲。Makonbi 防弹包重量小于500克，几秒内即可从20x30cm折叠状态展开为60x85cm全身防弹盾牌（NIJ 3A级）。",
+                    intro: "非重担，而是生命的坚实保障！告别5公斤笨重护甲。Makonbi 防弹包重量小于500克，几秒内即可展开为60x85cm全身防弹盾牌（NIJ 3A级）。",
                     details: [
                         { title: "超轻设计", desc: "重量小于500克，方便日常在背包中随身携带。" },
                         { title: "秒级快速展开", desc: "秒级内由 20x30cm 平板形态变形为 60x85cm 盾牌。" },
@@ -1735,6 +1768,14 @@
             badge.textContent = b.badge;
             badge.className = `inline-block px-3 py-1 text-xs font-bold rounded-full mb-3 bg-${b.color}-500/10 text-${b.color}-400 border border-${b.color}-500/20`;
 
+            const subEl = document.getElementById('brandModalSub');
+            if (b.sub) {
+                subEl.textContent = b.sub;
+                subEl.classList.remove('hidden');
+            } else {
+                subEl.classList.add('hidden');
+            }
+
             document.getElementById('brandModalIntro').textContent = b.intro;
 
             const content = document.getElementById('brandModalContent');
@@ -1744,6 +1785,18 @@
                     <p class="text-xs text-slate-400 leading-relaxed">${d.desc}</p>
                 </div>
             `).join('');
+
+            const linkContainer = document.getElementById('brandModalLinkContainer');
+            const linkBtn = document.getElementById('brandModalLink');
+            const linkText = document.getElementById('brandModalLinkText');
+
+            if (b.url) {
+                linkBtn.href = b.url;
+                linkText.textContent = i18n[currentLang]?.btn_visit_site || "levantenx.com'a Git";
+                linkContainer.classList.remove('hidden');
+            } else {
+                linkContainer.classList.add('hidden');
+            }
 
             const stats = document.getElementById('brandModalStats');
             stats.innerHTML = b.stats.map(s => `
@@ -1804,7 +1857,6 @@
                 const msgMap = {
                     TR: 'Teşekkür ederiz! Mesajınız bize ulaştı. 5 saniye içinde yönlendiriliyorsunuz...',
                     EN: 'Thank you! Your message has been received. Redirecting in 5 seconds...',
-                    DE: 'Vielen Dank! Ihre Nachricht wurde empfangen. Weiterleitung in 5 Sekunden...',
                     RU: 'Спасибо! Ваше сообщение получено. Перенаправление через 5 секунд...',
                     ZH: '感谢您！您的留言已收到，5秒内将自动跳转...',
                     AR: 'شكراً لك! تم استلام رسالتك. جاري التوجيه خلال 5 ثوانٍ...'
@@ -1846,7 +1898,6 @@
             const msgMap = {
                 TR: 'Kariyer başvurunuz gulalikayahh@gmail.com adresine iletildi.',
                 EN: 'Your career application has been sent to gulalikayahh@gmail.com.',
-                DE: 'Ihre Bewerbung wurde an gulalikayahh@gmail.com gesendet.',
                 RU: 'Ваша заявка отправлена на gulalikayahh@gmail.com.',
                 ZH: '您的求职申请已发送至 gulalikayahh@gmail.com。',
                 AR: 'تم إرسال طلب التوظيف الخاص بك إلى gulalikayahh@gmail.com.'
