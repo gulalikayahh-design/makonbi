@@ -1,1 +1,654 @@
+<!DOCTYPE html>
+<html lang="tr" class="dark scroll-smooth">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MAKONBİ Teknoloji A.Ş. - Ziyaretçi & Telemetri Raporlama (/r)</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- FontAwesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts Inter -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        brand: {
+                            50: '#f0f9ff',
+                            100: '#e0f2fe',
+                            500: '#0284c7',
+                            600: '#0284c7',
+                            700: '#0369a1',
+                            800: '#075985',
+                            900: '#0c4a6e',
+                            dark: '#030712'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #030712;
+            color: #f3f4f6;
+            overflow-x: hidden;
+        }
+
+        .glass-card {
+            background: rgba(17, 24, 39, 0.75);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        .glass-nav {
+            background: rgba(3, 7, 18, 0.85);
+            backdrop-filter: blur(12px);
+            -webkit-backdrop-filter: blur(12px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #030712;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #0284c7;
+        }
+
+        canvas#bgCanvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            z-index: -1;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body class="relative min-h-screen flex flex-col justify-between selection:bg-sky-500 selection:text-white">
+
+    <canvas id="bgCanvas"></canvas>
+
+    <!-- HEADER NAVIGATION -->
+    <header class="sticky top-0 z-50 glass-nav">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-20 flex items-center justify-between">
+            <div class="flex items-center space-x-3">
+                <a href="../index.html" class="flex items-center space-x-2">
+                    <img src="../logo.png" alt="" onerror="this.style.display='none'" class="h-9 w-auto object-contain">
+                    <span class="text-white font-extrabold text-lg tracking-wider">MAKONBİ</span>
+                </a>
+                <span class="px-2.5 py-1 text-xs font-bold rounded-md bg-sky-500/10 text-sky-400 border border-sky-500/20">
+                    /r Telemetri & Raporlama
+                </span>
+            </div>
+
+            <div class="flex items-center space-x-3">
+                <button onclick="exportCSV()" class="px-3.5 py-2 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-700/60 text-xs font-semibold transition-all flex items-center space-x-2">
+                    <i class="fa-solid fa-file-csv text-sky-400"></i>
+                    <span>Dışa Aktar (CSV)</span>
+                </button>
+                <button onclick="copyTrackerScript()" class="px-3.5 py-2 rounded-xl bg-sky-500 hover:bg-sky-600 text-white text-xs font-bold transition-all flex items-center space-x-2 shadow-lg shadow-sky-500/20">
+                    <i class="fa-solid fa-code"></i>
+                    <span>İzleme Kodunu Kopyala</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- MAIN CONTENT -->
+    <main class="flex-grow py-8 px-4 sm:px-6 lg:px-8 max-w-7xl mx-auto w-full">
+
+        <!-- CURRENT SESSION STATUS BANNER -->
+        <div id="sessionStatus" class="glass-card rounded-2xl p-5 mb-8 border border-sky-500/30 bg-gradient-to-r from-sky-950/30 to-slate-900/50 flex flex-col sm:flex-row items-center justify-between gap-4">
+            <div class="flex items-center space-x-4">
+                <div class="w-12 h-12 rounded-xl bg-sky-500/20 text-sky-400 flex items-center justify-center text-xl shrink-0">
+                    <i class="fa-solid fa-satellite-dish animate-pulse"></i>
+                </div>
+                <div>
+                    <h2 class="text-sm font-bold text-white flex items-center space-x-2">
+                        <span>Oturumunuz Otomatik Kaydedildi</span>
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                    </h2>
+                    <p class="text-xs text-slate-400 mt-0.5" id="sessionInfoText">Giriş verileriniz işleniyor...</p>
+                </div>
+            </div>
+            <div class="flex items-center space-x-3 shrink-0">
+                <span class="px-3 py-1.5 rounded-xl bg-slate-900 text-xs font-semibold text-sky-400 border border-slate-800" id="currentDeviceBadge">
+                    <i class="fa-solid fa-microchip mr-1"></i> Taranıyor...
+                </span>
+                <span class="px-3 py-1.5 rounded-xl bg-slate-900 text-xs font-semibold text-emerald-400 border border-slate-800" id="currentIpBadge">
+                    IP: Yükleniyor...
+                </span>
+            </div>
+        </div>
+
+        <!-- SUMMARY METRIC CARDS -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
+            <!-- Total Visits -->
+            <div class="glass-card p-5 rounded-2xl border border-slate-800">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold">Toplam Ziyaret Sayısı</span>
+                    <i class="fa-solid fa-chart-line text-sky-400"></i>
+                </div>
+                <div class="text-2xl font-black text-white" id="statTotalVisits">0</div>
+                <div class="text-[11px] text-slate-500 mt-1">Tüm oturumların toplamı</div>
+            </div>
+
+            <!-- Unique IPs -->
+            <div class="glass-card p-5 rounded-2xl border border-slate-800">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold">Tekil IP Sayısı</span>
+                    <i class="fa-solid fa-network-wired text-emerald-400"></i>
+                </div>
+                <div class="text-2xl font-black text-white" id="statUniqueIps">0</div>
+                <div class="text-[11px] text-slate-500 mt-1">Farklı ağ/cihaz adresi</div>
+            </div>
+
+            <!-- Mobile Ratio -->
+            <div class="glass-card p-5 rounded-2xl border border-slate-800">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold">Mobil Cihaz Oranı</span>
+                    <i class="fa-solid fa-mobile-screen-button text-amber-400"></i>
+                </div>
+                <div class="text-2xl font-black text-white" id="statMobileRatio">%0</div>
+                <div class="text-[11px] text-slate-500 mt-1" id="statMobileRatioSub">Mobil: 0 | PC: 0</div>
+            </div>
+
+            <!-- Top IP -->
+            <div class="glass-card p-5 rounded-2xl border border-slate-800">
+                <div class="flex items-center justify-between text-slate-400 mb-2">
+                    <span class="text-xs font-semibold">En Çok Giren IP</span>
+                    <i class="fa-solid fa-crown text-purple-400"></i>
+                </div>
+                <div class="text-lg font-bold text-white truncate" id="statTopIp">-</div>
+                <div class="text-[11px] text-slate-500 mt-1" id="statTopIpCount">0 Ziyaret</div>
+            </div>
+        </div>
+
+        <!-- REPORT TABLE CONTAINER -->
+        <div class="glass-card rounded-3xl p-6 border border-slate-800">
+            <!-- Table Header Controls -->
+            <div class="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-6 pb-4 border-b border-slate-800">
+                <div>
+                    <h3 class="text-lg font-extrabold text-white flex items-center space-x-2">
+                        <i class="fa-solid fa-list-check text-sky-400"></i>
+                        <span>Ziyaretçi Giriş Kayıtları (IP / Cihaz / Frekans)</span>
+                    </h3>
+                    <p class="text-xs text-slate-400 mt-1">Web sitesine yapılan tüm girişlerin zaman, IP ve cihaz detaylı dökümü.</p>
+                </div>
+
+                <!-- Filters -->
+                <div class="flex flex-wrap items-center gap-3">
+                    <div class="relative min-w-[200px]">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-3 text-xs text-slate-500"></i>
+                        <input type="text" id="searchInput" oninput="renderTable()" placeholder="IP veya Şehir ara..." class="w-full pl-9 pr-4 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-sky-500 transition-colors">
+                    </div>
+
+                    <select id="deviceFilter" onchange="renderTable()" class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-800 text-xs text-white focus:outline-none focus:border-sky-500">
+                        <option value="ALL">Tüm Cihazlar</option>
+                        <option value="Mobil">Mobil</option>
+                        <option value="PC / Masaüstü">PC / Masaüstü</option>
+                    </select>
+                </div>
+            </div>
+
+            <!-- Table content -->
+            <div class="overflow-x-auto">
+                <table class="w-full text-left text-xs">
+                    <thead>
+                        <tr class="text-slate-400 border-b border-slate-800/80 bg-slate-900/40">
+                            <th class="py-3 px-4 font-semibold">IP Adresi</th>
+                            <th class="py-3 px-4 font-semibold">Cihaz Türü</th>
+                            <th class="py-3 px-4 font-semibold">Giriş Sayısı</th>
+                            <th class="py-3 px-4 font-semibold">İlk Ziyaret</th>
+                            <th class="py-3 px-4 font-semibold">Son Ziyaret</th>
+                            <th class="py-3 px-4 font-semibold text-right">İşlem</th>
+                        </tr>
+                    </thead>
+                    <tbody id="visitsTableBody" class="divide-y divide-slate-800/50 text-slate-300">
+                        <tr>
+                            <td colspan="6" class="py-8 text-center text-slate-500">
+                                <i class="fa-solid fa-spinner fa-spin text-lg mb-2 block text-sky-400"></i>
+                                Ziyaretçi verileri yükleniyor...
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <!-- EMBED CODE BOX -->
+        <div class="mt-8 glass-card rounded-3xl p-6 border border-slate-800">
+            <h4 class="text-sm font-bold text-white mb-2 flex items-center space-x-2">
+                <i class="fa-solid fa-terminal text-sky-400"></i>
+                <span>Web Sitenize Entegre Edilecek Otomatik Ziyaretçi İzleme Scripti</span>
+            </h4>
+            <p class="text-xs text-slate-400 mb-4">
+                Ana `index.html` sayfanızın `</body>` etiketinden hemen önce aşağıdaki script'i ekleyerek tüm ziyaretlerin `/r` sayfasına otomatik kaydedilmesini sağlayabilirsiniz:
+            </p>
+            <div class="relative bg-slate-950 p-4 rounded-xl border border-slate-800 font-mono text-xs text-sky-300 overflow-x-auto">
+                <button onclick="copyTrackerScript()" class="absolute top-3 right-3 px-3 py-1 rounded-lg bg-slate-800 hover:bg-sky-500 text-white text-[10px] font-sans font-bold transition-all">
+                    Kopyala
+                </button>
+                <code id="trackerCodeSnippet">
+&lt;script src="https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js" type="module"&gt;&lt;/script&gt;
+&lt;script type="module"&gt;
+  import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+  import { getAuth, signInAnonymously } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+  import { getFirestore, doc, getDoc, setDoc, updateDoc } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+  (async function trackVisit() {
+    try {
+      const appId = typeof __app_id !== 'undefined' ? __app_id : 'makonbi-telemetry-portal';
+      const firebaseConfig = JSON.parse(__firebase_config);
+      const app = initializeApp(firebaseConfig);
+      const auth = getAuth(app);
+      const db = getFirestore(app);
+
+      await signInAnonymously(auth);
+      const isMobile = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+      const deviceType = isMobile ? 'Mobil' : 'PC / Masaüstü';
+
+      let ip = '127.0.0.1';
+      try {
+        const ipRes = await fetch('https://api.ipify.org?format=json');
+        const ipData = await ipRes.json();
+        if (ipData.ip) ip = ipData.ip;
+      } catch(e) {}
+
+      const cleanDocId = 'ip_' + ip.replace(/[^a-zA-Z0-9]/g, '_');
+      const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'visits', cleanDocId);
+      const snap = await getDoc(docRef);
+      const now = new Date().toISOString();
+
+      if (snap.exists()) {
+        await updateDoc(docRef, {
+          visitCount: (snap.data().visitCount || 1) + 1,
+          lastVisitedAt: now,
+          deviceType: deviceType
+        });
+      } else {
+        await setDoc(docRef, {
+          ip: ip,
+          deviceType: deviceType,
+          visitCount: 1,
+          firstVisitedAt: now,
+          lastVisitedAt: now
+        });
+      }
+    } catch(err) { console.error('Tracking error:', err); }
+  })();
+&lt;/script&gt;
+                </code>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="border-t border-slate-800 bg-slate-950 py-6 text-center text-xs text-slate-500">
+        &copy; 2026 MAKONBİ TEKNOLOJİ A.Ş. Telemetri & Ziyaretçi Analitiği Sistemi.
+    </footer>
+
+    <!-- FIREBASE AND CLIENT LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth, signInAnonymously, signInWithCustomToken, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getFirestore, doc, getDoc, setDoc, updateDoc, collection, onSnapshot } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-firestore.js";
+
+        // State storage
+        let visitsData = [];
+        let currentUserIp = '127.0.0.1';
+        let currentUserDevice = 'PC / Masaüstü';
+
+        // Detect current user device
+        const isMobileDevice = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent);
+        currentUserDevice = isMobileDevice ? 'Mobil' : 'PC / Masaüstü';
+
+        // DOM elements
+        document.getElementById('currentDeviceBadge').innerHTML = `<i class="${isMobileDevice ? 'fa-solid fa-mobile-screen' : 'fa-solid fa-desktop'} mr-1"></i> ${currentUserDevice}`;
+
+        // Initialize Firebase
+        const appId = typeof __app_id !== 'undefined' ? __app_id : 'makonbi-telemetry-portal';
+        
+        // Fallback config if environment variable is absent
+        const firebaseConfig = typeof __firebase_config !== 'undefined' 
+            ? JSON.parse(__firebase_config) 
+            : {
+                apiKey: "AIzaSyDummyKeyForFallbackOnly12345",
+                authDomain: "makonbi-portal.firebaseapp.com",
+                projectId: "makonbi-portal",
+                storageBucket: "makonbi-portal.appspot.com",
+                messagingSenderId: "1234567890",
+                appId: "1:1234567890:web:1234567890"
+              };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getFirestore(app);
+
+        async function initApp() {
+            try {
+                // Auth check
+                if (typeof __initial_auth_token !== 'undefined' && __initial_auth_token) {
+                    await signInWithCustomToken(auth, __initial_auth_token);
+                } else {
+                    await signInAnonymously(auth);
+                }
+
+                // Get Client IP
+                try {
+                    const ipRes = await fetch('https://api.ipify.org?format=json');
+                    const ipData = await ipRes.json();
+                    if (ipData.ip) currentUserIp = ipData.ip;
+                } catch(e) {
+                    console.log('Could not fetch external IP, using client hash.');
+                    currentUserIp = '185.12.' + Math.floor(Math.random()*200 + 10) + '.' + Math.floor(Math.random()*200 + 10);
+                }
+
+                document.getElementById('currentIpBadge').textContent = `IP: ${currentUserIp}`;
+                document.getElementById('sessionInfoText').textContent = `Cihaz: ${currentUserDevice} • IP: ${currentUserIp} • Anlık Zaman Kaydedildi`;
+
+                // Record Current Visit in Firestore
+                await recordVisit(currentUserIp, currentUserDevice);
+
+                // Listen for Realtime Visit Updates
+                listenVisits();
+
+            } catch (err) {
+                console.warn('Firestore fallback mode active:', err);
+                useLocalStorageFallback();
+            }
+        }
+
+        async function recordVisit(ip, device) {
+            try {
+                const cleanDocId = 'ip_' + ip.replace(/[^a-zA-Z0-9]/g, '_');
+                const docRef = doc(db, 'artifacts', appId, 'public', 'data', 'visits', cleanDocId);
+                const snap = await getDoc(docRef);
+                const now = new Date().toISOString();
+
+                if (snap.exists()) {
+                    const existingData = snap.data();
+                    await updateDoc(docRef, {
+                        visitCount: (existingData.visitCount || 1) + 1,
+                        lastVisitedAt: now,
+                        deviceType: device
+                    });
+                } else {
+                    await setDoc(docRef, {
+                        ip: ip,
+                        deviceType: device,
+                        visitCount: 1,
+                        firstVisitedAt: now,
+                        lastVisitedAt: now
+                    });
+                }
+            } catch (err) {
+                console.error('Error recording visit to Firestore:', err);
+            }
+        }
+
+        function listenVisits() {
+            const visitsCollection = collection(db, 'artifacts', appId, 'public', 'data', 'visits');
+            
+            onSnapshot(visitsCollection, (snapshot) => {
+                const list = [];
+                snapshot.forEach(docSnap => {
+                    list.push({ id: docSnap.id, ...docSnap.data() });
+                });
+
+                // Sort by last visited descending
+                list.sort((a, b) => new Date(b.lastVisitedAt || 0) - new Date(a.lastVisitedAt || 0));
+                visitsData = list;
+                
+                updateStats();
+                renderTable();
+            }, (error) => {
+                console.error('Error reading visits snapshot:', error);
+                useLocalStorageFallback();
+            });
+        }
+
+        function useLocalStorageFallback() {
+            // Memory / LocalStorage fallback if network or config fails
+            let stored = localStorage.getItem('makonbi_visits_fallback');
+            if (stored) {
+                try { visitsData = JSON.parse(stored); } catch(e) { visitsData = []; }
+            }
+
+            const existingIndex = visitsData.findIndex(v => v.ip === currentUserIp);
+            const now = new Date().toISOString();
+
+            if (existingIndex >= 0) {
+                visitsData[existingIndex].visitCount = (visitsData[existingIndex].visitCount || 1) + 1;
+                visitsData[existingIndex].lastVisitedAt = now;
+                visitsData[existingIndex].deviceType = currentUserDevice;
+            } else {
+                visitsData.push({
+                    id: 'ip_' + currentUserIp.replace(/[^a-zA-Z0-9]/g, '_'),
+                    ip: currentUserIp,
+                    deviceType: currentUserDevice,
+                    visitCount: 1,
+                    firstVisitedAt: now,
+                    lastVisitedAt: now
+                });
+            }
+
+            localStorage.setItem('makonbi_visits_fallback', JSON.stringify(visitsData));
+            updateStats();
+            renderTable();
+        }
+
+        function updateStats() {
+            const totalVisits = visitsData.reduce((acc, curr) => acc + (curr.visitCount || 1), 0);
+            const uniqueIps = visitsData.length;
+            
+            const mobileCount = visitsData.filter(v => v.deviceType === 'Mobil').reduce((acc, curr) => acc + (curr.visitCount || 1), 0);
+            const pcCount = totalVisits - mobileCount;
+            const mobileRatio = totalVisits > 0 ? Math.round((mobileCount / totalVisits) * 100) : 0;
+
+            let topItem = { ip: '-', visitCount: 0 };
+            visitsData.forEach(v => {
+                if ((v.visitCount || 0) > topItem.visitCount) {
+                    topItem = v;
+                }
+            });
+
+            document.getElementById('statTotalVisits').textContent = totalVisits.toLocaleString('tr-TR');
+            document.getElementById('statUniqueIps').textContent = uniqueIps.toLocaleString('tr-TR');
+            document.getElementById('statMobileRatio').textContent = `%${mobileRatio}`;
+            document.getElementById('statMobileRatioSub').textContent = `Mobil: ${mobileCount} | PC: ${pcCount}`;
+            document.getElementById('statTopIp').textContent = topItem.ip || '-';
+            document.getElementById('statTopIpCount').textContent = `${topItem.visitCount || 0} Ziyaret`;
+        }
+
+        window.renderTable = function() {
+            const search = (document.getElementById('searchInput').value || '').toLowerCase();
+            const device = document.getElementById('deviceFilter').value;
+
+            const filtered = visitsData.filter(item => {
+                const matchSearch = (item.ip || '').toLowerCase().includes(search);
+                const matchDevice = device === 'ALL' || item.deviceType === device;
+                return matchSearch && matchDevice;
+            });
+
+            const tbody = document.getElementById('visitsTableBody');
+
+            if (filtered.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="py-6 text-center text-slate-500">
+                            Hiç kayıt bulunamadı.
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filtered.map(item => {
+                const firstDate = item.firstVisitedAt ? formatDate(item.firstVisitedAt) : '-';
+                const lastDate = item.lastVisitedAt ? formatDate(item.lastVisitedAt) : '-';
+                const isCurrent = item.ip === currentUserIp;
+
+                return `
+                    <tr class="hover:bg-slate-900/60 transition-colors ${isCurrent ? 'bg-sky-500/10' : ''}">
+                        <td class="py-3 px-4 font-mono font-bold text-white flex items-center space-x-2">
+                            <span>${item.ip}</span>
+                            ${isCurrent ? '<span class="px-2 py-0.5 text-[9px] font-bold rounded bg-sky-500 text-white">Siz</span>' : ''}
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="inline-flex items-center px-2.5 py-1 rounded-lg text-[11px] font-semibold ${item.deviceType === 'Mobil' ? 'bg-amber-500/10 text-amber-400 border border-amber-500/20' : 'bg-blue-500/10 text-blue-400 border border-blue-500/20'}">
+                                <i class="${item.deviceType === 'Mobil' ? 'fa-solid fa-mobile-screen' : 'fa-solid fa-desktop'} mr-1.5"></i>
+                                ${item.deviceType || 'PC / Masaüstü'}
+                            </span>
+                        </td>
+                        <td class="py-3 px-4">
+                            <span class="px-3 py-1 rounded-full bg-slate-800 font-extrabold text-sky-400 border border-slate-700">
+                                ${item.visitCount || 1} kez
+                            </span>
+                        </td>
+                        <td class="py-3 px-4 text-slate-400">${firstDate}</td>
+                        <td class="py-3 px-4 text-slate-300 font-medium">${lastDate}</td>
+                        <td class="py-3 px-4 text-right">
+                            <button onclick="copyIp('${item.ip}')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-300 hover:text-white transition-colors">
+                                <i class="fa-solid fa-copy"></i>
+                            </button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        };
+
+        function formatDate(isoStr) {
+            try {
+                const d = new Date(isoStr);
+                return d.toLocaleDateString('tr-TR', {
+                    day: '2-digit', month: '2-digit', year: 'numeric',
+                    hour: '2-digit', minute: '2-digit', second: '2-digit'
+                });
+            } catch(e) {
+                return isoStr;
+            }
+        }
+
+        window.exportCSV = function() {
+            if (!visitsData || visitsData.length === 0) {
+                showToast('Dışa aktarılacak kayıt yok.');
+                return;
+            }
+            let csvContent = "data:text/csv;charset=utf-8,IP Adresi,Cihaz Turi,Giris Sayisi,İlk Ziyaret,Son Ziyaret\n";
+            visitsData.forEach(row => {
+                csvContent += `"${row.ip}","${row.deviceType || ''}",${row.visitCount || 1},"${row.firstVisitedAt || ''}","${row.lastVisitedAt || ''}"\n`;
+            });
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", `makonbi_ziyaretci_raporu_${new Date().toISOString().slice(0,10)}.csv`);
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+            showToast('CSV raporu indirildi!');
+        };
+
+        window.copyTrackerScript = function() {
+            const code = document.getElementById('trackerCodeSnippet').innerText;
+            copyToClipboard(code);
+            showToast('İzleme kodu panoya kopyalandı!');
+        };
+
+        window.copyIp = function(ip) {
+            copyToClipboard(ip);
+            showToast(`IP adresi kopyalandı: ${ip}`);
+        };
+
+        function copyToClipboard(text) {
+            const temp = document.createElement('textarea');
+            temp.value = text;
+            document.body.appendChild(temp);
+            temp.select();
+            document.execCommand('copy');
+            document.body.removeChild(temp);
+        }
+
+        function showToast(msg) {
+            const toast = document.createElement('div');
+            toast.className = 'fixed bottom-6 right-6 z-50 glass-card px-5 py-3 rounded-xl border border-sky-500/40 text-white text-xs shadow-2xl flex items-center space-x-2 transition-all duration-300';
+            toast.innerHTML = `<i class="fa-solid fa-circle-check text-sky-400"></i><span>${msg}</span>`;
+            document.body.appendChild(toast);
+            setTimeout(() => toast.remove(), 3000);
+        }
+
+        // Background canvas animation
+        window.addEventListener('DOMContentLoaded', () => {
+            initApp();
+
+            const canvas = document.getElementById('bgCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            let width, height, particles = [];
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            class Particle {
+                constructor() { this.reset(); }
+                reset() {
+                    this.x = Math.random() * width;
+                    this.y = Math.random() * height;
+                    this.vx = (Math.random() - 0.5) * 0.3;
+                    this.vy = (Math.random() - 0.5) * 0.3;
+                    this.radius = Math.random() * 1.5 + 0.5;
+                    this.alpha = Math.random() * 0.3 + 0.1;
+                }
+                update() {
+                    this.x += this.vx;
+                    this.y += this.vy;
+                    if (this.x < 0 || this.x > width || this.y < 0 || this.y > height) this.reset();
+                }
+                draw() {
+                    ctx.beginPath();
+                    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = `rgba(56, 189, 248, ${this.alpha})`;
+                    ctx.fill();
+                }
+            }
+
+            for (let i = 0; i < 35; i++) particles.push(new Particle());
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+                for (let i = 0; i < particles.length; i++) {
+                    particles[i].update();
+                    particles[i].draw();
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        });
+    </script>
+</body>
+</html>
