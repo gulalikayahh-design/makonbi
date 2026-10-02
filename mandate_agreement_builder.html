@@ -1,0 +1,653 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mandate Agreement Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
+        body { font-family: 'Inter', sans-serif; }
+        .a4-paper {
+            width: 210mm;
+            min-width: 210mm; /* A4 genişliğinin mobilde ezilmesini engeller */
+            min-height: 297mm;
+            background: white;
+            padding: 20mm;
+            margin: 0 auto;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.2);
+            color: #000;
+        }
+        @media print {
+            body { background: white; }
+            #sidebar { display: none; }
+            #preview-container { width: 100%; padding: 0; background: white; }
+            .a4-paper { box-shadow: none; margin: 0; width: 100%; }
+        }
+    </style>
+</head>
+<body class="bg-gray-900 text-gray-200 min-h-screen flex flex-col lg:flex-row lg:overflow-hidden lg:h-screen">
+
+    <!-- Sidebar / Controls -->
+    <div id="sidebar" class="w-full lg:w-1/3 bg-gray-800 lg:h-screen flex-shrink-0 overflow-y-auto border-b lg:border-b-0 lg:border-r border-gray-700 flex flex-col relative z-10 shadow-xl lg:shadow-none">
+        <div class="p-4 sm:p-6 flex-grow">
+            <h2 class="text-xl font-bold text-white mb-6 flex items-center gap-2">
+                <i class="fas fa-file-contract text-yellow-500"></i> Mandate Agreement Builder
+            </h2>
+
+            <!-- Global Settings -->
+            <div class="space-y-4 mb-8">
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wider">Document Language</label>
+                    <select id="lang-select" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white outline-none focus:border-yellow-500 transition">
+                        <option value="tr">Türkçe (TR)</option>
+                        <option value="en">English (EN)</option>
+                        <option value="de">Deutsch (DE)</option>
+                        <option value="fr">Français (FR)</option>
+                        <option value="ru">Русский (RU)</option>
+                        <option value="zh">中文 (ZH)</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-xs font-semibold text-gray-400 mb-1 uppercase tracking-wider">Logo Upload (PNG/JPG)</label>
+                    <div class="flex items-center gap-2">
+                        <input type="file" id="logo-upload" accept="image/png, image/jpeg" class="w-full text-sm text-gray-400 file:mr-4 file:py-2 file:px-4 file:rounded file:border-0 file:text-sm file:font-semibold file:bg-yellow-500 file:text-gray-900 hover:file:bg-yellow-400">
+                        <button id="logo-remove" class="bg-red-600 hover:bg-red-500 text-white px-3 py-2 rounded transition shadow" title="Logoyu Kaldır"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Ref No</label>
+                        <input type="text" id="ref-no" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white outline-none focus:border-yellow-500" value="BLX-2026-001">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Date</label>
+                        <input type="date" id="doc-date" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white outline-none focus:border-yellow-500" value="2026-09-30">
+                    </div>
+                </div>
+                <div>
+                    <label class="block text-xs text-gray-400 mb-1">Duration / Süre</label>
+                    <input type="text" id="duration" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white outline-none focus:border-yellow-500" value="1 (Bir) Yıl">
+                </div>
+            </div>
+
+            <!-- Client Info -->
+            <div class="mb-8 p-4 bg-gray-700/50 rounded-lg border border-gray-600">
+                <h3 class="text-white font-semibold mb-3 border-b border-gray-600 pb-2">Client Info (Temsil Edilen)</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Firma Adı</label>
+                        <input type="text" id="client-company" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="Global Trade Ltd.">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Yetkili</label>
+                        <input type="text" id="client-rep" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="John Doe (CEO)">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Address</label>
+                        <input type="text" id="client-address" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="123 Business St, London, UK">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Tax / Reg No</label>
+                            <input type="text" id="client-tax" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="GB123456789">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Phone</label>
+                            <input type="text" id="client-phone" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="+44 20 7946 0958">
+                        </div>
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">E-Posta</label>
+                        <input type="text" id="client-email" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="contact@globaltrade.com">
+                    </div>
+                </div>
+            </div>
+
+            <!-- Mandate Info -->
+            <div class="mb-4 p-4 bg-gray-700/50 rounded-lg border border-gray-600">
+                <h3 class="text-white font-semibold mb-3 border-b border-gray-600 pb-2">Mandate Info (Temsilci)</h3>
+                <div class="space-y-3">
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Firma Adı</label>
+                        <input type="text" id="mandate-company" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="Consulting Agency Inc.">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Yetkili</label>
+                        <input type="text" id="mandate-rep" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="Jane Smith (Director)">
+                    </div>
+                    <div>
+                        <label class="block text-xs text-gray-400 mb-1">Address</label>
+                        <input type="text" id="mandate-address" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="456 Trade Ave, New York, USA">
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Tax / Reg No</label>
+                            <input type="text" id="mandate-tax" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="US987654321">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Phone</label>
+                            <input type="text" id="mandate-phone" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="+1 212 555 0198">
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 sm:gap-4">
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">E-Posta</label>
+                            <input type="text" id="mandate-email" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="info@consultingagency.com">
+                        </div>
+                        <div>
+                            <label class="block text-xs text-gray-400 mb-1">Website</label>
+                            <input type="text" id="mandate-web" class="w-full bg-gray-700 border border-gray-600 rounded p-2 text-white text-sm" placeholder="www.consultingagency.com">
+                        </div>
+                    </div>
+                </div>
+            </div> <!-- Closes Mandate space-y-3 -->
+        </div> <!-- Closes p-4 flex-grow -->
+
+        <div class="p-4 sm:p-6 bg-gray-800 border-t border-gray-700 sticky bottom-0 z-20 shadow-[0_-10px_20px_rgba(0,0,0,0.3)] lg:shadow-none">
+            <button onclick="downloadPDF()" class="w-full bg-yellow-500 hover:bg-yellow-400 text-gray-900 font-bold py-3 px-4 rounded shadow-lg transition flex items-center justify-center gap-2">
+                <i class="fas fa-file-pdf"></i> Download PDF
+            </button>
+        </div>
+    </div> <!-- Closes Sidebar -->
+
+    <!-- Document Preview Area -->
+    <div id="preview-container" class="w-full lg:w-2/3 bg-gray-600 lg:h-screen overflow-auto p-4 lg:p-8 relative">
+        <div class="lg:hidden text-center text-gray-300 text-xs mb-3 flex items-center justify-center gap-2 font-semibold">
+            <i class="fas fa-arrows-alt-h"></i> Sağa/sola kaydırarak tam belgeyi görebilirsiniz
+        </div>
+        <div id="document-preview" class="a4-paper text-sm leading-relaxed mx-auto">
+            <!-- Header -->
+            <div class="flex justify-between items-start mb-8">
+                <div id="logo-container" class="w-48 h-16 flex items-center">
+                    <span class="text-gray-400 italic text-xs">No Logo Uploaded</span>
+                </div>
+                <div class="text-right">
+                    <div class="font-semibold text-gray-600"><span id="lbl-date">Tarih:</span> <span id="out-date" class="font-normal text-black"></span></div>
+                    <div class="font-semibold text-gray-600"><span id="lbl-ref">Referans No:</span> <span id="out-ref" class="font-normal text-black"></span></div>
+                </div>
+            </div>
+
+            <!-- Title -->
+            <div class="text-center mb-8">
+                <h1 id="out-title" class="text-xl font-bold uppercase border-b-2 border-gray-800 pb-2 inline-block mb-1">ULUSLARARASI TEMSİLCİLİK VE YETKİLENDİRME SÖZLEŞMESİ (MANDATE AGREEMENT)</h1>
+                <p id="out-subtitle" class="text-xs text-gray-500 mt-1 italic">(ICC, NCNDA ve IMFPA Kurallarına Tabidir)</p>
+            </div>
+
+            <!-- Parties -->
+            <h2 id="out-p1" class="font-bold text-base mb-4 bg-gray-100 p-1 border-l-4 border-yellow-500">1. TARAFLAR</h2>
+            
+            <div class="grid grid-cols-2 gap-8 mb-8">
+                <div>
+                    <h3 id="out-p1-1" class="font-bold border-b border-gray-400 pb-1 mb-2 inline-block">1.1. TEMSİL EDİLEN (ALICI / SATICI)</h3>
+                    <table class="w-full text-xs">
+                        <tr><td class="font-semibold py-1 w-24 lbl-company">Firma Adı:</td><td id="out-c-co" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-rep">Yetkili:</td><td id="out-c-rep" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-addr align-top">Adres:</td><td id="out-c-addr" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-tax">Kayıt/Vergi No:</td><td id="out-c-tax" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-email">E-Posta:</td><td id="out-c-email" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-phone">Telefon:</td><td id="out-c-phone" class="py-1"></td></tr>
+                    </table>
+                </div>
+                <div>
+                    <h3 id="out-p1-2" class="font-bold border-b border-gray-400 pb-1 mb-2 inline-block">1.2. TEMSİLCİ (MANDATE)</h3>
+                    <table class="w-full text-xs">
+                        <tr><td class="font-semibold py-1 w-24 lbl-company">Firma Adı:</td><td id="out-m-co" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-rep">Yetkili:</td><td id="out-m-rep" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-addr align-top">Adres:</td><td id="out-m-addr" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-tax">Kayıt/Vergi No:</td><td id="out-m-tax" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-email">E-Posta:</td><td id="out-m-email" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-phone">Telefon:</td><td id="out-m-phone" class="py-1"></td></tr>
+                        <tr><td class="font-semibold py-1 lbl-web">Web Sitesi:</td><td id="out-m-web" class="py-1"></td></tr>
+                    </table>
+                </div>
+            </div>
+
+            <p id="out-p1-desc" class="mb-6 italic text-xs text-gray-700">(Bundan böyle "Temsil Edilen" ve "Temsilci" ayrı ayrı "Taraf", birlikte "Taraflar" olarak anılacaktır.)</p>
+
+            <!-- Articles -->
+            <div class="space-y-6">
+                <div>
+                    <h2 id="out-p2" class="font-bold text-base mb-2 bg-gray-100 p-1 border-l-4 border-yellow-500">2. SÖZLEŞMENİN AMACI VE KAPSAMI</h2>
+                    <p id="out-p2-desc" class="text-sm text-justify">Bu sözleşme; Temsilci'nin, Temsil Edilen adına küresel pazarlarda (özellikle Avrupa bölgesindeki alıcı firmalar ile Çin ve diğer bölgelerdeki satıcı/üretici firmalar başta olmak üzere) ürün tedariki, müşteri bulunması, ticari görüşmelerin yürütülmesi ve sürecin operasyonel olarak yönetilmesi hususlarında tam yetkili kılınmasını düzenler.</p>
+                </div>
+
+                <div>
+                    <h2 id="out-p3" class="font-bold text-base mb-2 bg-gray-100 p-1 border-l-4 border-yellow-500">3. TEMSİLCİNİN YETKİ VE YÜKÜMLÜLÜKLERİ</h2>
+                    <ul class="list-disc pl-5 space-y-2 text-sm text-justify">
+                        <li id="out-p3-1"><strong>Pazar Araştırması ve Müzakere:</strong> Temsilci, Temsil Edilen'in talepleri doğrultusunda uygun alıcı veya satıcıları bulmak, ilk ticari görüşmeleri (SCO/FCO aşamaları) yürütmek ve şartları müzakere etmekle yetkilidir.</li>
+                        <li id="out-p3-2"><strong>Süreç Yönetimi:</strong> Temsilci, potansiyel ticari eşleşmeden sözleşme (SPA) aşamasına kadar olan tüm operasyonel iletişimi ve süreç takibini Temsil Edilen adına yönetecektir.</li>
+                        <li id="out-p3-3"><strong>Resmi Raporlama:</strong> Temsilci, yürüttüğü tüm görüşmeleri, bulduğu tedarikçi/müşteri adaylarını ve süreçteki gelişmeleri, işbu sözleşmede belirtilen E-Posta adresleri üzerinden yazılı olarak Temsil Edilen'e raporlamakla yükümlüdür.</li>
+                    </ul>
+                </div>
+            </div> <!-- 1. Sayfanın Sonu -->
+
+            <!-- 2. Sayfa İçin Tek Bir Bütün Sarmalayıcı (Wrapper) - Bölünmeyi Engeller -->
+            <div style="page-break-before: always; padding-top: 2rem;">
+                <div class="space-y-6">
+                    <div>
+                        <h2 id="out-p4" class="font-bold text-base mb-2 bg-gray-100 p-1 border-l-4 border-yellow-500">4. GİZLİLİK VE ARADAN ÇIKARMAMA (NCNDA)</h2>
+                        <p id="out-p4-desc" class="text-sm text-justify">Milletlerarası Ticaret Odası (ICC) kuralları gereğince; Temsil Edilen, Temsilci tarafından kendisine sunulan alıcı, satıcı, üretici, finansör veya diğer aracı kurumlarla Temsilci'nin yazılı izni olmadan doğrudan veya dolaylı olarak iletişime geçemez, sözleşme yapamaz ve Temsilci'yi aradan çıkararak (circumvention) işlem yürütemez. Bu kural, sözleşme bitiminden itibaren 5 yıl süreyle geçerliliğini korur.</p>
+                    </div>
+
+                    <div>
+                        <h2 id="out-p5" class="font-bold text-base mb-2 bg-gray-100 p-1 border-l-4 border-yellow-500">5. KOMİSYON VE ÜCRETLENDİRME (IMFPA ÇERÇEVESİ)</h2>
+                        <p id="out-p5-desc" class="text-sm text-justify">Bu yetkilendirme sözleşmesi kapsamında yapılacak olan ticari işlemlere ait Temsilci komisyonları ve oranları bu metinde belirlenmemiştir.<br><strong>Özel Not:</strong> Komisyon hakları, oranları ve ödeme detayları, taraflar arasında imzalanacak nihai Alım-Satım Sözleşmesi (SPA) aşamasında netleştirilecek olup, Ana SPA'ya ek olarak düzenlenecek <strong>Geri Dönülemez Ana Ücret Koruma Anlaşması (IMFPA)</strong> ile resmiyet kazanacaktır.</p>
+                    </div>
+
+                    <div>
+                        <h2 id="out-p6" class="font-bold text-base mb-2 bg-gray-100 p-1 border-l-4 border-yellow-500">6. SÖZLEŞMENİN SÜRESİ</h2>
+                        <p id="out-p6-desc" class="text-sm text-justify">İşbu sözleşme, taraflarca imzalandığı tarihte yürürlüğe girer ve tam <strong id="out-duration">[SÜRE]</strong> süreyle geçerlidir. Süre bitiminde tarafların yazılı mutabakatı ile uzatılabilir.</p>
+                    </div>
+
+                    <div>
+                        <h2 id="out-p7" class="font-bold text-base mb-2 bg-gray-100 p-1 border-l-4 border-yellow-500">7. İMZA VE ONAY</h2>
+                        <p id="out-p7-desc" class="text-sm text-justify mb-8">İşbu sözleşme, tarafların yetkili temsilcileri tarafından okunmuş, mutabık kalınmış ve imza ile yürürlüğe girmiştir.</p>
+                    </div>
+                </div>
+
+                <!-- Signatures -->
+                <div class="grid grid-cols-2 gap-12 mt-12">
+                    <div class="border-t border-gray-400 pt-2">
+                        <h4 class="font-bold mb-4" id="sig-c-title">TEMSİL EDİLEN</h4>
+                        <p class="text-xs mb-1"><span class="font-semibold lbl-company">Firma:</span> <span id="sig-c-co"></span></p>
+                        <p class="text-xs mb-1"><span class="font-semibold lbl-rep">Yetkili:</span> <span id="sig-c-rep"></span></p>
+                        <p class="text-xs mb-8"><span class="font-semibold lbl-date">Tarih:</span> <span id="sig-c-date"></span></p>
+                        <p class="text-xs font-semibold text-gray-400 lbl-sign">İmza / Kaşe:</p>
+                    </div>
+                    <div class="border-t border-gray-400 pt-2">
+                        <h4 class="font-bold mb-4" id="sig-m-title">TEMSİLCİ (MANDATE)</h4>
+                        <p class="text-xs mb-1"><span class="font-semibold lbl-company">Firma:</span> <span id="sig-m-co"></span></p>
+                        <p class="text-xs mb-1"><span class="font-semibold lbl-rep">Yetkili:</span> <span id="sig-m-rep"></span></p>
+                        <p class="text-xs mb-8"><span class="font-semibold lbl-date">Tarih:</span> <span id="sig-m-date"></span></p>
+                        <p class="text-xs font-semibold text-gray-400 lbl-sign">İmza / Kaşe:</p>
+                    </div>
+                </div>
+            </div> <!-- 2. Sayfa Sarmalayıcısının Sonu -->
+        </div>
+    </div>
+
+    <script>
+        // Translations Dictionary
+        const translations = {
+            tr: {
+                lbl_date: "Tarih:", lbl_ref: "Referans No:",
+                lbl_co: "Firma Adı:", lbl_rep: "Yetkili:", lbl_addr: "Adres:", lbl_tax: "Kayıt/Vergi No:", lbl_email: "E-Posta:", lbl_phone: "Telefon:", lbl_web: "Web Sitesi:", lbl_sign: "İmza / Kaşe:",
+                title: "ULUSLARARASI TEMSİLCİLİK VE YETKİLENDİRME SÖZLEŞMESİ (MANDATE AGREEMENT)",
+                subtitle: "(ICC, NCNDA ve IMFPA Kurallarına Tabidir)",
+                p1: "1. TARAFLAR", p1_1: "1.1. TEMSİL EDİLEN (ALICI / SATICI)", p1_2: "1.2. TEMSİLCİ (MANDATE)",
+                p1_desc: "(Bundan böyle \"Temsil Edilen\" ve \"Temsilci\" ayrı ayrı \"Taraf\", birlikte \"Taraflar\" olarak anılacaktır.)",
+                p2: "2. SÖZLEŞMENİN AMACI VE KAPSAMI",
+                p2_desc: "Bu sözleşme; Temsilci'nin, Temsil Edilen adına küresel pazarlarda (özellikle Avrupa bölgesindeki alıcı firmalar ile Çin ve diğer bölgelerdeki satıcı/üretici firmalar başta olmak üzere) ürün tedariki, müşteri bulunması, ticari görüşmelerin yürütülmesi ve sürecin operasyonel olarak yönetilmesi hususlarında tam yetkili kılınmasını düzenler.",
+                p3: "3. TEMSİLCİNİN YETKİ VE YÜKÜMLÜLÜKLERİ",
+                p3_1: "<strong>Pazar Araştırması ve Müzakere:</strong> Temsilci, Temsil Edilen'in talepleri doğrultusunda uygun alıcı veya satıcıları bulmak, ilk ticari görüşmeleri (SCO/FCO aşamaları) yürütmek ve şartları müzakere etmekle yetkilidir.",
+                p3_2: "<strong>Süreç Yönetimi:</strong> Temsilci, potansiyel ticari eşleşmeden sözleşme (SPA) aşamasına kadar olan tüm operasyonel iletişimi ve süreç takibini Temsil Edilen adına yönetecektir.",
+                p3_3: "<strong>Resmi Raporlama:</strong> Temsilci, yürüttüğü tüm görüşmeleri, bulduğu tedarikçi/müşteri adaylarını ve süreçteki gelişmeleri, işbu sözleşmede belirtilen E-Posta adresleri üzerinden yazılı olarak Temsil Edilen'e raporlamakla yükümlüdür.",
+                p4: "4. GİZLİLİK VE ARADAN ÇIKARMAMA (NCNDA)",
+                p4_desc: "Milletlerarası Ticaret Odası (ICC) kuralları gereğince; Temsil Edilen, Temsilci tarafından kendisine sunulan alıcı, satıcı, üretici, finansör veya diğer aracı kurumlarla Temsilci'nin yazılı izni olmadan doğrudan veya dolaylı olarak iletişime geçemez, sözleşme yapamaz ve Temsilci'yi aradan çıkararak (circumvention) işlem yürütemez. Bu kural, sözleşme bitiminden itibaren 5 yıl süreyle geçerliliğini korur.",
+                p5: "5. KOMİSYON VE ÜCRETLENDİRME (IMFPA ÇERÇEVESİ)",
+                p5_desc: "Bu yetkilendirme sözleşmesi kapsamında yapılacak olan ticari işlemlere ait Temsilci komisyonları ve oranları bu metinde belirlenmemiştir.<br><strong>Özel Not:</strong> Komisyon hakları, oranları ve ödeme detayları, taraflar arasında imzalanacak nihai Alım-Satım Sözleşmesi (SPA) aşamasında netleştirilecek olup, Ana SPA'ya ek olarak düzenlenecek <strong>Geri Dönülemez Ana Ücret Koruma Anlaşması (IMFPA)</strong> ile resmiyet kazanacaktır.",
+                p6: "6. SÖZLEŞMENİN SÜRESİ",
+                p6_desc_pre: "İşbu sözleşme, taraflarca imzalandığı tarihte yürürlüğe girer ve tam ",
+                p6_desc_post: " süreyle geçerlidir. Süre bitiminde tarafların yazılı mutabakatı ile uzatılabilir.",
+                p7: "7. İMZA VE ONAY",
+                p7_desc: "İşbu sözleşme, tarafların yetkili temsilcileri tarafından okunmuş, mutabık kalınmış ve imza ile yürürlüğe girmiştir.",
+                sig_c_title: "TEMSİL EDİLEN", sig_m_title: "TEMSİLCİ (MANDATE)"
+            },
+            en: {
+                lbl_date: "Date:", lbl_ref: "Ref No:",
+                lbl_co: "Company:", lbl_rep: "Representative:", lbl_addr: "Address:", lbl_tax: "Tax/Reg No:", lbl_email: "E-mail:", lbl_phone: "Phone:", lbl_web: "Website:", lbl_sign: "Signature / Stamp:",
+                title: "INTERNATIONAL MANDATE AND AUTHORIZATION AGREEMENT",
+                subtitle: "(Subject to ICC, NCNDA and IMFPA Rules)",
+                p1: "1. PARTIES", p1_1: "1.1. THE CLIENT (BUYER / SELLER)", p1_2: "1.2. THE MANDATE",
+                p1_desc: "(Hereinafter \"The Client\" and \"The Mandate\" will be referred to individually as \"Party\" and collectively as \"Parties\".)",
+                p2: "2. PURPOSE AND SCOPE",
+                p2_desc: "This agreement authorizes the Mandate to act on behalf of the Client in global markets (especially with buyers in Europe and sellers/manufacturers in China and other regions) for product sourcing, client acquisition, conducting commercial negotiations, and operational management of the process.",
+                p3: "3. POWERS AND OBLIGATIONS",
+                p3_1: "<strong>Market Research and Negotiation:</strong> The Mandate is authorized to find suitable buyers or sellers according to the Client's demands, conduct initial commercial negotiations (SCO/FCO stages), and negotiate terms.",
+                p3_2: "<strong>Process Management:</strong> The Mandate will manage all operational communication and process tracking on behalf of the Client from the potential commercial match until the Sales and Purchase Agreement (SPA) stage.",
+                p3_3: "<strong>Official Reporting:</strong> The Mandate is obligated to report all negotiations, potential suppliers/clients, and process developments to the Client in writing via the E-mail addresses specified in this agreement.",
+                p4: "4. NON-CIRCUMVENTION (NCNDA)",
+                p4_desc: "In accordance with International Chamber of Commerce (ICC) rules; the Client shall not directly or indirectly contact, enter into contracts with, or circumvent the Mandate with any buyers, sellers, manufacturers, financiers, or other intermediaries introduced by the Mandate without written permission. This rule remains valid for 5 years from the termination of the agreement.",
+                p5: "5. COMMISSION AND FEES (IMFPA FRAMEWORK)",
+                p5_desc: "Mandate commissions and rates for commercial transactions under this authorization agreement are not determined in this text.<br><strong>Special Note:</strong> Commission rights, rates, and payment details will be finalized during the definitive Sales and Purchase Agreement (SPA) stage to be signed between the parties, and will become official with an <strong>Irrevocable Master Fee Protection Agreement (IMFPA)</strong> prepared as an annex to the Main SPA.",
+                p6: "6. DURATION OF AGREEMENT",
+                p6_desc_pre: "This agreement enters into force on the date of signature by the parties and is valid for a period of ",
+                p6_desc_post: ". It may be extended at the end of the term with the written mutual agreement of the parties.",
+                p7: "7. SIGNATURE AND APPROVAL",
+                p7_desc: "This agreement has been read, mutually agreed upon, and put into effect with signatures by the authorized representatives of the parties.",
+                sig_c_title: "THE CLIENT", sig_m_title: "THE MANDATE"
+            },
+            de: {
+                lbl_date: "Datum:", lbl_ref: "Ref-Nr:",
+                lbl_co: "Firmenname:", lbl_rep: "Vertreter:", lbl_addr: "Adresse:", lbl_tax: "Steuer-Nr:", lbl_email: "E-Mail:", lbl_phone: "Telefon:", lbl_web: "Webseite:", lbl_sign: "Unterschrift / Stempel:",
+                title: "INTERNATIONALER MANDATS- UND VOLLMACHTSVERTRAG",
+                subtitle: "(Unterliegt den ICC-, NCNDA- und IMFPA-Regeln)",
+                p1: "1. PARTEIEN", p1_1: "1.1. DER AUFTRAGGEBER (KÄUFER / VERKÄUFER)", p1_2: "1.2. DER MANDATAR",
+                p1_desc: "(Im Folgenden werden \"Der Auftraggeber\" und \"Der Mandatar\" einzeln als \"Partei\" und gemeinsam als \"Parteien\" bezeichnet.)",
+                p2: "2. ZWECK UND UMFANG",
+                p2_desc: "Dieser Vertrag bevollmächtigt den Mandatar, im Namen des Auftraggebers auf globalen Märkten (insbesondere bei Käufern in Europa und Verkäufern/Herstellern in China und anderen Regionen) für die Produktbeschaffung, Kundenakquise, Durchführung kaufmännischer Verhandlungen und das operative Management des Prozesses tätig zu werden.",
+                p3: "3. BEFUGNISSE UND PFLICHTEN",
+                p3_1: "<strong>Marktforschung und Verhandlung:</strong> Der Mandatar ist befugt, geeignete Käufer oder Verkäufer gemäß den Anforderungen des Auftraggebers zu finden, erste kaufmännische Verhandlungen (SCO/FCO-Phasen) zu führen und Bedingungen zu verhandeln.",
+                p3_2: "<strong>Prozessmanagement:</strong> Der Mandatar verwaltet die gesamte operative Kommunikation und Prozessverfolgung im Namen des Auftraggebers von der potenziellen kaufmännischen Übereinstimmung bis zur Phase des Kaufvertrags (SPA).",
+                p3_3: "<strong>Offizielle Berichterstattung:</strong> Der Mandatar ist verpflichtet, dem Auftraggeber alle Verhandlungen, potenziellen Lieferanten/Kunden und Prozessentwicklungen schriftlich über die in diesem Vertrag angegebenen E-Mail-Adressen zu melden.",
+                p4: "4. UMGEHUNGSVERBOT (NCNDA)",
+                p4_desc: "Gemäß den Regeln der Internationalen Handelskammer (ICC) darf der Auftraggeber ohne schriftliche Genehmigung des Mandatars nicht direkt oder indirekt mit Käufern, Verkäufern, Herstellern, Finanziers oder anderen Vermittlern, die vom Mandatar vorgestellt wurden, in Kontakt treten, Verträge mit ihnen abschließen oder den Mandatar umgehen. Diese Regel gilt für 5 Jahre nach Beendigung des Vertrages.",
+                p5: "5. PROVISION UND GEBÜHREN (IMFPA-RAHMEN)",
+                p5_desc: "Mandatarprovisionen und -sätze für Handelsgeschäfte im Rahmen dieses Vollmachtsvertrags werden in diesem Text nicht festgelegt.<br><strong>Besonderer Hinweis:</strong> Provisionsrechte, -sätze und Zahlungsdetails werden in der Phase des endgültigen Kaufvertrags (SPA), der zwischen den Parteien unterzeichnet wird, festgelegt und durch eine <strong>Irrevocable Master Fee Protection Agreement (IMFPA)</strong>, die als Anhang zum Haupt-SPA erstellt wird, offiziell.",
+                p6: "6. VERTRAGSDAUER",
+                p6_desc_pre: "Dieser Vertrag tritt mit Unterzeichnung durch die Parteien in Kraft und gilt für die Dauer von ",
+                p6_desc_post: ". Er kann am Ende der Laufzeit mit schriftlicher gegenseitiger Zustimmung der Parteien verlängert werden.",
+                p7: "7. UNTERSCHRIFT UND GENEHMIGUNG",
+                p7_desc: "Dieser Vertrag wurde von den bevollmächtigten Vertretern der Parteien gelesen, einvernehmlich genehmigt und mit Unterschriften in Kraft gesetzt.",
+                sig_c_title: "DER AUFTRAGGEBER", sig_m_title: "DER MANDATAR"
+            },
+            fr: {
+                lbl_date: "Date :", lbl_ref: "N° de réf :",
+                lbl_co: "Entreprise :", lbl_rep: "Représentant :", lbl_addr: "Adresse :", lbl_tax: "TVA/Reg :", lbl_email: "E-mail :", lbl_phone: "Téléphone :", lbl_web: "Site Web :", lbl_sign: "Signature / Cachet :",
+                title: "ACCORD INTERNATIONAL DE REPRÉSENTATION ET DE MANDAT",
+                subtitle: "(Soumis aux règles de l'ICC, NCNDA et IMFPA)",
+                p1: "1. LES PARTIES", p1_1: "1.1. LE CLIENT (ACHETEUR / VENDEUR)", p1_2: "1.2. LE MANDATAIRE",
+                p1_desc: "(Ci-après « Le Client » et « Le Mandataire » seront désignés individuellement comme une « Partie » et conjointement comme les « Parties ».)",
+                p2: "2. OBJET ET CHAMP D'APPLICATION",
+                p2_desc: "Cet accord autorise le Mandataire à agir au nom du Client sur les marchés mondiaux (en particulier auprès des acheteurs en Europe et des vendeurs/fabricants en Chine et dans d'autres régions) pour l'approvisionnement en produits, l'acquisition de clients, la conduite de négociations commerciales et la gestion opérationnelle du processus.",
+                p3: "3. POUVOIRS ET OBLIGATIONS",
+                p3_1: "<strong>Étude de marché et négociation :</strong> Le Mandataire est autorisé à trouver des acheteurs ou des vendeurs appropriés en fonction des demandes du Client, à mener les premières négociations commerciales (étapes SCO/FCO) et à négocier les conditions.",
+                p3_2: "<strong>Gestion de processus :</strong> Le Mandataire gérera toutes les communications opérationnelles et le suivi du processus au nom du Client, depuis la correspondance commerciale potentielle jusqu'au stade du contrat de vente (SPA).",
+                p3_3: "<strong>Rapport officiel :</strong> Le Mandataire est tenu de rendre compte par écrit de toutes les négociations, des fournisseurs/clients potentiels et de l'évolution du processus au Client via les adresses e-mail spécifiées dans le présent accord.",
+                p4: "4. NON-CONTOURNEMENT (NCNDA)",
+                p4_desc: "Conformément aux règles de la Chambre de commerce internationale (ICC) ; le Client ne doit pas contacter, conclure de contrats avec ou contourner le Mandataire avec des acheteurs, vendeurs, fabricants, financiers ou autres intermédiaires présentés par le Mandataire sans autorisation écrite. Cette règle reste valable 5 ans après la résiliation du contrat.",
+                p5: "5. COMMISSIONS ET FRAIS (CADRE IMFPA)",
+                p5_desc: "Les commissions et taux du Mandataire pour les transactions commerciales dans le cadre de ce contrat d'autorisation ne sont pas déterminés dans ce texte.<br><strong>Remarque spéciale :</strong> Les droits de commission, les taux et les détails de paiement seront finalisés lors de la phase de l'Accord de Vente et d'Achat (SPA) définitif à signer entre les parties, et deviendront officiels avec un <strong>Accord-cadre irrévocable de protection des honoraires (IMFPA)</strong> préparé en annexe au SPA principal.",
+                p6: "6. DURÉE DU CONTRAT",
+                p6_desc_pre: "Ce contrat entre en vigueur à la date de signature par les parties et est valable pour une période de ",
+                p6_desc_post: ". Il peut être prolongé à la fin du mandat avec l'accord mutuel écrit des parties.",
+                p7: "7. SIGNATURE ET APPROBATION",
+                p7_desc: "Cet accord a été lu, mutuellement convenu et mis en vigueur par des signatures par les représentants autorisés des parties.",
+                sig_c_title: "LE CLIENT", sig_m_title: "LE MANDATAIRE"
+            },
+            ru: {
+                lbl_date: "Дата:", lbl_ref: "Исх. номер:",
+                lbl_co: "Компания:", lbl_rep: "Представитель:", lbl_addr: "Адрес:", lbl_tax: "ИНН/Рег №:", lbl_email: "E-mail:", lbl_phone: "Телефон:", lbl_web: "Веб-сайт:", lbl_sign: "Подпись / Печать:",
+                title: "МЕЖДУНАРОДНЫЙ ДОГОВОР О ПРЕДСТАВИТЕЛЬСТВЕ (MANDATE AGREEMENT)",
+                subtitle: "(В соответствии с правилами ICC, NCNDA и IMFPA)",
+                p1: "1. СТОРОНЫ", p1_1: "1.1. ДОВЕРИТЕЛЬ (ПОКУПАТЕЛЬ / ПРОДАВЕЦ)", p1_2: "1.2. ПРЕДСТАВИТЕЛЬ (MANDATE)",
+                p1_desc: "(В дальнейшем «Доверитель» и «Представитель» по отдельности именуются «Сторона», а совместно — «Стороны».)",
+                p2: "2. ЦЕЛЬ И ПРЕДМЕТ ДОГОВОРА",
+                p2_desc: "Настоящий договор уполномочивает Представителя действовать от имени Доверителя на мировых рынках (в частности, с покупателями в Европе и продавцами/производителями в Китае и других регионах) для поиска продукции, привлечения клиентов, проведения коммерческих переговоров и оперативного управления процессом.",
+                p3: "3. ПОЛНОМОЧИЯ И ОБЯЗАННОСТИ",
+                p3_1: "<strong>Исследование рынка и переговоры:</strong> Представитель уполномочен находить подходящих покупателей или продавцов в соответствии с требованиями Доверителя, проводить первоначальные коммерческие переговоры (этапы SCO/FCO) и согласовывать условия.",
+                p3_2: "<strong>Управление процессом:</strong> Представитель управляет всей оперативной связью и отслеживанием процесса от имени Доверителя, от потенциального коммерческого соответствия до стадии заключения Договора купли-продажи (SPA).",
+                p3_3: "<strong>Официальная отчетность:</strong> Представитель обязан в письменной форме сообщать Доверителю обо всех переговорах, потенциальных поставщиках/клиентах и ходе процесса через адреса электронной почты, указанные в настоящем договоре.",
+                p4: "4. КОНФИДЕНЦИАЛЬНОСТЬ И НЕОБХОД (NCNDA)",
+                p4_desc: "В соответствии с правилами Международной торговой палаты (ICC); Доверитель не имеет права прямо или косвенно контактировать, заключать контракты или обходить Представителя с любыми покупателями, продавцами, производителями, финансистами или другими посредниками, представленными Представителем без письменного разрешения. Это правило сохраняет силу в течение 5 лет с момента расторжения договора.",
+                p5: "5. КОМИССИИ И СБОРЫ (В РАМКАХ IMFPA)",
+                p5_desc: "Комиссионные Представителя и ставки по коммерческим сделкам в рамках данного договора не определены в этом тексте.<br><strong>Особое примечание:</strong> Комиссионные права, ставки и детали оплаты будут окончательно согласованы на этапе подписания Договора купли-продажи (SPA) между сторонами и станут официальными посредством <strong>Безотзывного соглашения о защите гонорара (IMFPA)</strong>, подготовленного в качестве приложения к основному SPA.",
+                p6: "6. СРОК ДЕЙСТВИЯ ДОГОВОРА",
+                p6_desc_pre: "Настоящий договор вступает в силу с даты подписания сторонами и действует в течение ",
+                p6_desc_post: ". Он может быть продлен по окончании срока с письменного взаимного согласия сторон.",
+                p7: "7. ПОДПИСЬ И УТВЕРЖДЕНИЕ",
+                p7_desc: "Настоящий договор был прочитан, взаимно согласован и введен в действие подписями уполномоченных представителей сторон.",
+                sig_c_title: "ДОВЕРИТЕЛЬ", sig_m_title: "ПРЕДСТАВИТЕЛЬ"
+            },
+            zh: {
+                lbl_date: "日期:", lbl_ref: "参考号:",
+                lbl_co: "公司名称:", lbl_rep: "代表:", lbl_addr: "地址:", lbl_tax: "税号/注册号:", lbl_email: "电子邮件:", lbl_phone: "电话:", lbl_web: "网站:", lbl_sign: "签字 / 盖章:",
+                title: "国际授权与代表协议 (MANDATE AGREEMENT)",
+                subtitle: "(受ICC, NCNDA 和 IMFPA 规则约束)",
+                p1: "1. 缔约方", p1_1: "1.1. 委托方 (买方 / 卖方)", p1_2: "1.2. 授权代表 (MANDATE)",
+                p1_desc: "(以下简称“委托方”和“授权代表”单独称为“一方”，合称为“双方”。)",
+                p2: "2. 目的与范围",
+                p2_desc: "本协议授权代表代表委托方在全球市场（尤其是欧洲的买家以及中国及其他地区的卖家/制造商）进行产品采购、客户获取、进行商业谈判以及该过程的运营管理。",
+                p3: "3. 权力与义务",
+                p3_1: "<strong>市场研究与谈判：</strong> 授权代表有权根据委托方的要求寻找合适的买家或卖家，进行初步的商业谈判（SCO/FCO阶段），并协商条款。",
+                p3_2: "<strong>过程管理：</strong> 授权代表将代表委托方管理从潜在的商业匹配到买卖协议（SPA）阶段的所有运营沟通和过程跟踪。",
+                p3_3: "<strong>官方报告：</strong> 授权代表有义务通过本协议中指定的电子邮件地址，以书面形式向委托方报告所有谈判、潜在供应商/客户以及过程进展。",
+                p4: "4. 保密与禁止规避 (NCNDA)",
+                p4_desc: "根据国际商会 (ICC) 规则；未经书面许可，委托方不得直接或间接联系授权代表介绍的任何买家、卖家、制造商、融资方或其他中介机构，与之签订合同，或规避授权代表。该规则在协议终止后5年内有效。",
+                p5: "5. 佣金与费用 (IMFPA 框架)",
+                p5_desc: "本授权协议项下商业交易的代表佣金和费率未在本文中确定。<br><strong>特别提示：</strong> 佣金权利、费率和付款细节将在双方签署最终买卖协议 (SPA) 阶段最终确定，并将通过作为主SPA附件准备的<strong>不可撤销主费用保护协议 (IMFPA)</strong>正式生效。",
+                p6: "6. 协议期限",
+                p6_desc_pre: "本协议自双方签字之日起生效，有效期为 ",
+                p6_desc_post: "。 期满后经双方书面同意可以延长。",
+                p7: "7. 签署与批准",
+                p7_desc: "本协议经双方授权代表阅读、一致同意并签字生效。",
+                sig_c_title: "委托方", sig_m_title: "授权代表"
+            }
+        };
+
+        // State Elements
+        const inputs = {
+            lang: document.getElementById('lang-select'),
+            logo: document.getElementById('logo-upload'),
+            ref: document.getElementById('ref-no'),
+            date: document.getElementById('doc-date'),
+            dur: document.getElementById('duration'),
+            
+            c_co: document.getElementById('client-company'),
+            c_rep: document.getElementById('client-rep'),
+            c_addr: document.getElementById('client-address'),
+            c_tax: document.getElementById('client-tax'),
+            c_phone: document.getElementById('client-phone'),
+            c_email: document.getElementById('client-email'),
+            
+            m_co: document.getElementById('mandate-company'),
+            m_rep: document.getElementById('mandate-rep'),
+            m_addr: document.getElementById('mandate-address'),
+            m_tax: document.getElementById('mandate-tax'),
+            m_phone: document.getElementById('mandate-phone'),
+            m_email: document.getElementById('mandate-email'),
+            m_web: document.getElementById('mandate-web'),
+        };
+
+        // Output Elements
+        const outputs = {
+            logo: document.getElementById('logo-container'),
+            lbl_date: document.getElementById('lbl-date'),
+            lbl_ref: document.getElementById('lbl-ref'),
+            out_date: document.getElementById('out-date'),
+            out_ref: document.getElementById('out-ref'),
+            
+            title: document.getElementById('out-title'),
+            subtitle: document.getElementById('out-subtitle'),
+            
+            p1: document.getElementById('out-p1'),
+            p1_1: document.getElementById('out-p1-1'),
+            p1_2: document.getElementById('out-p1-2'),
+            p1_desc: document.getElementById('out-p1-desc'),
+            
+            c_co: document.getElementById('out-c-co'),
+            c_rep: document.getElementById('out-c-rep'),
+            c_addr: document.getElementById('out-c-addr'),
+            c_tax: document.getElementById('out-c-tax'),
+            c_phone: document.getElementById('out-c-phone'),
+            c_email: document.getElementById('out-c-email'),
+            
+            m_co: document.getElementById('out-m-co'),
+            m_rep: document.getElementById('out-m-rep'),
+            m_addr: document.getElementById('out-m-addr'),
+            m_tax: document.getElementById('out-m-tax'),
+            m_phone: document.getElementById('out-m-phone'),
+            m_email: document.getElementById('out-m-email'),
+            m_web: document.getElementById('out-m-web'),
+
+            p2: document.getElementById('out-p2'),
+            p2_desc: document.getElementById('out-p2-desc'),
+            
+            p3: document.getElementById('out-p3'),
+            p3_1: document.getElementById('out-p3-1'),
+            p3_2: document.getElementById('out-p3-2'),
+            p3_3: document.getElementById('out-p3-3'),
+            
+            p4: document.getElementById('out-p4'),
+            p4_desc: document.getElementById('out-p4-desc'),
+            
+            p5: document.getElementById('out-p5'),
+            p5_desc: document.getElementById('out-p5-desc'),
+            
+            p6: document.getElementById('out-p6'),
+            p6_desc: document.getElementById('out-p6-desc'),
+            out_dur: document.getElementById('out-duration'),
+            
+            p7: document.getElementById('out-p7'),
+            p7_desc: document.getElementById('out-p7-desc'),
+            
+            sig_c_title: document.getElementById('sig-c-title'),
+            sig_c_co: document.getElementById('sig-c-co'),
+            sig_c_rep: document.getElementById('sig-c-rep'),
+            sig_c_date: document.getElementById('sig-c-date'),
+            
+            sig_m_title: document.getElementById('sig-m-title'),
+            sig_m_co: document.getElementById('sig-m-co'),
+            sig_m_rep: document.getElementById('sig-m-rep'),
+            sig_m_date: document.getElementById('sig-m-date'),
+        };
+
+        // Event Listeners for Live Update
+        Object.values(inputs).forEach(input => {
+            if (input.type === 'file') {
+                input.addEventListener('change', handleLogoUpload);
+            } else {
+                input.addEventListener('input', updateDocument);
+            }
+        });
+
+        // Logo Remove Logic
+        const btnRemoveLogo = document.getElementById('logo-remove');
+        btnRemoveLogo.addEventListener('click', () => {
+            inputs.logo.value = ''; // Reset file input
+            outputs.logo.innerHTML = `<span class="text-gray-400 italic text-xs">No Logo Uploaded</span>`;
+        });
+
+        function handleLogoUpload(e) {
+            const file = e.target.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(event) {
+                    outputs.logo.innerHTML = `<img src="${event.target.result}" alt="Logo" class="max-h-full max-w-full object-contain">`;
+                };
+                reader.readAsDataURL(file);
+            } else {
+                outputs.logo.innerHTML = `<span class="text-gray-400 italic text-xs">No Logo Uploaded</span>`;
+            }
+        }
+
+        function updateDocument() {
+            const lang = inputs.lang.value;
+            const t = translations[lang];
+
+            // Update Labels
+            outputs.lbl_date.innerText = t.lbl_date;
+            outputs.lbl_ref.innerText = t.lbl_ref;
+            
+            document.querySelectorAll('.lbl-company').forEach(el => el.innerText = t.lbl_co);
+            document.querySelectorAll('.lbl-rep').forEach(el => el.innerText = t.lbl_rep);
+            document.querySelectorAll('.lbl-addr').forEach(el => el.innerText = t.lbl_addr);
+            document.querySelectorAll('.lbl-tax').forEach(el => el.innerText = t.lbl_tax);
+            document.querySelectorAll('.lbl-phone').forEach(el => el.innerText = t.lbl_phone);
+            document.querySelectorAll('.lbl-email').forEach(el => el.innerText = t.lbl_email);
+            document.querySelectorAll('.lbl-web').forEach(el => el.innerText = t.lbl_web);
+            document.querySelectorAll('.lbl-date').forEach(el => el.innerText = t.lbl_date);
+            document.querySelectorAll('.lbl-sign').forEach(el => el.innerText = t.lbl_sign);
+
+            // Update Static Text
+            outputs.title.innerHTML = t.title;
+            outputs.subtitle.innerHTML = t.subtitle;
+            
+            outputs.p1.innerHTML = t.p1;
+            outputs.p1_1.innerHTML = t.p1_1;
+            outputs.p1_2.innerHTML = t.p1_2;
+            outputs.p1_desc.innerHTML = t.p1_desc;
+            
+            outputs.p2.innerHTML = t.p2;
+            outputs.p2_desc.innerHTML = t.p2_desc;
+            
+            outputs.p3.innerHTML = t.p3;
+            outputs.p3_1.innerHTML = t.p3_1;
+            outputs.p3_2.innerHTML = t.p3_2;
+            outputs.p3_3.innerHTML = t.p3_3;
+            
+            outputs.p4.innerHTML = t.p4;
+            outputs.p4_desc.innerHTML = t.p4_desc;
+            
+            outputs.p5.innerHTML = t.p5;
+            outputs.p5_desc.innerHTML = t.p5_desc;
+            
+            outputs.p6.innerHTML = t.p6;
+            
+            outputs.p7.innerHTML = t.p7;
+            outputs.p7_desc.innerHTML = t.p7_desc;
+            
+            outputs.sig_c_title.innerHTML = t.sig_c_title;
+            outputs.sig_m_title.innerHTML = t.sig_m_title;
+
+            // Update Dynamic Values
+            outputs.out_ref.innerText = inputs.ref.value || '...';
+            
+            // Format Date safely
+            let displayDate = '...';
+            if (inputs.date.value) {
+                const d = new Date(inputs.date.value);
+                const locales = { tr: 'tr-TR', de: 'de-DE', zh: 'zh-CN', fr: 'fr-FR', ru: 'ru-RU', en: 'en-US' };
+                displayDate = d.toLocaleDateString(locales[lang] || 'en-US');
+            }
+            outputs.out_date.innerText = displayDate;
+
+            // Duration handling
+            outputs.p6_desc.innerHTML = `${t.p6_desc_pre}<strong id="out-duration">${inputs.dur.value || '...'}</strong>${t.p6_desc_post}`;
+
+            // Client Data
+            outputs.c_co.innerText = inputs.c_co.value || '...';
+            outputs.c_rep.innerText = inputs.c_rep.value || '...';
+            outputs.c_addr.innerText = inputs.c_addr.value || '...';
+            outputs.c_tax.innerText = inputs.c_tax.value || '...';
+            outputs.c_phone.innerText = inputs.c_phone.value || '...';
+            outputs.c_email.innerText = inputs.c_email.value || '...';
+
+            // Mandate Data
+            outputs.m_co.innerText = inputs.m_co.value || '...';
+            outputs.m_rep.innerText = inputs.m_rep.value || '...';
+            outputs.m_addr.innerText = inputs.m_addr.value || '...';
+            outputs.m_tax.innerText = inputs.m_tax.value || '...';
+            outputs.m_phone.innerText = inputs.m_phone.value || '...';
+            outputs.m_email.innerText = inputs.m_email.value || '...';
+            outputs.m_web.innerText = inputs.m_web.value || '...';
+
+            // Signatures Dynamic Data
+            outputs.sig_c_co.innerText = inputs.c_co.value || '...';
+            outputs.sig_c_rep.innerText = inputs.c_rep.value || '...';
+            outputs.sig_c_date.innerText = displayDate;
+            
+            outputs.sig_m_co.innerText = inputs.m_co.value || '...';
+            outputs.sig_m_rep.innerText = inputs.m_rep.value || '...';
+            outputs.sig_m_date.innerText = displayDate;
+        }
+
+        // Generate PDF
+        function downloadPDF() {
+            const element = document.getElementById('document-preview');
+            const fileName = `Mandate_Agreement_${inputs.ref.value || 'Draft'}.pdf`;
+            
+            const opt = {
+                margin:       0,
+                filename:     fileName,
+                image:        { type: 'jpeg', quality: 0.98 },
+                html2canvas:  { scale: 2, useCORS: true },
+                jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' },
+                pagebreak:    { mode: ['css', 'legacy'] } // Allows manual page-breaks
+            };
+
+            setTimeout(() => {
+                html2pdf().set(opt).from(element).save();
+            }, 100);
+        }
+
+        // Initialize view
+        updateDocument();
+    </script>
+</body>
+</html>
+
+```

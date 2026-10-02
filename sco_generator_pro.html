@@ -1,0 +1,1062 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SCO Generator PRO</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        /* Özelleştirilmiş Scrollbar */
+        .custom-scrollbar::-webkit-scrollbar {
+            width: 6px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-track {
+            background: #f1f5f9; 
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb {
+            background: #cbd5e1; 
+            border-radius: 4px;
+        }
+        .custom-scrollbar::-webkit-scrollbar-thumb:hover {
+            background: #94a3b8; 
+        }
+
+        /* Yazdırma (PDF) Stilleri - KESİN TEK SAYFA STANDARDİ */
+        @media print {
+            @page {
+                size: A4 portrait;
+                margin: 10mm 12mm;
+            }
+            html, body {
+                background: white !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                height: 100% !important;
+                overflow: visible !important;
+            }
+            /* Belge harici her şeyi görünmez yap ve boş sayfa oluşmasını engelle */
+            body * {
+                visibility: hidden;
+            }
+            .print-hidden {
+                display: none !important;
+            }
+            #printDocument, #printDocument * {
+                visibility: visible;
+            }
+            #printDocument {
+                position: absolute !important;
+                left: 0 !important;
+                top: 0 !important;
+                width: 100% !important;
+                max-width: 100% !important;
+                min-height: auto !important;
+                margin: 0 !important;
+                padding: 0 !important;
+                border: none !important;
+                box-shadow: none !important;
+                page-break-after: avoid !important;
+                page-break-inside: avoid !important;
+                break-inside: avoid !important;
+            }
+        }
+    </style>
+</head>
+<body class="bg-slate-100 font-sans text-slate-900 min-h-screen flex flex-col">
+
+    <header class="bg-slate-900 text-white p-4 shadow-md print-hidden flex justify-between items-center z-10">
+        <div class="flex items-center gap-3">
+            <svg class="w-8 h-8 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+            </svg>
+            <h1 class="text-xl font-bold tracking-wide">SCO Generator PRO</h1>
+        </div>
+        <div class="flex items-center gap-3">
+            <!-- Dil Seçim Menüsü -->
+            <div class="flex items-center bg-slate-800 rounded-lg p-1 border border-slate-700">
+                <svg class="w-4 h-4 text-slate-400 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"></path>
+                </svg>
+                <select id="languageSelector" class="bg-slate-800 text-white text-xs font-semibold py-1.5 px-2 rounded-md outline-none cursor-pointer hover:bg-slate-700 transition">
+                    <option value="en">English (EN)</option>
+                    <option value="tr" selected>Türkçe (TR)</option>
+                    <option value="de">Deutsch (DE)</option>
+                    <option value="fr">Français (FR)</option>
+                    <option value="ru">Русский (RU)</option>
+                    <option value="zh">简体中文 (ZH)</option>
+                </select>
+            </div>
+
+            <button id="printButton" type="button" class="bg-blue-600 hover:bg-blue-500 transition px-4 py-2 rounded-md font-semibold text-sm flex items-center gap-2 shadow-lg cursor-pointer">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 17h2a2 2 0 002-2v-4a2 2 0 00-2-2H5a2 2 0 00-2 2v4a2 2 0 002 2h2m2 4h6a2 2 0 002-2v-4a2 2 0 00-2-2H9a2 2 0 00-2 2v4a2 2 0 002 2zm8-12V5a2 2 0 00-2-2H9a2 2 0 00-2 2v4h10z"></path>
+                </svg>
+                <span data-i18n="btnPrint">PDF İndir / Yazdır</span>
+            </button>
+        </div>
+    </header>
+
+    <main class="max-w-screen-2xl w-full mx-auto p-4 lg:p-6 flex flex-col lg:flex-row gap-8 flex-1 overflow-hidden">
+        
+        <!-- SOL KOLON: Veri Giriş Formu -->
+        <section class="w-full lg:w-5/12 bg-white rounded-xl shadow-lg border border-slate-200 overflow-hidden print-hidden flex flex-col h-[calc(100vh-100px)]">
+            <div class="bg-slate-50 border-b border-slate-200 p-4">
+                <h2 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+                    <svg class="w-5 h-5 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"></path></svg>
+                    <span data-i18n="formTitle">Teklif Detayları</span>
+                </h2>
+            </div>
+            
+            <div class="p-6 overflow-y-auto custom-scrollbar flex-1" id="form-container">
+                
+                <!-- Satıcı & Şirket Bilgileri -->
+                <h3 class="text-sm font-bold text-blue-600 uppercase tracking-wider mb-4 border-b pb-1" data-i18n="secSellerInfo">Satıcı & Şirket Bilgileri</h3>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblSellerLogo">Firma Logosu (İsteğe Bağlı)</label>
+                    <div class="flex items-center gap-2">
+                        <input type="file" id="sellerLogo" accept="image/*" class="flex-1 p-2 border border-slate-300 rounded-md outline-none transition file:mr-3 file:py-1.5 file:px-3 file:rounded-md file:border-0 file:text-xs file:font-semibold file:bg-blue-50 file:text-blue-700 hover:file:bg-blue-100 text-xs">
+                        <button type="button" id="removeLogoBtn" title="Logoyu Kaldır" class="hidden px-3 py-2 bg-red-50 hover:bg-red-100 text-red-600 border border-red-200 rounded-md text-sm font-semibold transition items-center gap-1 shrink-0">
+                            <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
+                            <span data-i18n="btnRemoveLogo">Kaldır</span>
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblSellerName">Satıcı Firma Adı</label>
+                    <input type="text" id="sellerCompanyName" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblSellerAddress">Şirket Adresi</label>
+                    <textarea id="sellerAddress" rows="2" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblSellerEmail">E-posta</label>
+                        <input type="email" id="sellerEmail" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblSellerPhone">Telefon</label>
+                        <input type="text" id="sellerPhone" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- Alıcı Bilgileri -->
+                <h3 class="text-sm font-bold text-blue-600 uppercase tracking-wider mt-8 mb-4 border-b pb-1" data-i18n="secBuyerInfo">Alıcı Bilgileri</h3>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblBuyerCompany">Alıcı Firma (To)</label>
+                    <input type="text" id="companyName" data-i18n-ph="phBuyerCompany" placeholder="Örn: Global Trade Ltd." class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblAttention">İlgili Kişi (Attention)</label>
+                        <input type="text" id="attentionName" data-i18n-ph="phAttention" placeholder="Örn: John Doe" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblSubject">Konu Başlığı (Re)</label>
+                        <input type="text" id="subject" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- Ürün & Miktar -->
+                <h3 class="text-sm font-bold text-blue-600 uppercase tracking-wider mt-8 mb-4 border-b pb-1" data-i18n="secCommodityInfo">Ürün & Miktar</h3>
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblProduct">Ürün / Emtia</label>
+                    <select id="product" class="form-input w-full p-2 border border-slate-300 rounded-md bg-white focus:ring-2 focus:ring-blue-500 outline-none">
+                        <option value="" data-i18n="optSelectProduct">-- Ürün Seçin --</option>
+                    </select>
+                </div>
+                <div class="mb-4" id="customProductWrapper" style="display: none;">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblCustomProduct">Özel Ürün Adı</label>
+                    <input type="text" id="customProduct" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div class="col-span-1">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblQuantity">Miktar</label>
+                        <input type="text" id="quantity" inputmode="decimal" data-i18n-ph="phQuantity" placeholder="Örn: 50,000" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblUnit">Birim</label>
+                        <select id="unit" class="form-input w-full p-2 border border-slate-300 rounded-md bg-white outline-none">
+                        </select>
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblTolerance">Tolerans</label>
+                        <input type="text" id="tolerance" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <!-- Lojistik & Teslimat -->
+                <h3 class="text-sm font-bold text-blue-600 uppercase tracking-wider mt-8 mb-4 border-b pb-1" data-i18n="secLogisticsInfo">Lojistik & Teslimat</h3>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblOrigin">Menşei (Origin)</label>
+                        <input type="text" id="origin" data-i18n-ph="phOrigin" placeholder="Örn: Türkiye, USA" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblIncoterm">Teslim Şekli</label>
+                        <select id="incoterm" class="form-input w-full p-2 border border-slate-300 rounded-md bg-white outline-none">
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblLoadingPort">Yükleme Limanı</label>
+                        <input type="text" id="loadingPort" data-i18n-ph="phLoadingPort" placeholder="Örn: Houston, TX" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblDischargePort">Tahliye Limanı</label>
+                        <input type="text" id="dischargePort" data-i18n-ph="phDischargePort" placeholder="Örn: Rotterdam" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblInspection">Gözetim / Denetim</label>
+                    <input type="text" id="inspection" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+
+                <!-- Fiyat & Ödeme -->
+                <h3 class="text-sm font-bold text-blue-600 uppercase tracking-wider mt-8 mb-4 border-b pb-1" data-i18n="secPricePayment">Fiyat & Ödeme</h3>
+                <div class="grid grid-cols-3 gap-4 mb-4">
+                    <div class="col-span-1">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblCurrency">Para Birimi</label>
+                        <select id="priceCurrency" class="form-input w-full p-2 border border-slate-300 rounded-md bg-white outline-none">
+                        </select>
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblUnitPrice">Birim Fiyat</label>
+                        <input type="text" id="priceAmount" data-i18n-ph="phUnitPrice" placeholder="Örn: 450.00" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div class="col-span-1">
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblPriceBasis">Fiyat Bazı</label>
+                        <select id="priceBasis" class="form-input w-full p-2 border border-slate-300 rounded-md bg-white outline-none">
+                            <option value="Fixed price" data-i18n="optFixedPrice">Sabit Fiyat</option>
+                            <option value="Platts Indexed" data-i18n="optPlattsIndexed">Platts Endeksli</option>
+                            <option value="LME Indexed" data-i18n="optLMEIndexed">LME Endeksli</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblPaymentMethod">Ödeme Yöntemi</label>
+                    <select id="paymentMethod" class="form-input w-full p-2 border border-slate-300 rounded-md bg-white outline-none">
+                    </select>
+                </div>
+
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblAdvancePayment">Avans / Peşinat</label>
+                    <select id="advancePayment" class="form-input w-full p-2 border border-slate-300 rounded-md bg-white outline-none">
+                        <option value="0%" data-i18n="optAdv0">0% (Peşinatsız)</option>
+                        <option value="10%">10%</option>
+                        <option value="20%">20%</option>
+                        <option value="30%">30%</option>
+                        <option value="50%">50%</option>
+                        <option value="100%" data-i18n="optAdv100">100% (Tamamı Peşin)</option>
+                    </select>
+                </div>
+
+                <!-- Geçerlilik & Notlar -->
+                <h3 class="text-sm font-bold text-blue-600 uppercase tracking-wider mt-8 mb-4 border-b pb-1" data-i18n="secValidityNotes">Geçerlilik & Notlar</h3>
+                <div class="grid grid-cols-2 gap-4 mb-4">
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblOfferDate">Teklif Tarihi</label>
+                        <input type="date" id="offerDate" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblValidUntil">Son Geçerlilik</label>
+                        <input type="date" id="validUntil" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                    </div>
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblTimeZone">Geçerlilik Dilimi</label>
+                    <input type="text" id="validityZone" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none">
+                </div>
+                
+                <div class="mb-4">
+                    <label class="block text-sm font-semibold text-slate-700 mb-1" data-i18n="lblSpecialNotes">Özel Notlar</label>
+                    <textarea id="notes" rows="4" class="form-input w-full p-2 border border-slate-300 rounded-md focus:ring-2 focus:ring-blue-500 outline-none resize-none"></textarea>
+                </div>
+            </div>
+        </section>
+
+        <!-- SAĞ KOLON: Canlı Önizleme (Belge) -->
+        <section class="w-full lg:w-7/12 flex justify-center print-area overflow-y-auto custom-scrollbar bg-slate-100 print:bg-white pb-10">
+            
+            <div id="printDocument" class="bg-white shadow-2xl border border-gray-200 w-full max-w-[210mm] min-h-[297mm] print:min-h-0 p-8 md:p-10 relative print-area flex flex-col justify-between text-[13px] leading-normal text-black font-serif">
+                
+                <div>
+                    <!-- Şirket Letterhead -->
+                    <div class="flex justify-between items-start border-b-2 border-slate-800 pb-3 mb-4 print:mb-3">
+                        <div class="flex gap-3 items-center">
+                            <img id="preview-sellerLogo" src="" alt="Company Logo" class="hidden max-h-14 max-w-[130px] object-contain">
+                            <div>
+                                <h1 id="preview-sellerCompanyName" class="text-xl font-black text-slate-800 tracking-tighter uppercase mb-0.5"></h1>
+                                <p id="preview-sellerAddress" class="text-[11px] text-slate-600 whitespace-pre-wrap leading-tight"></p>
+                                <p class="text-[11px] text-slate-600 mt-0.5">
+                                    <span id="preview-sellerEmail"></span> 
+                                    <span id="preview-contactSeparator" class="hidden"> | </span> 
+                                    <span id="preview-sellerPhone"></span>
+                                </p>
+                            </div>
+                        </div>
+                        <div class="text-right whitespace-nowrap pl-4">
+                            <div class="inline-block bg-slate-800 text-white px-2.5 py-0.5 font-bold tracking-widest text-xs uppercase mb-1">
+                                Soft Corporate Offer
+                            </div>
+                            <p class="mt-1 font-bold text-xs">Ref No: <span id="preview-offerNo"></span></p>
+                            <p class="text-xs">Date: <span id="preview-offerDate"></span></p>
+                        </div>
+                    </div>
+
+                    <!-- Belge Gövdesi -->
+                    <div class="mb-3">
+                        <p class="mb-0.5"><span class="font-bold">TO:</span> <span id="preview-companyName"></span></p>
+                        <p class="mb-0.5"><span class="font-bold">ATTN:</span> <span id="preview-attentionName"></span></p>
+                        <p class="mt-2"><span class="font-bold border-b border-black">RE: <span id="preview-subject"></span></span></p>
+                    </div>
+
+                    <div class="mb-3 text-[12.5px]">
+                        <p>Dear Sir/Madam,</p>
+                        <p class="mt-1 text-justify">
+                            We, <span id="preview-sellerNameBody" class="font-bold"></span>, with full legal and corporate responsibility, are pleased to submit this Soft Corporate Offer (SCO) for the supply of the following commodity, subject to the terms and conditions set forth below:
+                        </p>
+                    </div>
+
+                    <div class="mb-3">
+                        <table class="w-full border-collapse border border-slate-400 text-[12.5px]">
+                            <tbody>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Commodity</td>
+                                    <td class="py-1 px-2 font-semibold text-blue-900" id="preview-product"></td>
+                                </tr>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Origin</td>
+                                    <td class="py-1 px-2" id="preview-origin"></td>
+                                </tr>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Quantity</td>
+                                    <td class="py-1 px-2">
+                                        <span id="preview-quantity"></span> <span id="preview-unit"></span>
+                                        <span class="text-slate-500 text-xs ml-2" id="preview-toleranceWrapper">(<span id="preview-tolerance"></span>)</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Delivery Terms</td>
+                                    <td class="py-1 px-2" id="preview-deliveryTerms"></td>
+                                </tr>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Inspection</td>
+                                    <td class="py-1 px-2" id="preview-inspection"></td>
+                                </tr>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Price</td>
+                                    <td class="py-1 px-2 font-bold text-green-700 text-base">
+                                        <span id="preview-priceCurrency"></span> <span id="preview-priceAmount"></span> 
+                                        <span class="text-xs font-normal text-slate-700">per <span id="preview-priceUnit"></span> (<span id="preview-priceBasis"></span>)</span>
+                                    </td>
+                                </tr>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Payment Terms</td>
+                                    <td class="py-1 px-2" id="preview-paymentTerms"></td>
+                                </tr>
+                                <tr class="border-b border-slate-300">
+                                    <td class="w-1/3 py-1 px-2 font-bold bg-slate-50 border-r border-slate-300">Validity</td>
+                                    <td class="py-1 px-2 text-red-600 font-semibold">
+                                        Valid until <span id="preview-validUntil"></span> - <span id="preview-validityZone"></span>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <div class="mb-3">
+                        <h3 class="font-bold underline text-xs mb-1">Special Conditions & Notes:</h3>
+                        <p class="text-xs text-justify italic whitespace-pre-wrap leading-relaxed" id="preview-notes"></p>
+                    </div>
+                </div>
+
+                <!-- İmza Bölümü (Daima sayfanın altında kalır ve asla 2. sayfaya taşmaz) -->
+                <div class="pt-4 grid grid-cols-2 gap-8 break-inside-avoid">
+                    <div class="text-center">
+                        <p class="border-b border-black w-44 mx-auto mb-1.5 h-10 flex items-end justify-center">
+                            <!-- İmza alanı -->
+                        </p>
+                        <p class="font-bold text-xs">Authorized Signatory</p>
+                        <p class="text-[11px] text-slate-500 uppercase">SELLER / EXPORTER</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="border-b border-black w-44 mx-auto mb-1.5 h-10"></p>
+                        <p class="font-bold text-xs">Buyer's Acceptance</p>
+                        <p class="text-[11px] text-slate-500 uppercase">BUYER</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Özel Bildirim Kutusu (Modal/Toast) -->
+    <div id="toastNotification" class="fixed bottom-6 right-6 max-w-md bg-slate-900 text-white text-sm p-4 rounded-lg shadow-2xl border border-slate-700 hidden z-50 flex items-center justify-between gap-3 transition">
+        <span id="toastMessage"></span>
+        <button type="button" onclick="hideToast()" class="text-slate-400 hover:text-white font-bold px-2 py-1">✕</button>
+    </div>
+
+    <script>
+        // Veri Listeleri
+        const COMMODITIES = [
+            "Brent Blend Crude Oil", "WTI Crude Oil", "ULSD EN 590 (10 ppm Diesel)", 
+            "Jet A-1 Aviation Fuel", "MGO (Marine Gas Oil)", "LNG (Liquefied Natural Gas)",
+            "Copper Cathode Cu-CATH-1", "Aluminium Ingot P1020A", "Gold LBMA 999.9",
+            "Wheat (Milling Grade)", "Corn / Maize", "Sunflower Oil (Crude)",
+            "Urea 46% N (Granular)", "Portland Cement OPC 42.5R", "Other / Custom"
+        ];
+        const UNITS = ["MT (Metric Ton)", "Barrel (BBL)", "KG", "CBM (m³)", "LT (Litre)"];
+        const INCOTERMS = ["FOB", "CIF", "CFR", "DAP", "EXW", "FCA", "DDP"];
+        const CURRENCIES = ["USD", "EUR", "TRY", "GBP", "AED"];
+        const PAYMENT_METHODS = ["Wire Transfer (T/T)", "Documentary Letter of Credit (L/C)", "SBLC / MT760", "Escrow"];
+
+        const I18N = {
+            tr: {
+                btnPrint: "PDF İndir / Yazdır",
+                formTitle: "Teklif Detayları",
+                secSellerInfo: "Satıcı & Şirket Bilgileri",
+                lblSellerLogo: "Firma Logosu (İsteğe Bağlı)",
+                btnRemoveLogo: "Kaldır",
+                lblSellerName: "Satıcı Firma Adı",
+                lblSellerAddress: "Şirket Adresi",
+                lblSellerEmail: "E-posta",
+                lblSellerPhone: "Telefon",
+                secBuyerInfo: "Alıcı Bilgileri",
+                lblBuyerCompany: "Alıcı Firma (To)",
+                phBuyerCompany: "Örn: Global Trade Ltd.",
+                lblAttention: "İlgili Kişi (Attention)",
+                phAttention: "Örn: John Doe",
+                lblSubject: "Konu Başlığı (Re)",
+                secCommodityInfo: "Ürün & Miktar",
+                lblProduct: "Ürün / Emtia",
+                optSelectProduct: "-- Ürün Seçin --",
+                lblCustomProduct: "Özel Ürün Adı",
+                lblQuantity: "Miktar",
+                phQuantity: "Örn: 50,000",
+                lblUnit: "Birim",
+                lblTolerance: "Tolerans",
+                secLogisticsInfo: "Lojistik & Teslimat",
+                lblOrigin: "Menşei (Origin)",
+                phOrigin: "Örn: Türkiye, USA",
+                lblIncoterm: "Teslim Şekli",
+                lblLoadingPort: "Yükleme Limanı",
+                phLoadingPort: "Örn: Houston, TX",
+                lblDischargePort: "Tahliye Limanı",
+                phDischargePort: "Örn: Rotterdam",
+                lblInspection: "Gözetim / Denetim",
+                secPricePayment: "Fiyat & Ödeme",
+                lblCurrency: "Para Birimi",
+                lblUnitPrice: "Birim Fiyat",
+                phUnitPrice: "Örn: 450.00",
+                lblPriceBasis: "Fiyat Bazı",
+                optFixedPrice: "Sabit Fiyat",
+                optPlattsIndexed: "Platts Endeksli",
+                optLMEIndexed: "LME Endeksli",
+                lblPaymentMethod: "Ödeme Yöntemi",
+                lblAdvancePayment: "Avans / Peşinat",
+                optAdv0: "0% (Peşinatsız)",
+                optAdv100: "100% (Tamamı Peşin)",
+                secValidityNotes: "Geçerlilik & Notlar",
+                lblOfferDate: "Teklif Tarihi",
+                lblValidUntil: "Son Geçerlilik",
+                lblTimeZone: "Geçerlilik Dilimi",
+                lblSpecialNotes: "Özel Notlar"
+            },
+            en: {
+                btnPrint: "Download / Print PDF",
+                formTitle: "Offer Details",
+                secSellerInfo: "Seller & Company Details",
+                lblSellerLogo: "Company Logo (Optional)",
+                btnRemoveLogo: "Remove",
+                lblSellerName: "Seller Company Name",
+                lblSellerAddress: "Company Address",
+                lblSellerEmail: "Email",
+                lblSellerPhone: "Phone",
+                secBuyerInfo: "Buyer Information",
+                lblBuyerCompany: "Buyer Company (To)",
+                phBuyerCompany: "E.g.: Global Trade Ltd.",
+                lblAttention: "Attention (Attn)",
+                phAttention: "E.g.: John Doe",
+                lblSubject: "Subject (Re)",
+                secCommodityInfo: "Commodity & Quantity",
+                lblProduct: "Commodity / Product",
+                optSelectProduct: "-- Select Product --",
+                lblCustomProduct: "Custom Product Name",
+                lblQuantity: "Quantity",
+                phQuantity: "E.g.: 50,000",
+                lblUnit: "Unit",
+                lblTolerance: "Tolerance",
+                secLogisticsInfo: "Logistics & Delivery",
+                lblOrigin: "Country of Origin",
+                phOrigin: "E.g.: Turkey, USA",
+                lblIncoterm: "Incoterms 2020",
+                lblLoadingPort: "Loading Port",
+                phLoadingPort: "E.g.: Houston, TX",
+                lblDischargePort: "Discharge Port",
+                phDischargePort: "E.g.: Rotterdam",
+                lblInspection: "Inspection / Surveyor",
+                secPricePayment: "Price & Payment",
+                lblCurrency: "Currency",
+                lblUnitPrice: "Unit Price",
+                phUnitPrice: "E.g.: 450.00",
+                lblPriceBasis: "Price Basis",
+                optFixedPrice: "Fixed Price",
+                optPlattsIndexed: "Platts Indexed",
+                optLMEIndexed: "LME Indexed",
+                lblPaymentMethod: "Payment Method",
+                lblAdvancePayment: "Advance Payment",
+                optAdv0: "0% (No Advance)",
+                optAdv100: "100% (Full Advance)",
+                secValidityNotes: "Validity & Notes",
+                lblOfferDate: "Offer Date",
+                lblValidUntil: "Valid Until",
+                lblTimeZone: "Time Zone",
+                lblSpecialNotes: "Special Conditions & Notes"
+            },
+            de: {
+                btnPrint: "PDF Herunterladen / Drucken",
+                formTitle: "Angebotsdetails",
+                secSellerInfo: "Verkäufer- & Firmendaten",
+                lblSellerLogo: "Firmenlogo (Optional)",
+                btnRemoveLogo: "Entfernen",
+                lblSellerName: "Firma des Verkäufers",
+                lblSellerAddress: "Firmenadresse",
+                lblSellerEmail: "E-Mail",
+                lblSellerPhone: "Telefon",
+                secBuyerInfo: "Käuferinformationen",
+                lblBuyerCompany: "Käuferfirma (An)",
+                phBuyerCompany: "Z.B.: Global Trade Ltd.",
+                lblAttention: "Zu Händen (z. Hd.)",
+                phAttention: "Z.B.: Max Mustermann",
+                lblSubject: "Betreff (Betr.)",
+                secCommodityInfo: "Ware & Menge",
+                lblProduct: "Ware / Rohstoff",
+                optSelectProduct: "-- Produkt auswählen --",
+                lblCustomProduct: "Benutzerdefinierte Ware",
+                lblQuantity: "Menge",
+                phQuantity: "Z.B.: 50.000",
+                lblUnit: "Einheit",
+                lblTolerance: "Toleranz",
+                secLogisticsInfo: "Logistik & Lieferung",
+                lblOrigin: "Ursprung (Herkunftsland)",
+                phOrigin: "Z.B.: Türkei, USA",
+                lblIncoterm: "Lieferbedingung (Incoterms)",
+                lblLoadingPort: "Ladehafen",
+                phLoadingPort: "Z.B.: Houston, TX",
+                lblDischargePort: "Entladehafen",
+                phDischargePort: "Z.B.: Rotterdam",
+                lblInspection: "Inspektion / Überwachung",
+                secPricePayment: "Preis & Zahlung",
+                lblCurrency: "Währung",
+                lblUnitPrice: "Einzelpreis",
+                phUnitPrice: "Z.B.: 450.00",
+                lblPriceBasis: "Preisbasis",
+                optFixedPrice: "Festpreis",
+                optPlattsIndexed: "Platts-Indexiert",
+                optLMEIndexed: "LME-Indexiert",
+                lblPaymentMethod: "Zahlungsart",
+                lblAdvancePayment: "Anzahlung",
+                optAdv0: "0% (Keine Anzahlung)",
+                optAdv100: "100% (Vollständige Vorauszahlung)",
+                secValidityNotes: "Gültigkeit & Hinweise",
+                lblOfferDate: "Angebotsdatum",
+                lblValidUntil: "Gültig bis",
+                lblTimeZone: "Zeitzone",
+                lblSpecialNotes: "Besondere Bedingungen & Notizen"
+            },
+            fr: {
+                btnPrint: "Télécharger / Imprimer PDF",
+                formTitle: "Détails de l'Offre",
+                secSellerInfo: "Informations Vendeur & Société",
+                lblSellerLogo: "Logo de l'entreprise (Optionnel)",
+                btnRemoveLogo: "Supprimer",
+                lblSellerName: "Nom de la société vendeuse",
+                lblSellerAddress: "Adresse de la société",
+                lblSellerEmail: "E-mail",
+                lblSellerPhone: "Téléphone",
+                secBuyerInfo: "Informations Acheteur",
+                lblBuyerCompany: "Société acheteuse (À)",
+                phBuyerCompany: "Ex: Global Trade Ltd.",
+                lblAttention: "À l'attention de (Attn)",
+                phAttention: "Ex: Jean Dupont",
+                lblSubject: "Objet / Référence (Re)",
+                secCommodityInfo: "Marchandise & Quantité",
+                lblProduct: "Produit / Matière première",
+                optSelectProduct: "-- Sélectionner un produit --",
+                lblCustomProduct: "Nom du produit personnalisé",
+                lblQuantity: "Quantité",
+                phQuantity: "Ex: 50,000",
+                lblUnit: "Unité",
+                lblTolerance: "Tolérance",
+                secLogisticsInfo: "Logistique & Livraison",
+                lblOrigin: "Origine",
+                phOrigin: "Ex: Turquie, États-Unis",
+                lblIncoterm: "Conditions de livraison (Incoterms)",
+                lblLoadingPort: "Port de chargement",
+                phLoadingPort: "Ex: Houston, TX",
+                lblDischargePort: "Port de déchargement",
+                phDischargePort: "Ex: Rotterdam",
+                lblInspection: "Inspection / Contrôle",
+                secPricePayment: "Prix & Paiement",
+                lblCurrency: "Devise",
+                lblUnitPrice: "Prix unitaire",
+                phUnitPrice: "Ex: 450.00",
+                lblPriceBasis: "Base de prix",
+                optFixedPrice: "Prix fixe",
+                optPlattsIndexed: "Indexé Platts",
+                optLMEIndexed: "Indexé LME",
+                lblPaymentMethod: "Mode de paiement",
+                lblAdvancePayment: "Acompte / Avance",
+                optAdv0: "0% (Sans acompte)",
+                optAdv100: "100% (Paiement intégral d'avance)",
+                secValidityNotes: "Validité & Remarques",
+                lblOfferDate: "Date de l'offre",
+                lblValidUntil: "Valable jusqu'au",
+                lblTimeZone: "Fuseau horaire",
+                lblSpecialNotes: "Conditions particulières & Notes"
+            },
+            ru: {
+                btnPrint: "Скачать / Печать PDF",
+                formTitle: "Детали предложения",
+                secSellerInfo: "Данные продавца и компании",
+                lblSellerLogo: "Логотип компании (необязательно)",
+                btnRemoveLogo: "Удалить",
+                lblSellerName: "Название компании-продавца",
+                lblSellerAddress: "Адрес компании",
+                lblSellerEmail: "Эл. почта",
+                lblSellerPhone: "Телефон",
+                secBuyerInfo: "Информация о покупателе",
+                lblBuyerCompany: "Компания-покупатель (Кому)",
+                phBuyerCompany: "Напр.: Global Trade Ltd.",
+                lblAttention: "Вниманию (Attn)",
+                phAttention: "Напр.: Иван Иванов",
+                lblSubject: "Тема предложения (Re)",
+                secCommodityInfo: "Товар и количество",
+                lblProduct: "Товар / Продукция",
+                optSelectProduct: "-- Выберите товар --",
+                lblCustomProduct: "Свой вариант товара",
+                lblQuantity: "Количество",
+                phQuantity: "Напр.: 50 000",
+                lblUnit: "Единица измерения",
+                lblTolerance: "Толеранс (опцион)",
+                secLogisticsInfo: "Логистика и доставка",
+                lblOrigin: "Происхождение",
+                phOrigin: "Напр.: Турция, США",
+                lblIncoterm: "Условия поставки (Инкотермс)",
+                lblLoadingPort: "Порт погрузки",
+                phLoadingPort: "Напр.: Хьюстон, TX",
+                lblDischargePort: "Порт выгрузки",
+                phDischargePort: "Напр.: Роттердам",
+                lblInspection: "Инспекция и сюрвейер",
+                secPricePayment: "Цена и условия оплаты",
+                lblCurrency: "Валюта",
+                lblUnitPrice: "Цена за единицу",
+                phUnitPrice: "Напр.: 450.00",
+                lblPriceBasis: "Базис цены",
+                optFixedPrice: "Фиксированная цена",
+                optPlattsIndexed: "Индекс Platts",
+                optLMEIndexed: "Индекс LME",
+                lblPaymentMethod: "Способ оплаты",
+                lblAdvancePayment: "Авансовый платеж",
+                optAdv0: "0% (Без аванса)",
+                optAdv100: "100% (Полная предоплата)",
+                secValidityNotes: "Срок действия и примечания",
+                lblOfferDate: "Дата предложения",
+                lblValidUntil: "Действительно до",
+                lblTimeZone: "Часовой пояс",
+                lblSpecialNotes: "Особые условия и примечания"
+            },
+            zh: {
+                btnPrint: "下载 / 打印 PDF",
+                formTitle: "报价详情",
+                secSellerInfo: "卖方与公司信息",
+                lblSellerLogo: "公司图标 / Logo (可选)",
+                btnRemoveLogo: "移除",
+                lblSellerName: "卖方公司名称",
+                lblSellerAddress: "公司地址",
+                lblSellerEmail: "电子邮件",
+                lblSellerPhone: "联系电话",
+                secBuyerInfo: "买方信息",
+                lblBuyerCompany: "买方公司 (致)",
+                phBuyerCompany: "例如：Global Trade Ltd.",
+                lblAttention: "收件人 (经办人)",
+                phAttention: "例如：张三",
+                lblSubject: "主题 / 报价事由 (事由)",
+                secCommodityInfo: "商品与数量",
+                lblProduct: "商品 / 产品",
+                optSelectProduct: "-- 请选择商品 --",
+                lblCustomProduct: "自定义商品名称",
+                lblQuantity: "数量",
+                phQuantity: "例如：50,000",
+                lblUnit: "单位",
+                lblTolerance: "数量溢短装 (公差)",
+                secLogisticsInfo: "物流与交付",
+                lblOrigin: "原产国",
+                phOrigin: "例如：土耳其，美国",
+                lblIncoterm: "交货条件 (Incoterms 2020)",
+                lblLoadingPort: "装货港",
+                phLoadingPort: "例如：休斯顿 (Houston, TX)",
+                lblDischargePort: "卸货港",
+                phDischargePort: "例如：鹿特丹 (Rotterdam)",
+                lblInspection: "检验机构",
+                secPricePayment: "价格与付款",
+                lblCurrency: "币种",
+                lblUnitPrice: "单价",
+                phUnitPrice: "例如：450.00",
+                lblPriceBasis: "计价基准",
+                optFixedPrice: "固定价格",
+                optPlattsIndexed: "普氏指数联动 (Platts)",
+                optLMEIndexed: "LME 期货联动",
+                lblPaymentMethod: "付款方式",
+                lblAdvancePayment: "预付款比例",
+                optAdv0: "0% (无预付款)",
+                optAdv100: "100% (全额预付)",
+                secValidityNotes: "有效期与备注",
+                lblOfferDate: "报价日期",
+                lblValidUntil: "有效期至",
+                lblTimeZone: "时区",
+                lblSpecialNotes: "特别条款及备注"
+            }
+        };
+
+        function applyLanguage(langCode) {
+            const dict = I18N[langCode] || I18N.tr;
+            
+            // Text İçeriklerini Güncelle
+            document.querySelectorAll('[data-i18n]').forEach(el => {
+                const key = el.getAttribute('data-i18n');
+                if (dict[key]) {
+                    el.textContent = dict[key];
+                }
+            });
+
+            // Placeholder İçeriklerini Güncelle
+            document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+                const phKey = el.getAttribute('data-i18n-ph');
+                if (dict[phKey]) {
+                    el.placeholder = dict[phKey];
+                }
+            });
+        }
+
+        // State Varsayılan Değerleri
+        const state = {
+            sellerCompanyName: 'GLOBAL EXPORTS LTD.',
+            sellerAddress: '123 Commerce Blvd, Suite 400\nIstanbul, Turkiye 34000',
+            sellerEmail: 'info@globalexports.com',
+            sellerPhone: '+90 212 555 0000',
+            companyName: '',
+            attentionName: '',
+            subject: 'Soft Corporate Offer for Commodity',
+            product: '',
+            customProduct: '',
+            quantity: '',
+            unit: 'MT (Metric Ton)',
+            tolerance: '± 5% MOLOO',
+            origin: '',
+            incoterm: 'CIF',
+            loadingPort: '',
+            dischargePort: '',
+            priceCurrency: 'USD',
+            priceAmount: '',
+            priceBasis: 'Fixed price',
+            offerDate: new Date().toISOString().split('T')[0],
+            validUntil: '',
+            advancePayment: '0%',
+            paymentMethod: 'Wire Transfer (T/T)',
+            inspection: 'SGS or equivalent at loading port',
+            validityZone: 'GMT+3 (Istanbul)',
+            notes: 'This Soft Corporate Offer is subject to final contract. All prices and availability are subject to market conditions. This document does not constitute a binding agreement.'
+        };
+
+        // Dinamik Referans Numarası Yönetimi
+        let currentRefRandom = Math.floor(100 + Math.random() * 900);
+
+        function getCompanyCode() {
+            const seller = document.getElementById('sellerCompanyName')?.value?.trim() || '';
+            if (!seller) return 'GLOBAL';
+            // İlk kelimeyi al ve Türkçe/özel karakterleri ASCII büyük harfe dönüştür
+            const words = seller.replace(/[^a-zA-Z0-9\sçğıöşüÇĞİÖŞÜ]/g, ' ').trim().split(/\s+/);
+            if (words.length > 0 && words[0]) {
+                let code = words[0].toUpperCase()
+                    .replace(/Ğ/g, 'G').replace(/Ü/g, 'U').replace(/Ş/g, 'S')
+                    .replace(/İ/g, 'I').replace(/I/g, 'I').replace(/Ö/g, 'O').replace(/Ç/g, 'C')
+                    .replace(/[^A-Z0-9]/g, '');
+                if (code.length > 0) return code;
+            }
+            return 'SELLER';
+        }
+
+        function generateRefNo(customRand) {
+            const code = getCompanyCode();
+            const now = new Date();
+            const dateStr = `${now.getFullYear()}${String(now.getMonth() + 1).padStart(2, '0')}${String(now.getDate()).padStart(2, '0')}`;
+            const rand = customRand || currentRefRandom;
+            return `SCO-${code}-${dateStr}-${rand}`;
+        }
+
+        function updateRefNo(generateNewRandom = false) {
+            if (generateNewRandom) {
+                currentRefRandom = Math.floor(100 + Math.random() * 900);
+            }
+            const refNo = generateRefNo();
+            const el = document.getElementById('preview-offerNo');
+            if (el) el.textContent = refNo;
+            document.title = refNo;
+            return refNo;
+        }
+
+        // DOM Elemanlarını Doldurma Yardımcı Fonksiyonu
+        function populateSelect(elementId, options) {
+            const select = document.getElementById(elementId);
+            options.forEach(opt => {
+                const optionElement = document.createElement('option');
+                optionElement.value = opt;
+                optionElement.textContent = opt;
+                select.appendChild(optionElement);
+            });
+        }
+
+        // Başlangıç Ayarları
+        function init() {
+            // Select'leri doldur
+            populateSelect('product', COMMODITIES);
+            populateSelect('unit', UNITS);
+            populateSelect('incoterm', INCOTERMS);
+            populateSelect('priceCurrency', CURRENCIES);
+            populateSelect('paymentMethod', PAYMENT_METHODS);
+
+            // Başlangıç dilini uygula
+            const langSelector = document.getElementById('languageSelector');
+            if (langSelector) {
+                applyLanguage(langSelector.value);
+                langSelector.addEventListener('change', (e) => {
+                    applyLanguage(e.target.value);
+                });
+            }
+
+            // Formu Varsayılan Değerlerle Doldur
+            Object.keys(state).forEach(key => {
+                const el = document.getElementById(key);
+                if (el) {
+                    el.value = state[key];
+                }
+            });
+
+            // Sayfa açılışında benzersiz Ref No üret
+            updateRefNo(true);
+
+            updatePreview();
+            bindEvents();
+        }
+
+        // Form verilerini alıp önizlemeye yansıtan ana fonksiyon
+        function updatePreview() {
+            const getVal = id => document.getElementById(id).value;
+            
+            const sellerCompanyName = getVal('sellerCompanyName') || '[ŞİRKET ADI]';
+            document.getElementById('preview-sellerCompanyName').textContent = sellerCompanyName;
+            document.getElementById('preview-sellerNameBody').textContent = sellerCompanyName;
+            
+            // Firma adına göre Ref No formatını senkronize et
+            updateRefNo(false);
+
+            document.getElementById('preview-sellerAddress').textContent = getVal('sellerAddress') || '[Şirket Adresi]';
+            
+            const email = getVal('sellerEmail');
+            const phone = getVal('sellerPhone');
+            document.getElementById('preview-sellerEmail').textContent = email;
+            document.getElementById('preview-sellerPhone').textContent = phone;
+            document.getElementById('preview-contactSeparator').style.display = (email && phone) ? 'inline' : 'none';
+
+            document.getElementById('preview-companyName').textContent = getVal('companyName') || '[Company Name]';
+            document.getElementById('preview-attentionName').textContent = getVal('attentionName') || '[Attention Name]';
+            document.getElementById('preview-subject').textContent = getVal('subject') || 'Soft Corporate Offer';
+            
+            // Ürün Mantığı
+            const product = getVal('product');
+            const customProduct = getVal('customProduct');
+            document.getElementById('customProductWrapper').style.display = product === 'Other / Custom' ? 'block' : 'none';
+            document.getElementById('preview-product').textContent = product === 'Other / Custom' ? customProduct : (product || '[- TBD -]');
+
+            document.getElementById('preview-origin').textContent = getVal('origin') || 'TBA';
+            
+            document.getElementById('preview-quantity').textContent = getVal('quantity') || '[-]';
+            document.getElementById('preview-unit').textContent = getVal('unit');
+            document.getElementById('preview-priceUnit').textContent = getVal('unit');
+            
+            const tolerance = getVal('tolerance');
+            const tolWrap = document.getElementById('preview-toleranceWrapper');
+            if(tolerance) {
+                tolWrap.style.display = 'inline';
+                document.getElementById('preview-tolerance').textContent = tolerance;
+            } else {
+                tolWrap.style.display = 'none';
+            }
+
+            // Teslimat Şartları Birleştirme
+            const incoterm = getVal('incoterm');
+            const loadPort = getVal('loadingPort');
+            const disPort = getVal('dischargePort');
+            let deliveryStr = incoterm;
+            if (loadPort) deliveryStr += ` / Load: ${loadPort}`;
+            if (disPort) deliveryStr += ` / Discharge: ${disPort}`;
+            document.getElementById('preview-deliveryTerms').textContent = deliveryStr;
+
+            document.getElementById('preview-inspection').textContent = getVal('inspection') || 'Not specified';
+
+            document.getElementById('preview-priceCurrency').textContent = getVal('priceCurrency');
+            document.getElementById('preview-priceAmount').textContent = getVal('priceAmount') || '[-]';
+            document.getElementById('preview-priceBasis').textContent = getVal('priceBasis');
+
+            // Ödeme
+            const adv = getVal('advancePayment');
+            const method = getVal('paymentMethod');
+            document.getElementById('preview-paymentTerms').textContent = adv !== '0%' ? `${adv} Advance Payment, ${method}` : method;
+
+            document.getElementById('preview-offerDate').textContent = getVal('offerDate') || 'TBD';
+            document.getElementById('preview-validUntil').textContent = getVal('validUntil') || '[Date]';
+            document.getElementById('preview-validityZone').textContent = getVal('validityZone');
+            
+            document.getElementById('preview-notes').textContent = getVal('notes');
+        }
+
+        // Bildirim gösterme fonksiyonu (alert yerine güvenli toast)
+        function showToast(message) {
+            const toast = document.getElementById('toastNotification');
+            const msgEl = document.getElementById('toastMessage');
+            if (toast && msgEl) {
+                msgEl.textContent = message;
+                toast.classList.remove('hidden');
+                setTimeout(() => {
+                    hideToast();
+                }, 5000);
+            }
+        }
+
+        function hideToast() {
+            const toast = document.getElementById('toastNotification');
+            if (toast) toast.classList.add('hidden');
+        }
+
+        // Güvenli ve Kapsamlı Yazdırma Fonksiyonu
+        function handlePrintDocument() {
+            // Her yazdırmada o kullanıcı/çıktı için yepyeni ve taze bir Ref No oluştur
+            const refNo = updateRefNo(true);
+
+            try {
+                window.focus();
+                window.print();
+            } catch (err) {
+                console.warn('Doğrudan window.print() engellendi, alternatif pencere deneniyor...', err);
+                try {
+                    const printTarget = document.getElementById('printDocument');
+                    if (!printTarget) {
+                        showToast('Yazdırılacak belge alanı bulunamadı.');
+                        return;
+                    }
+                    const printWindow = window.open('', '_blank', 'width=900,height=1000');
+                    if (!printWindow) {
+                        showToast('Tarayıcınız açılır pencereyi engelledi. Lütfen izin verin veya Ctrl+P kullanın.');
+                        return;
+                    }
+                    printWindow.document.write(`
+                        <!DOCTYPE html>
+                        <html lang="en">
+                        <head>
+                            <meta charset="UTF-8">
+                            <title>${refNo}</title>
+                            <script src="https://cdn.tailwindcss.com"><\/script>
+                            <style>
+                                @page { size: A4; margin: 10mm 12mm; }
+                                body { background: white; margin: 0; padding: 10px; font-family: serif; color: black; }
+                            </style>
+                        </head>
+                        <body>
+                            <div style="max-width: 210mm; margin: 0 auto;">
+                                ${printTarget.innerHTML}
+                            </div>
+                            <script>
+                                window.onload = function() {
+                                    setTimeout(function() {
+                                        window.focus();
+                                        window.print();
+                                    }, 400);
+                                };
+                            <\/script>
+                        </body>
+                        </html>
+                    `);
+                    printWindow.document.close();
+                } catch (e) {
+                    showToast('Yazdırma başlatılamadı. Lütfen klavyenizden Ctrl+P (Mac: Cmd+P) tuşlarını kullanın.');
+                }
+            }
+        }
+
+        // Olay Dinleyicileri (Event Listeners)
+        function bindEvents() {
+            // Tüm form elemanlarına dinleyici ekle
+            const inputs = document.querySelectorAll('.form-input');
+            inputs.forEach(input => {
+                input.addEventListener('input', updatePreview);
+                input.addEventListener('change', updatePreview);
+            });
+
+            // Yazdır Butonu Dinleyicisi
+            const printBtn = document.getElementById('printButton');
+            if (printBtn) {
+                printBtn.addEventListener('click', handlePrintDocument);
+            }
+
+            // Logo Yükleme & Kaldırma İşlemleri
+            const logoInput = document.getElementById('sellerLogo');
+            const removeBtn = document.getElementById('removeLogoBtn');
+            const previewImg = document.getElementById('preview-sellerLogo');
+
+            if (logoInput) {
+                logoInput.addEventListener('change', function(e) {
+                    const file = e.target.files[0];
+                    if (file) {
+                        const reader = new FileReader();
+                        reader.onloadend = function() {
+                            previewImg.src = reader.result;
+                            previewImg.classList.remove('hidden');
+                            if (removeBtn) {
+                                removeBtn.classList.remove('hidden');
+                                removeBtn.classList.add('flex');
+                            }
+                        };
+                        reader.readAsDataURL(file);
+                    }
+                });
+            }
+
+            if (removeBtn) {
+                removeBtn.addEventListener('click', function() {
+                    if (logoInput) logoInput.value = '';
+                    if (previewImg) {
+                        previewImg.src = '';
+                        previewImg.classList.add('hidden');
+                    }
+                    removeBtn.classList.add('hidden');
+                    removeBtn.classList.remove('flex');
+                });
+            }
+        }
+
+        // Sayfa yüklendiğinde başlat
+        window.onload = init;
+    </script>
+</body>
+</html>
